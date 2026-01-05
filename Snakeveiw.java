@@ -20,9 +20,11 @@ public class Snakeveiw extends Application {
     }
     
     public void update() {
+        drawGrid(new Grid());
+    }
+    public void drawGrid(Grid grid){
 
     }
-
     public static void main(String[] args) {
         launch(args);
     }
