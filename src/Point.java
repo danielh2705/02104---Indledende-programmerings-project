@@ -7,4 +7,14 @@ public class Point {
         this.x = x;
         this.y = y;
     }
+    public boolean equals(Point target){
+        if (this.x == target.x && this.y == target.y ){
+            return true;
+        }
+        return false;
+    }
+    @Override
+    public String toString() {
+        return "x: " + this.x + "  y: " + this.y;
+    }
 }

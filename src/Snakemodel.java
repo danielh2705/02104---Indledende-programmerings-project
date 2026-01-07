@@ -8,19 +8,36 @@ public class Snakemodel {
     private int x_size;
     private int y_size;
 
-    public Snakemodel(int n, int m){
+    public Snakemodel(int m, int n){
         this.score = 0;
-        this.snake = new Snake(new Point((int)Math.floor(x_size/0.2), (int)Math.floor(y_size/0.2)) , new Point((int)Math.floor(x_size/0.2)+1, (int)Math.floor(y_size/0.2)));
         this.x_size = m;
         this.y_size = n;
+        this.snake = new Snake(new Point((int)Math.floor(x_size/2), (int)Math.floor(y_size/2)) , new Point((int)Math.floor(x_size/2)+1, (int)Math.floor(y_size/2)), m, n);
+        spawnApple();
     } 
     public void spawnApple(){
         Random random = new Random();
-        this.apple = new Point(random.nextInt(0,x_size),random.nextInt(0,y_size));
+        ArrayList<Point> availableSpawnPoints = new ArrayList<Point>();
+        for (int i = 0; i < x_size; i++) {
+            for (int j = 0; j < y_size; j++) {
+                availableSpawnPoints.add(new Point(i,j));
+            }
+        }
+        ArrayList<Point> unAvailableSpawnPoints = new ArrayList<Point>();
+        for(Point snakeBit:getSnake()){
+            for(Point spawnPoint : availableSpawnPoints){
+                if(snakeBit.equals(spawnPoint)){
+                    unAvailableSpawnPoints.add(spawnPoint);
+                }
+            }
+        }
+        availableSpawnPoints.removeAll(unAvailableSpawnPoints);
+        this.apple = availableSpawnPoints.get(random.nextInt(0,availableSpawnPoints.size()-1));
     }
     
     public void consumedApple(){
         this.snake.grow();
+        increaseScore(1);
         spawnApple();
     }
     public ArrayList<Point> getSnake(){
@@ -41,5 +58,11 @@ public class Snakemodel {
     }
     public void setScore(int value){
         this.score = value;
+    }
+    public int getXSize(){
+        return this.x_size;
+    }
+    public int getYSize(){
+        return this.y_size;
     }
 }

@@ -1,4 +1,5 @@
 package src;
+
 import java.util.ArrayList;
 
 public class Snake {
@@ -7,12 +8,16 @@ public class Snake {
     private ArrayList<Point> body;
     private String direction;
     private Point lastpositionPoint;
+    private int x_size;
+    private int y_size;
 
-    Snake(Point head, Point tail) {
+    Snake(Point head, Point tail, int x_size, int y_size) {
         this.head = head;
         this.tail = tail;
         this.direction = "Left";
         this.body = new ArrayList<Point>();
+        this.x_size = x_size;
+        this.y_size = y_size;
     }
 
     public Point getHeadPos() {
@@ -28,9 +33,9 @@ public class Snake {
     }
 
     public ArrayList<Point> getSnake() {
-        ArrayList<Point> returnSnake = body;
-        returnSnake.addFirst(head);
-        returnSnake.addLast(tail);
+        ArrayList<Point> returnSnake = new ArrayList<Point>(this.body);
+        returnSnake.addFirst(this.head);
+        returnSnake.add(returnSnake.size(), this.tail);
         return returnSnake;
     }
 
@@ -45,64 +50,55 @@ public class Snake {
     public void move(String direction) {
         switch (direction) {
             case "UP":
-                if (direction != "DOWN") {
-                    if (this.body.isEmpty()) {
-                        this.tail = this.head;
-                        this.head.y += 1;
-
-                    } else {
-                        this.lastpositionPoint = this.tail;
-                        this.tail = this.body.getLast();
-                        this.body.removeLast();
-                        this.body.addFirst(head);
-                        this.head.y += 1;
+                if (this.direction != "DOWN") {
+                    this.lastpositionPoint = this.tail;
+                    this.body.addFirst(new Point(this.head.x, this.head.y));
+                    this.head.y -= 1;
+                    if (this.head.y < 0) {
+                        this.head.y = this.y_size - 1;
                     }
+                    this.tail = this.body.getLast();
+                    this.body.remove(this.body.size() - 1);
                     this.direction = "UP";
                 }
                 break;
             case "LEFT":
-                if (direction != "RIGHT") {
-                    if (this.body.isEmpty()) {
-                        this.tail = this.head;
-                        this.head.x -= 1;
-                    } else {
-                        this.lastpositionPoint = this.tail;
-                        this.tail = this.body.getLast();
-                        this.body.removeLast();
-                        this.body.addFirst(head);
-                        this.head.x -= 1;
+                if (this.direction != "RIGHT") {
+                    this.lastpositionPoint = this.tail;
+                    this.body.addFirst(new Point(this.head.x, this.head.y));
+                    this.head.x -= 1;
+                    if (this.head.x < 0) {
+                        this.head.x = x_size - 1;
                     }
+                    this.tail = this.body.getLast();
+                    this.body.remove(this.body.size() - 1);
                     this.direction = "LEFT";
                 }
                 break;
             case "RIGHT":
-                if (direction != "LEFT") {
-                    if (this.body.isEmpty()) {
-                        this.tail = this.head;
-                        this.head.x += 1;
-                    } else {
-                        this.lastpositionPoint = this.tail;
-                        this.tail = this.body.getLast();
-                        this.body.removeLast();
-                        this.body.addFirst(head);
-                        this.head.x += 1;
+                if (this.direction != "LEFT") {
+                    this.lastpositionPoint = this.tail;
+                    this.body.addFirst(new Point(this.head.x, this.head.y));
+                    this.head.x += 1;
+                    if (this.head.x > x_size - 1) {
+                        this.head.x = 0;
                     }
+                    this.tail = this.body.getLast();
+                    this.body.remove(this.body.size() - 1);
                     this.direction = "RIGHT";
                 }
                 break;
             case "DOWN":
-                if (direction != "UP") {
-                    if (this.body.isEmpty()) {
-                        this.tail = this.head;
-                        this.head.y -= 1;
-                    } else {
-                        this.lastpositionPoint = this.tail;
-                        this.tail = this.body.getLast();
-                        this.body.removeLast();
-                        this.body.addFirst(head);
-                        this.head.y -= 1;
+                if (this.direction != "UP") {
+                    this.lastpositionPoint = this.tail;
+                    this.body.addFirst(new Point(this.head.x, this.head.y));
+                    this.head.y += 1;
+                    this.tail = this.body.getLast();
+                    this.body.remove(this.body.size() - 1);
+                    this.direction = "DOWN";
+                    if (this.head.y > this.y_size - 1) {
+                        this.head.y = 0;
                     }
-                    this.direction = "Down";
                 }
                 break;
             default:
