@@ -15,19 +15,19 @@
          </font>
       </Text>
    </bottom>
-   <center>
-      <Pane fx:id="gameField" maxHeight="500.0" maxWidth="500.0" minHeight="500.0" minWidth="500.0" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER" />
-   </center>
    <top>
       <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="button1" mnemonicParsing="false" onKeyPressed="#move" opacity="0.0" prefHeight="25.0" prefWidth="0.0" text="Button" />
-            <Text fill="#21ff1a" strokeMiterLimit="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Snake Game" wrappingWidth="127.01708984375">
+            <Text fill="#21ff1a" strokeMiterLimit="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Snake" wrappingWidth="167.01708984375">
                <font>
-                  <Font size="23.0" />
+                  <Font name="System Bold" size="59.0" />
                </font>
             </Text>
          </children>
       </HBox>
    </top>
+   <center>
+      <Pane fx:id="gameField" maxHeight="500.0" maxWidth="500.0" minHeight="500.0" minWidth="500.0" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER" />
+   </center>
 </BorderPane>

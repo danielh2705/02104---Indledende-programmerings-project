@@ -14,7 +14,7 @@ public class Snake {
     Snake(Point head, Point tail, int x_size, int y_size) {
         this.head = head;
         this.tail = tail;
-        this.direction = "Left";
+        this.direction = "LEFT";
         this.body = new ArrayList<Point>();
         this.x_size = x_size;
         this.y_size = y_size;
@@ -44,7 +44,9 @@ public class Snake {
     }
 
     public void grow() {
-        this.body.addLast(lastpositionPoint);
+        this.body.addLast(this.tail);
+        this.tail= this.lastpositionPoint;
+        System.out.println(this.body.toString());
     }
 
     public void move(String direction) {

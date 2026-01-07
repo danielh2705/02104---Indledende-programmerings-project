@@ -1,12 +1,15 @@
 package src;
 
+import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -18,9 +21,10 @@ public class Snakeveiw extends Application {
     private Text scoreLabel;
     private int n;
     private int m;
-
+    private LoseController loseController;
     @Override
     public void start(Stage primaryStage) {
+
         try {
             Scanner console = new Scanner(System.in);
             while (m < 5) {
@@ -93,6 +97,23 @@ public class Snakeveiw extends Application {
 
     private void updateScore() {
         scoreLabel.setText("Score: " + model.getScore());
+    }
+
+    public void switchToLoseScreen(int score) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("losepopup.fxml"));
+        Pane root = loader.load();
+        loseController = loader.getController();
+        loseController.getHighscoreLabel().setText("Score: " + score);
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+        exit(controller.getButton1());
+    }
+
+    public void exit(Button button1) {
+        Stage stage = (Stage) button1.getScene().getWindow();
+        stage.close();
     }
 
     public static void main(String[] args) {
