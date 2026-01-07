@@ -17,7 +17,8 @@ public class Controller {
                 this.view = view;
 
                 setupInput(scene);
-                startGameLoop();
+                //startGameLoop();
+                step();
         }
 
         private void setupInput(Scene scene) {
@@ -28,21 +29,25 @@ public class Controller {
                                 case UP -> {
                                         if (!model.getDirection().equals(Direction.DOWN)) {
                                                 model.setDirection(Direction.UP);
+                                                step();
                                         }
                                 }
                                 case DOWN -> {
                                         if (!model.getDirection().equals(Direction.UP)) {
                                                 model.setDirection(Direction.DOWN);
+                                                step();
                                         }
                                 }
                                 case LEFT -> {
                                         if (!model.getDirection().equals(Direction.RIGHT)) {
                                                 model.setDirection(Direction.LEFT);
+                                                step();
                                         }
                                 }
                                 case RIGHT -> {
                                         if (!model.getDirection().equals(Direction.LEFT)) {
                                                 model.setDirection(Direction.RIGHT);
+                                                step();
                                         }
                                 }
 
@@ -60,5 +65,10 @@ public class Controller {
                 );
                 timeline.setCycleCount(Timeline.INDEFINITE);
                 timeline.play();
+        }
+
+        private void step() {
+                model.update();
+                view.render(model);
         }
 }
