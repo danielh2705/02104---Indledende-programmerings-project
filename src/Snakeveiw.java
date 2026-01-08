@@ -56,7 +56,7 @@ public class Snakeveiw extends Application {
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.show();
-            update();
+            controller.startGameLoop();
         } catch (Exception e) {
             e.printStackTrace();
         }

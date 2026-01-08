@@ -2,8 +2,9 @@ package src;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
+import javafx.animation.*;
 import javafx.event.*;
+import javafx.util.*;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
@@ -27,27 +28,36 @@ public class Snakecontroller {
     @FXML
     private Text scoreLabel;
 
-    // DETECTS IF A KEYPRESS IS DONE
+
+    public void startGameLoop() {
+        // THE GAME LOOP / TIMER
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.millis(150), e -> {
+                    model.moveSnake();
+                    // CHECKS IF THE PLAYER LOST
+                    if (checkLost() == true) {
+                        System.out.println("YOU LOST!");
+                        looseGame();
+                    }
+                    // CHECKS IS THE SNAKES HEAD IS ON THE APPLE IF SO GROWS THE SNAKE
+                    if (model.getSnake().get(0).equals(model.getApple())) {
+                        model.consumedApple();
+                    }
+                    viewer.update();
+
+                }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+
+    }
+    // MOVES THE SNAKE WITH SET DIRECTION
+    public void moveWithDirection(){
+        model.moveSnake();
+    }
+    // CHANGES THE DIRECITON THE SNAKE IS MOVING
     @FXML
-    void move(KeyEvent event) {
-        
-        // SENDS THE KEYCODE OF PRESSED KEY TO THE MOVE COMMAND 
-        // WICH ONLY RESPONDS TO THE ARROWKEYS
-        model.moveSnake(event.getCode().toString());
-        
-
-        // CHECKS IF THE PLAYER LOST
-        if (checkLost() == true) {
-            System.out.println("YOU LOST!");
-            looseGame();
-        }
-        // CHECKS IS THE SNAKES HEAD IS ON THE APPLE IF SO GROWS THE SNAKE
-        if (model.getSnake().get(0).equals(model.getApple())) {
-            model.consumedApple();
-        }
-
-        // DRAWS ALL THE CHANGES
-        viewer.update();
+    void changeDirection(KeyEvent event) {
+        model.changeDirection(event.getCode().toString());
     }
 
     public boolean checkLost() {
@@ -72,7 +82,7 @@ public class Snakecontroller {
     }
 
     // THE REST GIVES ACCES TO OTHER CLASSES TO THE UI ELEMENTS
-    // AND OTHER SETUP 
+    // AND OTHER SETUP
 
     public Pane getGamePane() {
         return this.gameField;
