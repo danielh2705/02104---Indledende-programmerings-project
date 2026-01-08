@@ -61,8 +61,8 @@ public class Snakemodel {
     }
 
     // Accepts "Up", "Down", "Left", "Right"
-    public void moveSnake(String direction) {
-        this.snake.move(direction);
+    public void moveSnake() {
+        this.snake.move();
     }
 
     public int getScore() {
@@ -86,5 +86,11 @@ public class Snakemodel {
     // RETURNS VERTICAL LENGTH OF GRID, SPECIFIED BY USER
     public int getYSize() {
         return this.y_size;
+    }
+    public String getDirection(){
+        return this.snake.getDirection();
+    }
+    public void changeDirection(String newDirection){
+        this.snake.changeDirection(newDirection);
     }
 }

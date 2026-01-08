@@ -18,7 +18,7 @@
    <top>
       <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="button1" mnemonicParsing="false" onKeyPressed="#move" opacity="0.0" prefHeight="25.0" prefWidth="0.0" text="Button" />
+            <Button fx:id="button1" mnemonicParsing="false" onKeyPressed="#changeDirection" opacity="0.0" prefHeight="25.0" prefWidth="0.0" text="Button" />
             <Text fill="#21ff1a" strokeMiterLimit="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Snake" wrappingWidth="167.01708984375">
                <font>
                   <Font name="System Bold" size="59.0" />
