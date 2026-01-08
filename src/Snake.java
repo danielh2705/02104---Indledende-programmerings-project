@@ -32,6 +32,7 @@ public class Snake {
         return direction;
     }
 
+    // RETURNS THE ENTIRE SNAKE IN AN ARRAYLIST<POINT>. INCLUDING THE HEAD AND TAIL
     public ArrayList<Point> getSnake() {
         ArrayList<Point> returnSnake = new ArrayList<Point>(this.body);
         returnSnake.addFirst(this.head);
@@ -39,19 +40,26 @@ public class Snake {
         return returnSnake;
     }
 
+    // SETS CURREN DIRECTION
     public void setDirection(String direction) {
         this.direction = direction;
     }
 
+    //INCREASES THE SNAKES LENGTH BY 1
     public void grow() {
         this.body.addLast(this.tail);
         this.tail= this.lastpositionPoint;
         System.out.println(this.body.toString());
     }
 
+    // TAKES "LEFT" "RIGHT" "UP" "DOWN" AS INPUTS
     public void move(String direction) {
         switch (direction) {
             case "UP":
+                //MOVES SNAKE IN THE UP DIRECTION IF NOT MOVING DOWN
+                //DOES THIS BY ASSIGNING A NEW HEAD, ADDING THE HEAD TO THE FRONT OF THE BODY
+                //MAKES THE TAIL THE LAST PART OF THE BODY AND THEN REMOVES SAID LAST PART
+                //ALSO REMEMBERS THE LAST POSITION OF THE TAIL FOR POTENTIAL GROWTH
                 if (this.direction != "DOWN") {
                     this.lastpositionPoint = this.tail;
                     this.body.addFirst(new Point(this.head.x, this.head.y));
