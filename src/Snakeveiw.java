@@ -15,12 +15,14 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.scene.text.*;
 
+// only runs from JAR file
+
 public class Snakeveiw extends Application {
     private Snakemodel model;
     private Snakecontroller controller;
     private Text scoreLabel;
-    private int n;
-    private int m;
+    private static int n;
+    private static int m;
     private LoseController loseController;
 
     @Override
@@ -46,7 +48,7 @@ public class Snakeveiw extends Application {
 
             // LOADS THE GUI FROM FXML FILE
             FXMLLoader loader = new FXMLLoader(getClass().getResource("gui.fxml"));
-            BorderPane root = loader.load();
+            Pane root = loader.load();
 
             model = new Snakemodel(m, n);
             controller = (Snakecontroller) loader.getController();
@@ -79,7 +81,7 @@ public class Snakeveiw extends Application {
         circ.setCenterX(circ.getRadius() * 2 * apple.x + circ.getRadius());
         circ.setCenterY(circ.getRadius() * 2 * apple.y + circ.getRadius());
         controller.getGamePane().getChildren().add(circ);
-        circ.setFill(javafx.scene.paint.Color.RED);
+        circ.setFill(javafx.scene.paint.Color.valueOf("#C62828"));
     }
 
     // DRAWS ALL THE SEGMENTS OF THE SNAKE
@@ -96,9 +98,9 @@ public class Snakeveiw extends Application {
 
             // DRAWS THE HEAD A DIFFERENT COLOR
             if (point.equals(model.getSnake().get(0))) {
-                rect.setFill(javafx.scene.paint.Color.PURPLE);
+                rect.setFill(javafx.scene.paint.Color.valueOf("#8B4513"));
             } else {
-                rect.setFill(javafx.scene.paint.Color.BLUEVIOLET);
+                rect.setFill(javafx.scene.paint.Color.valueOf("#D2B48C"));
             }
 
             // ADDS CURVES TO THE SEGMENTS
@@ -131,8 +133,10 @@ public class Snakeveiw extends Application {
         Stage stage = (Stage) button1.getScene().getWindow();
         stage.close();
     }
-
+    
     public static void main(String[] args) {
+        m = Integer.parseInt(args[0]);
+        n = Integer.parseInt(args[1]);
         launch(args);
     }
 
