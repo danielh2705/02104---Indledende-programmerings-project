@@ -8,7 +8,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -46,7 +45,7 @@ public class Snakeveiw extends Application {
 
             // LOADS THE GUI FROM FXML FILE
             FXMLLoader loader = new FXMLLoader(getClass().getResource("gui.fxml"));
-            BorderPane root = loader.load();
+            Pane root = loader.load();
 
             model = new Snakemodel(m, n);
             controller = (Snakecontroller) loader.getController();
@@ -95,10 +94,10 @@ public class Snakeveiw extends Application {
             rect.setY(rect.getHeight() * point.y);
 
             // DRAWS THE HEAD A DIFFERENT COLOR
-            if (point.equals(model.getSnake().get(0))) {
-                rect.setFill(javafx.scene.paint.Color.PURPLE);
+           if (point.equals(model.getSnake().get(0))) {
+                rect.setFill(javafx.scene.paint.Color.valueOf("#8B4513"));
             } else {
-                rect.setFill(javafx.scene.paint.Color.BLUEVIOLET);
+                rect.setFill(javafx.scene.paint.Color.valueOf("#D2B48C"));
             }
 
             // ADDS CURVES TO THE SEGMENTS
