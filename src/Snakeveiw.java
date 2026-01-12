@@ -8,6 +8,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -80,11 +82,16 @@ public class Snakeveiw extends Application {
     // AND USES SIMPLE MATH TO PLACE IN THE MIDDLE OF A GRID SPACE
     private void drawApple() {
         Point apple = model.getApple();
-        Circle circ = new Circle((Math.floor(controller.getGamePane().getWidth() / n) / 2));
-        circ.setCenterX(circ.getRadius() * 2 * apple.x + circ.getRadius());
-        circ.setCenterY(circ.getRadius() * 2 * apple.y + circ.getRadius());
-        controller.getGamePane().getChildren().add(circ);
-        circ.setFill(javafx.scene.paint.Color.RED);
+        Image applePng = new Image("recourses\\redApplePic.png");
+        ImageView image = new ImageView();
+        image.setImage(applePng);
+        image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
+        image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
+        image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * apple.x);
+        image.setPreserveRatio(false);
+        image.setY(Math.floor(controller.getGamePane().getHeight() / n) * apple.y);
+        System.out.println("x: " + apple.x + " y: " + apple.y);
+        controller.getGamePane().getChildren().add(image);
     }
 
     private void drawBadApple() {
@@ -147,14 +154,17 @@ public class Snakeveiw extends Application {
     }
 
     private void drawBonusApples() {
-        for (Point p : model.getBonusApples()) {
-            Circle circle = new Circle(Math.floor(controller.getGamePane().getWidth() / m) / 2);
-            controller.getGamePane().getChildren().add(circle);
-
-            circle.setCenterX(circle.getRadius() * 2 * p.x + circle.getRadius());
-            circle.setCenterY(circle.getRadius() * 2 * p.y + circle.getRadius());
-
-            circle.setFill(javafx.scene.paint.Color.RED); // “normale” bonus æbler
+        for (Point apple : model.getBonusApples()) {
+            Image applePng = new Image("recourses\\redApplePic.png");
+            ImageView image = new ImageView();
+            image.setImage(applePng);
+            image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
+            image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
+            image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * apple.x);
+            image.setPreserveRatio(false);
+            image.setY(Math.floor(controller.getGamePane().getHeight() / n) * apple.y);
+            System.out.println("x: " + apple.x + " y: " + apple.y);
+            controller.getGamePane().getChildren().add(image);
         }
     }
 
