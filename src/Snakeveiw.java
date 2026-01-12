@@ -8,7 +8,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -46,7 +45,7 @@ public class Snakeveiw extends Application {
 
             // LOADS THE GUI FROM FXML FILE
             FXMLLoader loader = new FXMLLoader(getClass().getResource("gui.fxml"));
-            BorderPane root = loader.load();
+            Pane root = loader.load();
 
             model = new Snakemodel(m, n);
             controller = (Snakecontroller) loader.getController();
