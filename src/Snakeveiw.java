@@ -94,10 +94,10 @@ public class Snakeveiw extends Application {
             rect.setY(rect.getHeight() * point.y);
 
             // DRAWS THE HEAD A DIFFERENT COLOR
-            if (point.equals(model.getSnake().get(0))) {
-                rect.setFill(javafx.scene.paint.Color.PURPLE);
+           if (point.equals(model.getSnake().get(0))) {
+                rect.setFill(javafx.scene.paint.Color.valueOf("#8B4513"));
             } else {
-                rect.setFill(javafx.scene.paint.Color.BLUEVIOLET);
+                rect.setFill(javafx.scene.paint.Color.valueOf("#D2B48C"));
             }
 
             // ADDS CURVES TO THE SEGMENTS
