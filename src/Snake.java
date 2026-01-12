@@ -155,4 +155,10 @@ public class Snake {
                 break;
         }
     }
+    public void shrink(int amount) {
+        for (int i = 0; i < amount && body.size() > 1; i++) {
+            body.remove(body.size() - 1);
+        }
+    }
+
 }

@@ -8,6 +8,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -67,6 +68,12 @@ public class Snakeveiw extends Application {
         updateScore();
         drawSnake();
         drawApple();
+        drawBadApple();
+        drawBomb();
+        drawSpeedApple();
+        drawGoldenApple();
+        drawBonusApples();
+        drawFunkyApple();
     }
 
     // DRAWS THE APPLE WITH CIRCLE FROM JAVAFX
@@ -81,6 +88,98 @@ public class Snakeveiw extends Application {
         circ.setFill(javafx.scene.paint.Color.RED);
     }
 
+
+    private void drawBadApple() {
+        if (model.getBadApple() == null) return;
+
+        Circle circle = new Circle(
+            Math.floor(controller.getGamePane().getWidth() / m) / 2
+        );
+
+        controller.getGamePane().getChildren().add(circle);
+        circle.setCenterX(
+            circle.getRadius() * 2 * model.getBadApple().x + circle.getRadius()
+        );
+        circle.setCenterY(
+            circle.getRadius() * 2 * model.getBadApple().y + circle.getRadius()
+        );
+
+        circle.setFill(javafx.scene.paint.Color.DARKRED);
+    }
+
+    private void drawBomb() {
+        if (model.getBomb() == null) return;
+
+        Circle circle = new Circle(
+            Math.floor(controller.getGamePane().getWidth() / m) / 2
+        );
+
+        controller.getGamePane().getChildren().add(circle);
+        circle.setCenterX(
+            circle.getRadius() * 2 * model.getBomb().x + circle.getRadius()
+        );
+        circle.setCenterY(
+            circle.getRadius() * 2 * model.getBomb().y + circle.getRadius()
+        );
+
+        circle.setFill(javafx.scene.paint.Color.BLACK);
+    }
+
+    private void drawSpeedApple() {
+        if (model.getSpeedApple() == null) return;
+
+        Circle circle = new Circle(
+            Math.floor(controller.getGamePane().getWidth() / m) / 2
+        );
+
+        controller.getGamePane().getChildren().add(circle);
+        circle.setCenterX(circle.getRadius() * 2 * model.getSpeedApple().x + circle.getRadius());
+        circle.setCenterY(circle.getRadius() * 2 * model.getSpeedApple().y + circle.getRadius());
+
+        circle.setFill(javafx.scene.paint.Color.DEEPSKYBLUE);
+    }
+
+    private void drawGoldenApple() {
+        if (model.getGoldenApple() == null) return;
+
+        Circle circle = new Circle(Math.floor(controller.getGamePane().getWidth() / m) / 2);
+        controller.getGamePane().getChildren().add(circle);
+
+        circle.setCenterX(circle.getRadius() * 2 * model.getGoldenApple().x + circle.getRadius());
+        circle.setCenterY(circle.getRadius() * 2 * model.getGoldenApple().y + circle.getRadius());
+
+        circle.setFill(javafx.scene.paint.Color.GOLD);
+    }
+
+    private void drawBonusApples() {
+        for (Point p : model.getBonusApples()) {
+            Circle circle = new Circle(Math.floor(controller.getGamePane().getWidth() / m) / 2);
+            controller.getGamePane().getChildren().add(circle);
+
+            circle.setCenterX(circle.getRadius() * 2 * p.x + circle.getRadius());
+            circle.setCenterY(circle.getRadius() * 2 * p.y + circle.getRadius());
+
+            circle.setFill(javafx.scene.paint.Color.RED); // “normale” bonus æbler
+        }
+    }
+    
+    private void drawFunkyApple() {
+        if (model.getFunkyApple() == null) return;
+
+        Circle circle = new Circle(
+            Math.floor(controller.getGamePane().getWidth() / m) / 2
+        );
+
+        controller.getGamePane().getChildren().add(circle);
+
+        circle.setCenterX(circle.getRadius() * 2 * model.getFunkyApple().x + circle.getRadius());
+        circle.setCenterY(circle.getRadius() * 2 * model.getFunkyApple().y + circle.getRadius());
+
+        circle.setFill(javafx.scene.paint.Color.GREEN);
+    }
+
+
+
     // DRAWS ALL THE SEGMENTS OF THE SNAKE
     // CHANGES THE SIZE DEPENDING ON THE GRID SPECEFIED WHEN PROGRAM IS RUN
     private void drawSnake() {
@@ -94,10 +193,10 @@ public class Snakeveiw extends Application {
             rect.setY(rect.getHeight() * point.y);
 
             // DRAWS THE HEAD A DIFFERENT COLOR
-           if (point.equals(model.getSnake().get(0))) {
-                rect.setFill(javafx.scene.paint.Color.valueOf("#8B4513"));
+            if (point.equals(model.getSnake().get(0))) {
+                rect.setFill(javafx.scene.paint.Color.PURPLE);
             } else {
-                rect.setFill(javafx.scene.paint.Color.valueOf("#D2B48C"));
+                rect.setFill(javafx.scene.paint.Color.BLUEVIOLET);
             }
 
             // ADDS CURVES TO THE SEGMENTS
