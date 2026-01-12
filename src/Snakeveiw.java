@@ -154,8 +154,8 @@ public class Snakeveiw extends Application {
     }
 
     private void drawBonusApples() {
+        Image applePng = new Image("recourses\\redApplePic.png");
         for (Point apple : model.getBonusApples()) {
-            Image applePng = new Image("recourses\\redApplePic.png");
             ImageView image = new ImageView();
             image.setImage(applePng);
             image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
