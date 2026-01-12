@@ -5,19 +5,19 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="losePane" prefHeight="503.0" prefWidth="500.0" style="-fx-background-color: #3c7334;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.LoseController">
+<Pane fx:id="losePane" prefHeight="503.0" prefWidth="500.0" style="-fx-background-color: Black;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.LoseController">
    <children>
-      <Button fx:id="exitButton" layoutX="163.0" layoutY="252.0" mnemonicParsing="false" onAction="#exit" prefHeight="104.0" prefWidth="175.0" style="-fx-background-color: #55c244; -fx-cursor: pointer;" text="Exit" textFill="WHITE">
+      <Button fx:id="exitButton" layoutX="163.0" layoutY="252.0" mnemonicParsing="false" onAction="#exit" prefHeight="104.0" prefWidth="175.0" style="-fx-background-color: grey; -fx-cursor: pointer;" text="Exit" textFill="#21ff1a">
          <font>
             <Font size="44.0" />
          </font>
       </Button>
-      <Label fx:id="highscoreLabel" layoutX="91.0" layoutY="156.0" prefHeight="64.0" prefWidth="395.0" text="score: " textFill="WHITE">
+      <Label fx:id="highscoreLabel" layoutX="91.0" layoutY="156.0" prefHeight="64.0" prefWidth="395.0" text="score: " textFill="#21ff1a">
          <font>
             <Font size="64.0" />
          </font>
       </Label>
-      <Label layoutX="77.0" layoutY="14.0" prefHeight="201.0" prefWidth="395.0" text="Game Over" textFill="RED">
+      <Label layoutX="60.0" layoutY="14.0" prefHeight="201.0" prefWidth="395.0" text="Game Over" textFill="#21ff1a">
          <font>
             <Font size="64.0" />
          </font>
