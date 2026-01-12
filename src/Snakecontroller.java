@@ -12,7 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
 public class Snakecontroller {
-    private Snakeveiw viewer;
+    private Snakeview viewer;
     private Snakemodel model;
     private EventHandler<KeyEvent> eventHandler;
 
@@ -28,12 +28,22 @@ public class Snakecontroller {
     @FXML
     private Text scoreLabel;
 
+    private boolean canTurn;
+    private Snake snake;
+
+
+    public Snakecontroller() {
+        this.canTurn = true;
+        this.snake = getSanke();
+    }
 
     public void startGameLoop() {
         // THE GAME LOOP / TIMER
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.millis(150), e -> {
-                    model.moveSnake();
+                    if (canTurn) {
+                        moveSnake();
+                    }
                     // CHECKS IF THE PLAYER LOST
                     if (checkLost() == true) {
                         System.out.println("YOU LOST!");
@@ -100,7 +110,7 @@ public class Snakecontroller {
         this.eventHandler = eventHandler;
     }
 
-    public void setModelAndView(Snakemodel model, Snakeveiw viewer) {
+    public void setModelAndView(Snakemodel model, Snakeview viewer) {
         this.model = model;
         this.viewer = viewer;
     }

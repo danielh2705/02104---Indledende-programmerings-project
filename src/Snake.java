@@ -11,6 +11,7 @@ public class Snake {
     private int x_size;
     private int y_size;
     private boolean canTurn = true;
+
     Snake(Point head, Point tail, int x_size, int y_size) {
         this.head = head;
         this.tail = tail;
@@ -18,6 +19,7 @@ public class Snake {
         this.body = new ArrayList<Point>();
         this.x_size = x_size;
         this.y_size = y_size;
+        this.canTurn = true;
     }
 
     public Point getHeadPos() {
@@ -42,13 +44,15 @@ public class Snake {
 
     // SETS CURRENT DIRECTION
     public void setDirection(String direction) {
-        // THIS MAKES SURE TWO DIRECTION CHANGES DOES NOT COME IN BEFORE IT HAS MOVED WITH THE PREVIOUS ONE
+        // THIS MAKES SURE TWO DIRECTION CHANGES DOES NOT COME IN BEFORE IT HAS MOVED
+        // WITH THE PREVIOUS ONE
         // THIS IS TO STOP THE HEAD FROM MAKING A 180 AND KILLING ITSELF IMMEDIATELY
-        // COULD BE EXPADED WITH A "BUFFER" SYSTEM SO IT REMEMBERS OTHER KEY PRESSES FOR A SHORT WHILE TO IMPROVE GAME FEEL
-        if (this.canTurn == true){
+        // COULD BE EXPADED WITH A "BUFFER" SYSTEM SO IT REMEMBERS OTHER KEY PRESSES FOR
+        // A SHORT WHILE TO IMPROVE GAME FEEL
+        if (this.canTurn == true) {
             this.direction = direction;
             this.canTurn = false;
-        } 
+        }
     }
 
     // INCREASES THE SNAKES LENGTH BY 1
@@ -125,8 +129,9 @@ public class Snake {
             default:
                 break;
         }
-        
+
     }
+
     // CHANGES DIRECTION OF SNAKE IF NOT 180 DEGREE TURN
     public void changeDirection(String newDirection) {
         switch (newDirection) {
@@ -146,6 +151,26 @@ public class Snake {
                 }
                 break;
             case "DOWN":
+                if (this.direction != "UP") {
+                    this.direction = "DOWN";
+                }
+                break;
+            case "A":
+                if (this.direction != "RIGHT") {
+                    this.direction = "LEFT";
+                }
+                break;
+            case "D":
+                if (this.direction != "LEFT") {
+                    this.direction = "RIGHT";
+                }
+                break;
+            case "W":
+                if (this.direction != "DOWN") {
+                    this.direction = "UP";
+                }
+                break;
+            case "S":
                 if (this.direction != "UP") {
                     this.direction = "DOWN";
                 }

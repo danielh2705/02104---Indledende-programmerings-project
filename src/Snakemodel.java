@@ -50,16 +50,18 @@ public class Snakemodel {
         spawnApple();
     }
 
+    /*
     // RETURNS THE FULL SNAKE, HEAD AND TAIL INCLUDED IN AN ARRAYLIST
     public ArrayList<Point> getSnake() {
         return this.snake.getSnake();
     }
+        */
 
     // GETS THE POSITION OF THE APPLE
     public Point getApple() {
         return this.apple;
     }
-
+ 
     // Accepts "Up", "Down", "Left", "Right"
     public void moveSnake() {
         this.snake.move();

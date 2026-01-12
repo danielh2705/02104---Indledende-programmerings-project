@@ -15,7 +15,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.scene.text.*;
 
-public class Snakeveiw extends Application {
+public class Snakeview extends Application {
     private Snakemodel model;
     private Snakecontroller controller;
     private Text scoreLabel;
