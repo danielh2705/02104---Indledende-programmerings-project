@@ -46,7 +46,7 @@ public class Snakeveiw extends Application {
 
             // LOADS THE GUI FROM FXML FILE
             FXMLLoader loader = new FXMLLoader(getClass().getResource("gui.fxml"));
-            BorderPane root = loader.load();
+            Pane root = loader.load();
 
             model = new Snakemodel(m, n);
             controller = (Snakecontroller) loader.getController();
