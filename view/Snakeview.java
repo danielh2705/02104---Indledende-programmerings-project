@@ -23,7 +23,7 @@ public class Snakeview extends Canvas {
     }
 
     public void render(Snakemodel model) {
-        gc.setFill(Color.GRAY);
+        gc.setFill(Color.valueOf("#55c244"));
         gc.fillRect(0, 0, getWidth(), getHeight());
 
         gc.setFill(Color.BLACK);
@@ -55,11 +55,11 @@ public class Snakeview extends Canvas {
 
         for (Point p : model.sendSnake()) {
             if (p.equals(model.sendSnake().getFirst())) {
-                gc.setFill(Color.PURPLE);
+                gc.setFill(Color.valueOf("#8B4513"));
             } else {
-                gc.setFill(Color.BLUEVIOLET);
+                gc.setFill(Color.valueOf("#D2B48C"));
             }
-            gc.fillRect(p.x() * TILE_SIZE, p.y() * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+            gc.fillOval(p.x() * TILE_SIZE, p.y() * TILE_SIZE, TILE_SIZE, TILE_SIZE);
         }
 
         /*
