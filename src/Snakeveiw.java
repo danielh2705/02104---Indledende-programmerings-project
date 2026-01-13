@@ -8,10 +8,13 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.scene.text.*;
 
 public class Snakeveiw extends Application {
@@ -53,6 +56,7 @@ public class Snakeveiw extends Application {
             // SHOWS THE SCENE AND CALLS UPDATE, SUCH THAT SNAKE AND APPLE IS DRAWN
             scoreLabel = controller.getScoreLabel();
             Scene scene = new Scene(root);
+            
             primaryStage.setScene(scene);
             primaryStage.show();
             controller.startGameLoop();
@@ -80,81 +84,89 @@ public class Snakeveiw extends Application {
     // AND USES SIMPLE MATH TO PLACE IN THE MIDDLE OF A GRID SPACE
     private void drawApple() {
         Point apple = model.getApple();
-        Circle circ = new Circle((Math.floor(controller.getGamePane().getWidth() / n) / 2));
-        circ.setCenterX(circ.getRadius() * 2 * apple.x + circ.getRadius());
-        circ.setCenterY(circ.getRadius() * 2 * apple.y + circ.getRadius());
-        controller.getGamePane().getChildren().add(circ);
-        circ.setFill(javafx.scene.paint.Color.RED);
+        Image applePng = new Image("recourses\\apple.png");
+        ImageView image = new ImageView();
+        image.setImage(applePng);
+        image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
+        image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
+        image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * apple.x);
+        image.setPreserveRatio(false);
+        image.setY(Math.floor(controller.getGamePane().getHeight() / n) * apple.y);
+        controller.getGamePane().getChildren().add(image);
     }
 
     private void drawBadApple() {
         if (model.getBadApple() == null)
             return;
 
-        Circle circle = new Circle(
-                Math.floor(controller.getGamePane().getWidth() / m) / 2);
-
-        controller.getGamePane().getChildren().add(circle);
-        circle.setCenterX(
-                circle.getRadius() * 2 * model.getBadApple().x + circle.getRadius());
-        circle.setCenterY(
-                circle.getRadius() * 2 * model.getBadApple().y + circle.getRadius());
-
-        circle.setFill(javafx.scene.paint.Color.DARKRED);
+        Image badApplePng = new Image("recourses\\poisonApple.png");
+        ImageView image = new ImageView();
+        image.setImage(badApplePng);
+        image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
+        image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
+        image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * model.getBadApple().x);
+        image.setPreserveRatio(false);
+        image.setY(Math.floor(controller.getGamePane().getHeight() / n) * model.getBadApple().y);
+        controller.getGamePane().getChildren().add(image);
     }
 
     private void drawBomb() {
         if (model.getBomb() == null)
             return;
 
-        Circle circle = new Circle(
-                Math.floor(controller.getGamePane().getWidth() / m) / 2);
-
-        controller.getGamePane().getChildren().add(circle);
-        circle.setCenterX(
-                circle.getRadius() * 2 * model.getBomb().x + circle.getRadius());
-        circle.setCenterY(
-                circle.getRadius() * 2 * model.getBomb().y + circle.getRadius());
-
-        circle.setFill(javafx.scene.paint.Color.BLACK);
+        Image bombPng = new Image("recourses\\bomb.png");
+        ImageView image = new ImageView();
+        image.setImage(bombPng);
+        image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
+        image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
+        image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * model.getBomb().x);
+        image.setPreserveRatio(false);
+        image.setY(Math.floor(controller.getGamePane().getHeight() / n) * model.getBomb().y);
+        controller.getGamePane().getChildren().add(image);
     }
+    
 
     private void drawSpeedApple() {
         if (model.getSpeedApple() == null)
             return;
 
-        Circle circle = new Circle(
-                Math.floor(controller.getGamePane().getWidth() / m) / 2);
-
-        controller.getGamePane().getChildren().add(circle);
-        circle.setCenterX(circle.getRadius() * 2 * model.getSpeedApple().x + circle.getRadius());
-        circle.setCenterY(circle.getRadius() * 2 * model.getSpeedApple().y + circle.getRadius());
-
-        circle.setFill(javafx.scene.paint.Color.DEEPSKYBLUE);
+        Image speedApplePng = new Image("recourses\\coconut.png");
+        ImageView image = new ImageView();
+        image.setImage(speedApplePng);
+        image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
+        image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
+        image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * model.getSpeedApple().x);
+        image.setPreserveRatio(false);
+        image.setY(Math.floor(controller.getGamePane().getHeight() / n) * model.getSpeedApple().y);
+        controller.getGamePane().getChildren().add(image);
     }
 
     private void drawGoldenApple() {
         if (model.getGoldenApple() == null)
             return;
 
-        Circle circle = new Circle(Math.floor(controller.getGamePane().getWidth() / m) / 2);
-        controller.getGamePane().getChildren().add(circle);
-
-        circle.setCenterX(circle.getRadius() * 2 * model.getGoldenApple().x + circle.getRadius());
-        circle.setCenterY(circle.getRadius() * 2 * model.getGoldenApple().y + circle.getRadius());
-
-        circle.setFill(javafx.scene.paint.Color.GOLD);
+        Image goldenApplePng = new Image("recourses\\star.png");
+        ImageView image = new ImageView();
+        image.setImage(goldenApplePng);
+        image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
+        image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
+        image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * model.getGoldenApple().x);
+        image.setPreserveRatio(false);
+        image.setY(Math.floor(controller.getGamePane().getHeight() / n) * model.getGoldenApple().y);
+        controller.getGamePane().getChildren().add(image);
     }
 
     private void drawBonusApples() {
-        for (Point p : model.getBonusApples()) {
-            Circle circle = new Circle(Math.floor(controller.getGamePane().getWidth() / m) / 2);
-            controller.getGamePane().getChildren().add(circle);
-
-            circle.setCenterX(circle.getRadius() * 2 * p.x + circle.getRadius());
-            circle.setCenterY(circle.getRadius() * 2 * p.y + circle.getRadius());
-
-            circle.setFill(javafx.scene.paint.Color.RED); // “normale” bonus æbler
+        Image applePng = new Image("recourses\\redApplePic.png");
+        for (Point apple : model.getBonusApples()) {
+            ImageView image = new ImageView();
+            image.setImage(applePng);
+            image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
+            image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
+            image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * apple.x);
+            image.setPreserveRatio(false);
+            image.setY(Math.floor(controller.getGamePane().getHeight() / n) * apple.y);
+            controller.getGamePane().getChildren().add(image);
         }
     }
 
@@ -162,39 +174,59 @@ public class Snakeveiw extends Application {
         if (model.getFunkyApple() == null)
             return;
 
-        Circle circle = new Circle(
-                Math.floor(controller.getGamePane().getWidth() / m) / 2);
-
-        controller.getGamePane().getChildren().add(circle);
-
-        circle.setCenterX(circle.getRadius() * 2 * model.getFunkyApple().x + circle.getRadius());
-        circle.setCenterY(circle.getRadius() * 2 * model.getFunkyApple().y + circle.getRadius());
-
-        circle.setFill(javafx.scene.paint.Color.GREEN);
+        Image funkyApplePng = new Image("recourses\\brownMushroom.png");
+        ImageView image = new ImageView();
+        image.setImage(funkyApplePng);
+        image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
+        image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
+        image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * model.getGoldenApple().x);
+        image.setPreserveRatio(false);
+        image.setY(Math.floor(controller.getGamePane().getHeight() / n) * model.getGoldenApple().y);
+        controller.getGamePane().getChildren().add(image);
     }
 
     // DRAWS ALL THE SEGMENTS OF THE SNAKE
     // CHANGES THE SIZE DEPENDING ON THE GRID SPECEFIED WHEN PROGRAM IS RUN
     private void drawSnake() {
-        Random random = new Random();
         for (Point point : model.getSnake()) {
 
-            Rectangle rect = new Rectangle(Math.floor(controller.getGamePane().getWidth() / m),
-                    Math.floor(controller.getGamePane().getHeight() / n));
-            controller.getGamePane().getChildren().add(rect);
-            rect.setX(rect.getWidth() * point.x);
-            rect.setY(rect.getHeight() * point.y);
 
             // DRAWS THE HEAD A DIFFERENT COLOR
             if (point.equals(model.getSnake().get(0))) {
-                rect.setFill(javafx.scene.paint.Color.valueOf("#8B4513"));
-            } else {
-                rect.setFill(javafx.scene.paint.Color.valueOf("#D2B48C"));
+                Image snakeHead = new Image("recourses/snakeSprite/"+model.getBodyDirections().get(0)+"-head.png");
+                ImageView image = new ImageView(snakeHead);
+                image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
+                image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
+                image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * point.x);
+                image.setPreserveRatio(false);
+                image.setY(Math.floor(controller.getGamePane().getHeight() / n) * point.y);
+                image.setCache(true);
+                controller.getGamePane().getChildren().add(image);
+
+            } else if (point.equals(model.getSnake().get(model.getSnake().size()-1))) {
+                Image snakeTail = new Image("recourses/snakeSprite/"+model.getBodyDirections().get(model.getBodyDirections().size()-2)+"-tail.png");
+                ImageView image = new ImageView(snakeTail);
+                image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
+                image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
+                image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * point.x);
+                image.setPreserveRatio(false);
+                image.setY(Math.floor(controller.getGamePane().getHeight() / n) * point.y);
+                image.setCache(true);
+                controller.getGamePane().getChildren().add(image);
+            } else{
+                Image snakeBody = new Image("recourses/snakeSprite/"+model.getBodyDirections().get(model.getSnake().indexOf(point))+model.getBodyDirections().get(model.getSnake().indexOf(point)-1)+"-body.png");
+                ImageView image = new ImageView(snakeBody);
+                image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
+                image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
+                image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * point.x);
+                image.setPreserveRatio(false);
+                image.setY(Math.floor(controller.getGamePane().getHeight() / n) * point.y);
+                image.setCache(true);
+                controller.getGamePane().getChildren().add(image);
             }
 
             // ADDS CURVES TO THE SEGMENTS
-            rect.setArcWidth(30.0);
-            rect.setArcHeight(20.0);
+         
         }
     }
 
