@@ -179,9 +179,9 @@ public class Snakeveiw extends Application {
         image.setImage(funkyApplePng);
         image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
         image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
-        image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * model.getGoldenApple().x);
+        image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * model.getFunkyApple().x);
         image.setPreserveRatio(false);
-        image.setY(Math.floor(controller.getGamePane().getHeight() / n) * model.getGoldenApple().y);
+        image.setY(Math.floor(controller.getGamePane().getHeight() / n) * model.getFunkyApple().y);
         controller.getGamePane().getChildren().add(image);
     }
 
