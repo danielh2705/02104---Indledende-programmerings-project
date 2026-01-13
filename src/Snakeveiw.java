@@ -1,9 +1,7 @@
 package src;
 
 import java.io.IOException;
-import java.util.Random;
 import java.util.Scanner;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,10 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.scene.text.*;
 
 public class Snakeveiw extends Application {
@@ -56,7 +51,7 @@ public class Snakeveiw extends Application {
             // SHOWS THE SCENE AND CALLS UPDATE, SUCH THAT SNAKE AND APPLE IS DRAWN
             scoreLabel = controller.getScoreLabel();
             Scene scene = new Scene(root);
-            
+
             primaryStage.setScene(scene);
             primaryStage.show();
             controller.startGameLoop();
@@ -124,7 +119,6 @@ public class Snakeveiw extends Application {
         image.setY(Math.floor(controller.getGamePane().getHeight() / n) * model.getBomb().y);
         controller.getGamePane().getChildren().add(image);
     }
-    
 
     private void drawSpeedApple() {
         if (model.getSpeedApple() == null)
@@ -157,7 +151,7 @@ public class Snakeveiw extends Application {
     }
 
     private void drawBonusApples() {
-        Image applePng = new Image("recourses\\redApplePic.png");
+        Image applePng = new Image("recourses\\apple.png");
         for (Point apple : model.getBonusApples()) {
             ImageView image = new ImageView();
             image.setImage(applePng);
@@ -190,10 +184,9 @@ public class Snakeveiw extends Application {
     private void drawSnake() {
         for (Point point : model.getSnake()) {
 
-
             // DRAWS THE HEAD A DIFFERENT COLOR
             if (point.equals(model.getSnake().get(0))) {
-                Image snakeHead = new Image("recourses/snakeSprite/"+model.getBodyDirections().get(0)+"-head.png");
+                Image snakeHead = new Image("recourses/snakeSprite/" + model.getBodyDirections().get(0) + "-head.png");
                 ImageView image = new ImageView(snakeHead);
                 image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
                 image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
@@ -203,8 +196,9 @@ public class Snakeveiw extends Application {
                 image.setCache(true);
                 controller.getGamePane().getChildren().add(image);
 
-            } else if (point.equals(model.getSnake().get(model.getSnake().size()-1))) {
-                Image snakeTail = new Image("recourses/snakeSprite/"+model.getBodyDirections().get(model.getBodyDirections().size()-2)+"-tail.png");
+            } else if (point.equals(model.getSnake().get(model.getSnake().size() - 1))) {
+                Image snakeTail = new Image("recourses/snakeSprite/"
+                        + model.getBodyDirections().get(model.getBodyDirections().size() - 2) + "-tail.png");
                 ImageView image = new ImageView(snakeTail);
                 image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
                 image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
@@ -213,8 +207,10 @@ public class Snakeveiw extends Application {
                 image.setY(Math.floor(controller.getGamePane().getHeight() / n) * point.y);
                 image.setCache(true);
                 controller.getGamePane().getChildren().add(image);
-            } else{
-                Image snakeBody = new Image("recourses/snakeSprite/"+model.getBodyDirections().get(model.getSnake().indexOf(point))+model.getBodyDirections().get(model.getSnake().indexOf(point)-1)+"-body.png");
+            } else {
+                Image snakeBody = new Image(
+                        "recourses/snakeSprite/" + model.getBodyDirections().get(model.getSnake().indexOf(point))
+                                + model.getBodyDirections().get(model.getSnake().indexOf(point) - 1) + "-body.png");
                 ImageView image = new ImageView(snakeBody);
                 image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
                 image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
@@ -226,7 +222,7 @@ public class Snakeveiw extends Application {
             }
 
             // ADDS CURVES TO THE SEGMENTS
-         
+
         }
     }
 
