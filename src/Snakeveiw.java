@@ -143,7 +143,7 @@ public class Snakeveiw extends Application {
         if (model.getGoldenApple() == null)
             return;
 
-        Image goldenApplePng = new Image("recourses\\banana.png");
+        Image goldenApplePng = new Image("recourses\\star.png");
         ImageView image = new ImageView();
         image.setImage(goldenApplePng);
         image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
