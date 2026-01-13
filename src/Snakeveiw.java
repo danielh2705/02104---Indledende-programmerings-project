@@ -11,9 +11,10 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.scene.text.*;
 
 public class Snakeveiw extends Application {
@@ -55,6 +56,7 @@ public class Snakeveiw extends Application {
             // SHOWS THE SCENE AND CALLS UPDATE, SUCH THAT SNAKE AND APPLE IS DRAWN
             scoreLabel = controller.getScoreLabel();
             Scene scene = new Scene(root);
+            
             primaryStage.setScene(scene);
             primaryStage.show();
             controller.startGameLoop();
@@ -186,25 +188,45 @@ public class Snakeveiw extends Application {
     // DRAWS ALL THE SEGMENTS OF THE SNAKE
     // CHANGES THE SIZE DEPENDING ON THE GRID SPECEFIED WHEN PROGRAM IS RUN
     private void drawSnake() {
-        Random random = new Random();
         for (Point point : model.getSnake()) {
 
-            Rectangle rect = new Rectangle(Math.floor(controller.getGamePane().getWidth() / m),
-                    Math.floor(controller.getGamePane().getHeight() / n));
-            controller.getGamePane().getChildren().add(rect);
-            rect.setX(rect.getWidth() * point.x);
-            rect.setY(rect.getHeight() * point.y);
 
             // DRAWS THE HEAD A DIFFERENT COLOR
             if (point.equals(model.getSnake().get(0))) {
-                rect.setFill(javafx.scene.paint.Color.valueOf("#8B4513"));
-            } else {
-                rect.setFill(javafx.scene.paint.Color.valueOf("#D2B48C"));
+                Image snakeHead = new Image("recourses/snakeSprite/"+model.getBodyDirections().get(0)+"-head.png");
+                ImageView image = new ImageView(snakeHead);
+                image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
+                image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
+                image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * point.x);
+                image.setPreserveRatio(false);
+                image.setY(Math.floor(controller.getGamePane().getHeight() / n) * point.y);
+                image.setCache(true);
+                controller.getGamePane().getChildren().add(image);
+
+            } else if (point.equals(model.getSnake().get(model.getSnake().size()-1))) {
+                Image snakeTail = new Image("recourses/snakeSprite/"+model.getBodyDirections().get(model.getBodyDirections().size()-2)+"-tail.png");
+                ImageView image = new ImageView(snakeTail);
+                image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
+                image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
+                image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * point.x);
+                image.setPreserveRatio(false);
+                image.setY(Math.floor(controller.getGamePane().getHeight() / n) * point.y);
+                image.setCache(true);
+                controller.getGamePane().getChildren().add(image);
+            } else{
+                Image snakeBody = new Image("recourses/snakeSprite/"+model.getBodyDirections().get(model.getSnake().indexOf(point))+model.getBodyDirections().get(model.getSnake().indexOf(point)-1)+"-body.png");
+                ImageView image = new ImageView(snakeBody);
+                image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
+                image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
+                image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * point.x);
+                image.setPreserveRatio(false);
+                image.setY(Math.floor(controller.getGamePane().getHeight() / n) * point.y);
+                image.setCache(true);
+                controller.getGamePane().getChildren().add(image);
             }
 
             // ADDS CURVES TO THE SEGMENTS
-            rect.setArcWidth(30.0);
-            rect.setArcHeight(20.0);
+         
         }
     }
 

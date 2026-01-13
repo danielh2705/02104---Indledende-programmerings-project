@@ -291,4 +291,7 @@ public class Snakemodel {
     public void changeDirection(String newDirection){
         this.snake.changeDirection(newDirection);
     }
+     public ArrayList<String> getBodyDirections(){
+        return this.snake.getBodyDirections();
+    }
 }

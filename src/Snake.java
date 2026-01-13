@@ -6,11 +6,14 @@ public class Snake {
     private Point head;
     private Point tail;
     private ArrayList<Point> body;
+    private ArrayList<String> bodyDirections;
     private String direction;
+    private String previousTailDirection;
     private Point lastpositionPoint;
     private int x_size;
     private int y_size;
     private boolean canTurn = true;
+
     Snake(Point head, Point tail, int x_size, int y_size) {
         this.head = head;
         this.tail = tail;
@@ -18,6 +21,9 @@ public class Snake {
         this.body = new ArrayList<Point>();
         this.x_size = x_size;
         this.y_size = y_size;
+        this.bodyDirections = new  ArrayList<String>();
+        this.bodyDirections.add("LEFT");
+        this.bodyDirections.add("LEFT");
     }
 
     public Point getHeadPos() {
@@ -42,17 +48,20 @@ public class Snake {
 
     // SETS CURRENT DIRECTION
     public void setDirection(String direction) {
-        // THIS MAKES SURE TWO DIRECTION CHANGES DOES NOT COME IN BEFORE IT HAS MOVED WITH THE PREVIOUS ONE
+        // THIS MAKES SURE TWO DIRECTION CHANGES DOES NOT COME IN BEFORE IT HAS MOVED
+        // WITH THE PREVIOUS ONE
         // THIS IS TO STOP THE HEAD FROM MAKING A 180 AND KILLING ITSELF IMMEDIATELY
-        // COULD BE EXPADED WITH A "BUFFER" SYSTEM SO IT REMEMBERS OTHER KEY PRESSES FOR A SHORT WHILE TO IMPROVE GAME FEEL
-        if (this.canTurn == true){
+        // COULD BE EXPADED WITH A "BUFFER" SYSTEM SO IT REMEMBERS OTHER KEY PRESSES FOR
+        // A SHORT WHILE TO IMPROVE GAME FEEL
+        if (this.canTurn == true) {
             this.direction = direction;
             this.canTurn = false;
-        } 
+        }
     }
 
     // INCREASES THE SNAKES LENGTH BY 1
     public void grow() {
+        updateBodyDirections(this.previousTailDirection, true);
         this.body.addLast(this.tail);
         this.tail = this.lastpositionPoint;
         System.out.println(this.body.toString());
@@ -60,7 +69,7 @@ public class Snake {
 
     // TAKES "LEFT" "RIGHT" "UP" "DOWN" AS INPUTS
     public void move() {
-        
+        updateBodyDirections(this.direction, false);
         switch (this.direction) {
             case "UP":
                 // MOVES SNAKE IN THE UP DIRECTION IF NOT MOVING DOWN
@@ -125,8 +134,9 @@ public class Snake {
             default:
                 break;
         }
-        
+
     }
+
     // CHANGES DIRECTION OF SNAKE IF NOT 180 DEGREE TURN
     public void changeDirection(String newDirection) {
         switch (newDirection) {
@@ -155,10 +165,27 @@ public class Snake {
                 break;
         }
     }
+
+    private void updateBodyDirections(String direction, boolean growing) {
+        ArrayList<String> newBodyDirections = new ArrayList<String>(this.bodyDirections);
+        if (growing != true) {
+            this.previousTailDirection = newBodyDirections.getLast();
+            newBodyDirections.removeLast();
+            newBodyDirections.addFirst(direction);
+            this.bodyDirections = newBodyDirections;
+        } else{
+            newBodyDirections.addLast(this.previousTailDirection);
+            this.bodyDirections = newBodyDirections;
+        }
+    }
+
     public void shrink(int amount) {
         for (int i = 0; i < amount && body.size() > 1; i++) {
             body.remove(body.size() - 1);
         }
     }
 
+    public ArrayList<String> getBodyDirections(){
+        return this.bodyDirections;
+    }
 }
