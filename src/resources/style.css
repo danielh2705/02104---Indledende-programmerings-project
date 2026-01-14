@@ -1,0 +1,46 @@
+/* GENERAL BUTTON STYLE */
+.game-button {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+
+    -fx-background-radius: 8;
+    -fx-background-color: linear-gradient(#5a9cff, #3c6df0);
+
+    -fx-padding: 10 20 10 20;
+}
+
+.game-title {
+    -fx-font-size: 28px;
+    -fx-text-fill: white;
+}
+
+/* HOVER EFFECT */
+.game-button:hover {
+    -fx-background-color: linear-gradient(#6aaeff, #4c7dff);
+}
+
+/* PRESSED EFFECT */
+.game-button:pressed {
+    -fx-background-color: linear-gradient(#3c6df0, #2a56c6);
+}
+
+/* EXIT BUTTON VARIANT */
+.exit-button {
+    -fx-background-color: linear-gradient(#ff5a5a, #d43c3c);
+}
+
+.exit-button:hover {
+    -fx-background-color: linear-gradient(#ff6a6a, #e64c4c);
+}
+
+.game-over-overlay {
+    -fx-background-color: rgba(0, 0, 0, 0.65);
+    -fx-padding: 30;
+}
+
+.game-over-title {
+    -fx-font-size: 28px;
+    -fx-text-fill: white;
+}
+
