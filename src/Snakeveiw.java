@@ -1,6 +1,7 @@
 package src;
 
 import java.io.IOException;
+import java.sql.Time;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -24,6 +25,7 @@ public class Snakeveiw extends Application {
     private static int n;
     private static int m;
     private LoseController loseController;
+    private static double TILE_SIZE;
 
     @Override
     public void start(Stage primaryStage) {
@@ -49,10 +51,12 @@ public class Snakeveiw extends Application {
             // LOADS THE GUI FROM FXML FILE
             FXMLLoader loader = new FXMLLoader(getClass().getResource("gui.fxml"));
             Pane root = loader.load();
-
+            root.setPrefSize(20 + m * TILE_SIZE + 20, 60 + n * TILE_SIZE + 60);
             model = new Snakemodel(m, n);
             controller = (Snakecontroller) loader.getController();
             controller.setModelAndView(model, this);
+            controller.getGamePane().setPrefSize(m * TILE_SIZE, n * TILE_SIZE);
+            controller.getGamePane().setCenterShape(true);
             // SHOWS THE SCENE AND CALLS UPDATE, SUCH THAT SNAKE AND APPLE IS DRAWN
             scoreLabel = controller.getScoreLabel();
             Scene scene = new Scene(root);
@@ -77,7 +81,7 @@ public class Snakeveiw extends Application {
     // AND USES SIMPLE MATH TO PLACE IN THE MIDDLE OF A GRID SPACE
     private void drawApple() {
         Point apple = model.getApple();
-        Circle circ = new Circle((Math.floor(controller.getGamePane().getWidth() / n) / 2));
+        Circle circ = new Circle(TILE_SIZE / 2);
         circ.setCenterX(circ.getRadius() * 2 * apple.x + circ.getRadius());
         circ.setCenterY(circ.getRadius() * 2 * apple.y + circ.getRadius());
         controller.getGamePane().getChildren().add(circ);
@@ -90,8 +94,8 @@ public class Snakeveiw extends Application {
         Random random = new Random();
         for (Point point : model.getSnake()) {
 
-            Rectangle rect = new Rectangle(Math.floor(controller.getGamePane().getWidth() / m),
-                    Math.floor(controller.getGamePane().getHeight() / n));
+            Rectangle rect = new Rectangle(Math.floor(TILE_SIZE),
+                    Math.floor(TILE_SIZE));
             controller.getGamePane().getChildren().add(rect);
             rect.setX(rect.getWidth() * point.x);
             rect.setY(rect.getHeight() * point.y);
@@ -104,8 +108,8 @@ public class Snakeveiw extends Application {
             }
 
             // ADDS CURVES TO THE SEGMENTS
-            rect.setArcWidth(30.0);
-            rect.setArcHeight(20.0);
+            rect.setArcWidth(TILE_SIZE / 2);
+            rect.setArcHeight(TILE_SIZE / 2);
         }
     }
 
@@ -133,10 +137,11 @@ public class Snakeveiw extends Application {
         Stage stage = (Stage) button1.getScene().getWindow();
         stage.close();
     }
-    
+
     public static void main(String[] args) {
         m = Integer.parseInt(args[0]);
         n = Integer.parseInt(args[1]);
+        TILE_SIZE = 10;
         launch(args);
     }
 
