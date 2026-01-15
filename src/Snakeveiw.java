@@ -1,7 +1,6 @@
 package src;
 
 import java.io.IOException;
-import java.sql.Time;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -9,7 +8,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -31,23 +29,7 @@ public class Snakeveiw extends Application {
     public void start(Stage primaryStage) {
         // SCANNER INPUT FOR SIZE, NEEDS TO BE CHANGED FOR ARGS
         try {
-            Scanner console = new Scanner(System.in);
-            while (m < 5) {
-                System.out.print("Please enter a x value bigger than 5: ");
-                m = console.nextInt();
-                if (m >= 5) {
-                    break;
-                }
-            }
-            while (n < 5) {
-                System.out.print("Please enter a y value bigger than 5: ");
-                n = console.nextInt();
-                if (n >= 5) {
-                    break;
-                }
-            }
-            console.close();
-
+          
             // LOADS THE GUI FROM FXML FILE
             FXMLLoader loader = new FXMLLoader(getClass().getResource("gui.fxml"));
             Pane root = loader.load();
