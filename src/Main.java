@@ -5,13 +5,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import src.controller.Snakecontroller;
-import src.model.Snakemodel;
+import src.controller.SnakeController;
+import src.model.SnakeModel;
 import src.view.GameOverView;
 import src.view.HelpScreenView;
 import src.view.HighScoreView;
 import src.view.OptionsScreenView;
-import src.view.Snakeview;
+import src.view.SnakeView;
 import src.view.StartScreenView;
 
 public class Main extends Application {
@@ -26,10 +26,10 @@ public class Main extends Application {
                 heightDialog.setHeaderText("Enter board height");
                 int height = Integer.parseInt(heightDialog.showAndWait().orElse("20"));
 
-                Snakemodel model = new Snakemodel(height, width);
+                SnakeModel model = new SnakeModel(height, width);
 
                 StartScreenView startScreenView = new StartScreenView();
-                Snakeview snakeView = new Snakeview(model);
+                SnakeView snakeView = new SnakeView(model);
                 HighScoreView highScoreView = new HighScoreView();
                 HelpScreenView helpScreenView = new HelpScreenView();
                 OptionsScreenView optionsScreenView = new OptionsScreenView();
@@ -43,7 +43,7 @@ public class Main extends Application {
                         getClass().getResource("/src/resources/style.css").toExternalForm()
                 );
 
-                new Snakecontroller(scene, startScreenView, snakeView, highScoreView, helpScreenView, optionsScreenView, gameOverView, model);
+                new SnakeController(scene, startScreenView, snakeView, highScoreView, helpScreenView, optionsScreenView, gameOverView, model);
 
                 stage.setScene(scene);
                 stage.setTitle("Snake MVC");

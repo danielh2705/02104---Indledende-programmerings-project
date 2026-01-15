@@ -2,7 +2,7 @@ package src.model;
 
 import java.util.*;
 
-public class Snakemodel {
+public class SnakeModel {
     private int score;
     private Snake snake;
 
@@ -24,7 +24,7 @@ public class Snakemodel {
     public final int height;
     public final int width;
 
-    public Snakemodel(int h, int w) {
+    public SnakeModel(int h, int w) {
         this.height = h;
         this.width = w;
 
@@ -108,8 +108,13 @@ public class Snakemodel {
 
     public LinkedList<Point> occupiedPoint() {
         LinkedList<Point> occupiedPoint = new LinkedList<>();
-        occupiedPoint.addAll(snake.getSnake());
-        occupiedPoint.addAll(appleBasket);
+        for (Point part : snake.getSnake()) {
+            occupiedPoint.add(part);
+        }
+
+        for (Point applePoint : appleBasket) {
+            occupiedPoint.add(applePoint);
+        }
 
         // Only add non-null items
         if (poisonousApple != null)

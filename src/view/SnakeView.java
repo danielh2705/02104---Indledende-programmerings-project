@@ -1,7 +1,7 @@
 package src.view;
 
 import src.model.Point;
-import src.model.Snakemodel;
+import src.model.SnakeModel;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.*;
 import javafx.scene.paint.*;
@@ -10,11 +10,11 @@ import java.util.*;
 import javafx.scene.image.*;
 import src.model.Direction;
 
-public class Snakeview extends Canvas {
+public class SnakeView extends Canvas {
     private final GraphicsContext gc = getGraphicsContext2D();
-    private static final int TILE_SIZE = 15;
+    private static final int TILE_SIZE = 30;
 
-    public Snakeview(Snakemodel model) {
+    public SnakeView(SnakeModel model) {
         super(
                 model.getWidth() * TILE_SIZE,
                 model.getHeight() * TILE_SIZE);
@@ -25,7 +25,7 @@ public class Snakeview extends Canvas {
         setVisible(false);
     }
 
-    public void render(Snakemodel model) {
+    public void render(SnakeModel model) {
         gc.setFill(Color.valueOf("#55c244"));
         gc.fillRect(0, 0, getWidth(), getHeight());
 
@@ -49,7 +49,7 @@ public class Snakeview extends Canvas {
         return new Image("file:src/resources/" + fileName);
     }
 
-    private void drawSnake(Snakemodel model) {
+    private void drawSnake(SnakeModel model) {
         List<Point> snake = model.sendSnake();
         List<Direction> directions = model.sendBodyDirections();
 
@@ -84,7 +84,7 @@ public class Snakeview extends Canvas {
         }
     }
 
-    private void drawApple(Snakemodel model) {
+    private void drawApple(SnakeModel model) {
         List<Point> appleBasket = model.getAppleBasket();
         if (appleBasket == null)
             return;
@@ -94,7 +94,7 @@ public class Snakeview extends Canvas {
         }
     }
 
-    private void drawPoisonousApple(Snakemodel model) {
+    private void drawPoisonousApple(SnakeModel model) {
         Point poisonousApple = model.getPoisonousApple();
         if (poisonousApple == null)
             return;
@@ -103,7 +103,7 @@ public class Snakeview extends Canvas {
         gc.drawImage(sprite, poisonousApple.x() * TILE_SIZE, poisonousApple.y() * TILE_SIZE, TILE_SIZE, TILE_SIZE);
     }
 
-    private void drawBomb(Snakemodel model) {
+    private void drawBomb(SnakeModel model) {
         Point bomb = model.getBomb();
         if (bomb == null)
             return;
@@ -111,7 +111,7 @@ public class Snakeview extends Canvas {
         gc.drawImage(sprite, bomb.x() * TILE_SIZE, bomb.y() * TILE_SIZE, TILE_SIZE, TILE_SIZE);
     }
 
-    private void drawCoconut(Snakemodel model) {
+    private void drawCoconut(SnakeModel model) {
         Point coconut = model.getCoconut();
         if (coconut == null)
             return;
@@ -119,7 +119,7 @@ public class Snakeview extends Canvas {
         gc.drawImage(sprite, coconut.x() * TILE_SIZE, coconut.y() * TILE_SIZE, TILE_SIZE, TILE_SIZE);
     }
 
-    private void drawStar(Snakemodel model) {
+    private void drawStar(SnakeModel model) {
         Point star = model.getStar();
         if (star == null)
             return;
@@ -127,7 +127,7 @@ public class Snakeview extends Canvas {
         gc.drawImage(sprite, star.x() * TILE_SIZE, star.y() * TILE_SIZE, TILE_SIZE, TILE_SIZE);
     }
 
-    private void drawMushroom(Snakemodel model) {
+    private void drawMushroom(SnakeModel model) {
         Point mushroom = model.getMushroom();
         if (mushroom == null)
             return;

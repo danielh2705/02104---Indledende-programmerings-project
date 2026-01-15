@@ -3,12 +3,12 @@ package src.controller;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.util.*;
-import src.model.Snakemodel;
+import src.model.SnakeModel;
 import src.view.GameOverView;
 import src.view.HelpScreenView;
 import src.view.HighScoreView;
 import src.view.OptionsScreenView;
-import src.view.Snakeview;
+import src.view.SnakeView;
 import src.view.StartScreenView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.Scene;
@@ -18,29 +18,29 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Snakecontroller {
+public class SnakeController {
     private StartScreenView startScreenView;
-    private Snakeview snakeView;
+    private SnakeView snakeView;
     private HighScoreView highScoreView;
     private HelpScreenView helpScreenView;
     private OptionsScreenView optionsScreenView;
     private GameOverView gameOverView;
 
-    private Snakemodel model;
+    private SnakeModel model;
 
     private boolean canTurn;
     private boolean funkyControls;
 
     private Timeline timeline;
 
-    public Snakecontroller(Scene scene,
+    public SnakeController(Scene scene,
             StartScreenView startScreenView,
-            Snakeview snakeView,
+            SnakeView snakeView,
             HighScoreView highScoreView,
             HelpScreenView helpScreenView,
             OptionsScreenView optionsScreenView,
             GameOverView gameOverView,
-            Snakemodel model) {
+            SnakeModel model) {
         this.startScreenView = startScreenView;
         this.snakeView = snakeView;
         this.highScoreView = highScoreView;
