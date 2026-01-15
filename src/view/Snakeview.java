@@ -1,13 +1,14 @@
 package src.view;
 
-import javafx.scene.control.Button;
-import javafx.stage.Stage;
 import src.model.Point;
 import src.model.Snakemodel;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.*;
 import javafx.scene.paint.*;
 import javafx.scene.text.TextAlignment;
+import java.util.*;
+import javafx.scene.image.*;
+import src.model.Direction;
 
 public class Snakeview extends Canvas {
     private final GraphicsContext gc = getGraphicsContext2D();
@@ -31,82 +32,106 @@ public class Snakeview extends Canvas {
         gc.setFill(Color.BLACK);
         gc.fillText("" + model.getScore() + "", getWidth() / 6, getHeight() / 6);
 
-        drawApple(model);
         drawSnake(model);
+        drawApple(model);
+        drawPoisonousApple(model);
+        drawBomb(model);
+        drawCoconut(model);
+        drawStar(model);
+        drawMushroom(model);
     }
 
-    // DRAWS THE APPLE WITH CIRCLE FROM JAVAFX
-    // GETS THE POSITION FROM MODEL
-    // AND USES SIMPLE MATH TO PLACE IN THE MIDDLE OF A GRID SPACE
-    private void drawApple(Snakemodel model) {
-        gc.setFill(Color.RED);
-        Point apple = model.getApple();
-        gc.fillOval(apple.x() * TILE_SIZE, apple.y() * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+    private Image getSnakeSprite(String fileName) {
+        return new Image("file:src/resources/snakeSprite/" + fileName);
     }
 
-    // DRAWS ALL THE SEGMENTS OF THE SNAKE
-    // CHANGES THE SIZE DEPENDING ON THE GRID SPECEFIED WHEN PROGRAM IS RUN
+    private Image getSprite(String fileName) {
+        return new Image("file:src/resources/" + fileName);
+    }
+
     private void drawSnake(Snakemodel model) {
+        List<Point> snake = model.sendSnake();
+        List<Direction> directions = model.sendBodyDirections();
 
-        for (Point p : model.sendSnake()) {
-            if (p.equals(model.sendSnake().getFirst())) {
-                gc.setFill(Color.valueOf("#8B4513"));
-            } else {
-                gc.setFill(Color.valueOf("#D2B48C"));
+        if (snake.isEmpty())
+            return;
+
+        for (int i = 0; i < snake.size(); i++) {
+            Point p = snake.get(i);
+            Image sprite;
+
+            // HEAD
+            if (i == 0) {
+                sprite = getSnakeSprite(directions.get(0).name() + "-head.png");
             }
-            gc.fillRoundRect(p.x() * TILE_SIZE, p.y() * TILE_SIZE, TILE_SIZE, TILE_SIZE, TILE_SIZE / 2,  TILE_SIZE / 2);
-        }
+            // TAIL
+            else if (i == snake.size() - 1) {
+                sprite = getSnakeSprite(directions.get(i - 1).name() + "-tail.png");
+            }
+            // BODY
+            else {
+                String from = directions.get(i).name();
+                String to = directions.get(i - 1).name();
+                sprite = getSnakeSprite(from + to + "-body.png");
+            }
 
-        /*
-         * for (Point point : model.getSnake()) {
-         * 
-         * Rectangle rect = new Rectangle(Math.floor(controller.getGamePane().getWidth()
-         * / m),
-         * Math.floor(controller.getGamePane().getHeight() / n));
-         * controller.getGamePane().getChildren().add(rect);
-         * rect.setX(rect.getWidth() * point.x);
-         * rect.setY(rect.getHeight() * point.y);
-         * 
-         * // DRAWS THE HEAD A DIFFERENT COLOR
-         * if (point.equals(model.getSnake().get(0))) {
-         * rect.setFill(javafx.scene.paint.Color.PURPLE);
-         * } else {
-         * rect.setFill(javafx.scene.paint.Color.BLUEVIOLET);
-         * }
-         * 
-         * // ADDS CURVES TO THE SEGMENTS
-         * rect.setArcWidth(30.0);
-         * rect.setArcHeight(20.0);
-         * }
-         */
+            gc.drawImage(
+                    sprite,
+                    p.x() * TILE_SIZE,
+                    p.y() * TILE_SIZE,
+                    TILE_SIZE,
+                    TILE_SIZE);
+        }
     }
 
-    /*
-     * // UPDATES SCORE LABEL ON UI
-     * private void updateScore() {
-     * scoreLabel.setText("Score: " + model.getScore());
-     * }
-     */
+    private void drawApple(Snakemodel model) {
+        List<Point> appleBasket = model.getAppleBasket();
+        if (appleBasket == null)
+            return;
+        Image sprite = getSprite("apple.png");
+        for (Point apple : appleBasket) {
+            gc.drawImage(sprite, apple.x() * TILE_SIZE, apple.y() * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        }
+    }
 
-    /*
-     * // CREATES THE GAME OVER POPUP AND CLOSES THE GAME ITSELF
-     * public void switchToLoseScreen(int score) throws IOException {
-     * FXMLLoader loader = new FXMLLoader(getClass().getResource("losepopup.fxml"));
-     * Pane root = loader.load();
-     * loseController = loader.getController();
-     * loseController.getHighscoreLabel().setText("Score: " + score);
-     * Scene scene = new Scene(root);
-     * Stage stage = new Stage();
-     * stage.setScene(scene);
-     * stage.show();
-     * // CLOSES OLD GAME
-     * exit(controller.getButton1());
-     * }
-     */
+    private void drawPoisonousApple(Snakemodel model) {
+        Point poisonousApple = model.getPoisonousApple();
+        if (poisonousApple == null)
+            return;
 
-    // OUTDATED FUNCTION THAT CLOSES THE APPLICATION
-    public void exit(Button button1) {
-        Stage stage = (Stage) button1.getScene().getWindow();
-        stage.close();
+        Image sprite = getSprite("poisonApple.png");
+        gc.drawImage(sprite, poisonousApple.x() * TILE_SIZE, poisonousApple.y() * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+    }
+
+    private void drawBomb(Snakemodel model) {
+        Point bomb = model.getBomb();
+        if (bomb == null)
+            return;
+        Image sprite = getSprite("bomb.png");
+        gc.drawImage(sprite, bomb.x() * TILE_SIZE, bomb.y() * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+    }
+
+    private void drawCoconut(Snakemodel model) {
+        Point coconut = model.getCoconut();
+        if (coconut == null)
+            return;
+        Image sprite = getSprite("coconut.png");
+        gc.drawImage(sprite, coconut.x() * TILE_SIZE, coconut.y() * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+    }
+
+    private void drawStar(Snakemodel model) {
+        Point star = model.getStar();
+        if (star == null)
+            return;
+        Image sprite = getSprite("star.png");
+        gc.drawImage(sprite, star.x() * TILE_SIZE, star.y() * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+    }
+
+    private void drawMushroom(Snakemodel model) {
+        Point mushroom = model.getMushroom();
+        if (mushroom == null)
+            return;
+        Image sprite = getSprite("brownMushroom.png");
+        gc.drawImage(sprite, mushroom.x() * TILE_SIZE, mushroom.y() * TILE_SIZE, TILE_SIZE, TILE_SIZE);
     }
 }

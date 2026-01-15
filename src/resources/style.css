@@ -44,3 +44,8 @@
     -fx-text-fill: white;
 }
 
+.score-entry {
+    -fx-font-size: 20px;
+    -fx-text-fill: white;
+}
+

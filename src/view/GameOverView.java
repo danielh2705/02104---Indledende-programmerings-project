@@ -20,7 +20,7 @@ public class GameOverView extends VBox {
         exitButton.getStyleClass().add("exit-button");
 
         Label title = new Label("Game Over");
-        title.setStyle("-fx-font-size: 24px; -fx-text-fill: white;");
+        title.getStyleClass().add("game-title");
 
         getChildren().addAll(title, restartButton, exitButton);
         setVisible(false); // hidden by default

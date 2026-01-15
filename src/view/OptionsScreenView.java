@@ -18,7 +18,7 @@ public class OptionsScreenView extends VBox {
         backButton.getStyleClass().add("exit-button");
 
         Label title = new Label("Highscore");
-        title.setStyle("-fx-font-size: 24px; -fx-text-fill: white;");
+        title.getStyleClass().add("game-title");
 
         getChildren().addAll(title, backButton);
         setVisible(false); // hidden by default

@@ -8,7 +8,7 @@ import javafx.scene.layout.VBox;
 public class StartScreenView extends VBox {
 
     private final Button playButton = new Button("Play");
-    private final Button highscoreButton = new Button("Highscoore");
+    private final Button highscoreButton = new Button("Highscore");
     private final Button optionsButton = new Button("Options");
     private final Button helpButton = new Button("Help");
     private final Button exitButton = new Button("Exit");
@@ -26,14 +26,13 @@ public class StartScreenView extends VBox {
 
         optionsButton.getStyleClass().add("game-button");
 
-
         exitButton.getStyleClass().add("game-button");
         exitButton.getStyleClass().add("exit-button");
 
         Label title = new Label("Snake");
         title.getStyleClass().add("game-title");
 
-        getChildren().addAll(title, playButton, highscoreButton, optionsButton, helpButton, exitButton);
+        getChildren().addAll(title, playButton, highscoreButton, helpButton, optionsButton, exitButton);
         setVisible(true);
     }
 
