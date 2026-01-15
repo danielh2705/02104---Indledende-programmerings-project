@@ -25,7 +25,7 @@ public class Snakeveiw extends Application {
     private static int n;
     private static int m;
     private LoseController loseController;
-    private static double TILE_SIZE;
+    private static double TILE_SIZE = 15;
 
     @Override
     public void start(Stage primaryStage) {
@@ -141,7 +141,7 @@ public class Snakeveiw extends Application {
     public static void main(String[] args) {
         m = Integer.parseInt(args[0]);
         n = Integer.parseInt(args[1]);
-        TILE_SIZE = 10;
+        TILE_SIZE=(1000/Math.sqrt(m*n));
         launch(args);
     }
 
