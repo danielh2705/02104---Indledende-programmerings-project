@@ -7,16 +7,16 @@ public class Snakemodel {
     private int score;
     private Snake snake;
     private Point apple;
-    private int x_size;
-    private int y_size;
+    private int xSize;
+    private int ySize;
 
     public Snakemodel(int m, int n) {
         this.score = 0;
-        this.x_size = m;
-        this.y_size = n;
+        this.xSize = m;
+        this.ySize = n;
         // MAKES A SNAKE THAT IS IN THE MIDDLE TWO POINTS OF THE GRID FACING LEFT
-        this.snake = new Snake(new Point((int) Math.floor(x_size / 2), (int) Math.floor(y_size / 2)),
-                new Point((int) Math.floor(x_size / 2) + 1, (int) Math.floor(y_size / 2)), m, n);
+        this.snake = new Snake(new Point((int) Math.floor(xSize / 2), (int) Math.floor(ySize / 2)),
+                new Point((int) Math.floor(xSize / 2) + 1, (int) Math.floor(ySize / 2)), m, n);
         spawnApple();
     }
 
@@ -24,8 +24,8 @@ public class Snakemodel {
         Random random = new Random();
         // GETS EVERY POSSIBLE POINT IN THE GRID
         ArrayList<Point> availableSpawnPoints = new ArrayList<Point>();
-        for (int i = 0; i < x_size; i++) {
-            for (int j = 0; j < y_size; j++) {
+        for (int i = 0; i < xSize; i++) {
+            for (int j = 0; j < ySize; j++) {
                 availableSpawnPoints.add(new Point(i, j));
             }
         }
@@ -80,11 +80,11 @@ public class Snakemodel {
 
     // RETURNS HORIZONTAL LENGTH OF GRID, SPECIFIED BY USER
     public int getXSize() {
-        return this.x_size;
+        return this.xSize;
     }
 
     // RETURNS VERTICAL LENGTH OF GRID, SPECIFIED BY USER
     public int getYSize() {
-        return this.y_size;
+        return this.ySize;
     }
 }
