@@ -55,6 +55,7 @@ public class Snakecontroller {
         timeline = new Timeline(
                 new KeyFrame(Duration.millis(150), e -> {
                     model.moveSnake();
+                    model.snakeCanTurn();
                     if (model.getBomb() != null && model.getSnake().get(0).equals(model.getBomb())) {
                         looseGame();
                         return;

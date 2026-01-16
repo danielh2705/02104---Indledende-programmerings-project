@@ -12,7 +12,7 @@ public class Snake {
     private Point lastpositionPoint;
     private int x_size;
     private int y_size;
-    private boolean canTurn = true;
+    private boolean canTurn;
 
     Snake(Point head, Point tail, int x_size, int y_size) {
         this.head = head;
@@ -21,9 +21,10 @@ public class Snake {
         this.body = new ArrayList<Point>();
         this.x_size = x_size;
         this.y_size = y_size;
-        this.bodyDirections = new  ArrayList<String>();
+        this.bodyDirections = new ArrayList<String>();
         this.bodyDirections.add("LEFT");
         this.bodyDirections.add("LEFT");
+        this.canTurn = true;
     }
 
     public Point getHeadPos() {
@@ -86,7 +87,6 @@ public class Snake {
                     this.tail = this.body.getLast();
                     this.body.remove(this.body.size() - 1);
                     this.direction = "UP";
-                    this.canTurn = true;
                 }
                 break;
             case "LEFT":
@@ -100,7 +100,6 @@ public class Snake {
                     this.tail = this.body.getLast();
                     this.body.remove(this.body.size() - 1);
                     this.direction = "LEFT";
-                    this.canTurn = true;
                 }
                 break;
             case "RIGHT":
@@ -114,7 +113,6 @@ public class Snake {
                     this.tail = this.body.getLast();
                     this.body.remove(this.body.size() - 1);
                     this.direction = "RIGHT";
-                    this.canTurn = true;
                 }
                 break;
             case "DOWN":
@@ -141,23 +139,27 @@ public class Snake {
     public void changeDirection(String newDirection) {
         switch (newDirection) {
             case "LEFT":
-                if (this.direction != "RIGHT") {
+                if (this.direction != "RIGHT" && canTurn) {
                     this.direction = "LEFT";
+                    canTurn = false;
                 }
                 break;
             case "RIGHT":
-                if (this.direction != "LEFT") {
+                if (this.direction != "LEFT" && canTurn) {
                     this.direction = "RIGHT";
+                    canTurn = false;
                 }
                 break;
             case "UP":
-                if (this.direction != "DOWN") {
+                if (this.direction != "DOWN" && canTurn) {
                     this.direction = "UP";
+                    canTurn = false;
                 }
                 break;
             case "DOWN":
-                if (this.direction != "UP") {
+                if (this.direction != "UP" && canTurn) {
                     this.direction = "DOWN";
+                    canTurn = false;
                 }
                 break;
 
@@ -173,7 +175,7 @@ public class Snake {
             newBodyDirections.removeLast();
             newBodyDirections.addFirst(direction);
             this.bodyDirections = newBodyDirections;
-        } else{
+        } else {
             newBodyDirections.addLast(this.previousTailDirection);
             this.bodyDirections = newBodyDirections;
         }
@@ -185,7 +187,11 @@ public class Snake {
         }
     }
 
-    public ArrayList<String> getBodyDirections(){
+    public ArrayList<String> getBodyDirections() {
         return this.bodyDirections;
+    }
+
+    public void canTurn() {
+        canTurn = true;
     }
 }

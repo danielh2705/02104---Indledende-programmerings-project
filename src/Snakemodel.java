@@ -49,8 +49,6 @@ public class Snakemodel {
         this.apple = availableSpawnPoints.get(random.nextInt(0, availableSpawnPoints.size() - 1));
     }
 
-
-
     // CALLED IF THE APPLE IS EATEN
     public void consumedApple() {
         this.snake.grow();
@@ -73,11 +71,10 @@ public class Snakemodel {
         }
 
         this.badApple = availableSpawnPoints.get(
-            random.nextInt(0, availableSpawnPoints.size() - 1)
-        );
+                random.nextInt(0, availableSpawnPoints.size() - 1));
     }
 
-    public void spawnBomb(){
+    public void spawnBomb() {
         Random random = new Random();
 
         ArrayList<Point> availableSpawnPoints = new ArrayList<Point>();
@@ -91,18 +88,19 @@ public class Snakemodel {
         }
 
         // don't spawn on apple/bad apple
-        if (apple != null) availableSpawnPoints.remove(apple);
-        if (badApple != null) availableSpawnPoints.remove(badApple);
-        if (bomb != null) availableSpawnPoints.remove(bomb);            //don't respawn in the same spot
-
+        if (apple != null)
+            availableSpawnPoints.remove(apple);
+        if (badApple != null)
+            availableSpawnPoints.remove(badApple);
+        if (bomb != null)
+            availableSpawnPoints.remove(bomb); // don't respawn in the same spot
 
         this.bomb = availableSpawnPoints.get(
-            random.nextInt(0, availableSpawnPoints.size() - 1)
-        );
+                random.nextInt(0, availableSpawnPoints.size() - 1));
     }
 
-    public void spawnSpeedApple(){
-        Random random = new Random(); 
+    public void spawnSpeedApple() {
+        Random random = new Random();
         ArrayList<Point> availableSpawnPoints = new ArrayList<Point>();
         for (int i = 0; i < x_size; i++) {
             for (int j = 0; j < y_size; j++) {
@@ -112,18 +110,22 @@ public class Snakemodel {
         for (Point bodyPart : snake.getSnake()) {
             availableSpawnPoints.remove(bodyPart);
         }
-        
+
         // don't spawn on apple/bad apple
-        if (apple != null) availableSpawnPoints.remove(apple);
-        if (badApple != null) availableSpawnPoints.remove(badApple);
-        if (bomb != null) availableSpawnPoints.remove(bomb);            //don't respawn in the same spot
-        if (availableSpawnPoints.isEmpty()) return;
+        if (apple != null)
+            availableSpawnPoints.remove(apple);
+        if (badApple != null)
+            availableSpawnPoints.remove(badApple);
+        if (bomb != null)
+            availableSpawnPoints.remove(bomb); // don't respawn in the same spot
+        if (availableSpawnPoints.isEmpty())
+            return;
 
         speedApple = availableSpawnPoints.get(random.nextInt(availableSpawnPoints.size()));
     }
 
-    public void spawnGoldenApple(){
-        Random random = new Random(); 
+    public void spawnGoldenApple() {
+        Random random = new Random();
         ArrayList<Point> availableSpawnPoints = new ArrayList<Point>();
         for (int i = 0; i < x_size; i++) {
             for (int j = 0; j < y_size; j++) {
@@ -133,18 +135,25 @@ public class Snakemodel {
         for (Point bodyPart : snake.getSnake()) {
             availableSpawnPoints.remove(bodyPart);
         }
-        
-        // don't spawn on apple/bad apple
-        if (apple != null) availableSpawnPoints.remove(apple);
-        if (badApple != null) availableSpawnPoints.remove(badApple);
-        if (bomb != null) availableSpawnPoints.remove(bomb);            //don't respawn in the same spot
-        if (speedApple != null) availableSpawnPoints.remove(speedApple); 
-        for (Point p : bonusApples) availableSpawnPoints.remove(p);
 
-        if (availableSpawnPoints.isEmpty()) return;
+        // don't spawn on apple/bad apple
+        if (apple != null)
+            availableSpawnPoints.remove(apple);
+        if (badApple != null)
+            availableSpawnPoints.remove(badApple);
+        if (bomb != null)
+            availableSpawnPoints.remove(bomb); // don't respawn in the same spot
+        if (speedApple != null)
+            availableSpawnPoints.remove(speedApple);
+        for (Point p : bonusApples)
+            availableSpawnPoints.remove(p);
+
+        if (availableSpawnPoints.isEmpty())
+            return;
 
         goldenApple = availableSpawnPoints.get(random.nextInt(availableSpawnPoints.size()));
     }
+
     public void spawnBonusApples(int count) {
         Random random = new Random();
         bonusApples.clear();
@@ -160,17 +169,23 @@ public class Snakemodel {
             available.remove(bodyPart);
         }
 
-        if (apple != null) available.remove(apple);
-        if (badApple != null) available.remove(badApple);
-        if (bomb != null) available.remove(bomb);
-        if (speedApple != null) available.remove(speedApple);
-        if (goldenApple != null) available.remove(goldenApple);
+        if (apple != null)
+            available.remove(apple);
+        if (badApple != null)
+            available.remove(badApple);
+        if (bomb != null)
+            available.remove(bomb);
+        if (speedApple != null)
+            available.remove(speedApple);
+        if (goldenApple != null)
+            available.remove(goldenApple);
 
         for (int i = 0; i < count && !available.isEmpty(); i++) {
             Point p = available.remove(random.nextInt(available.size()));
             bonusApples.add(p);
         }
     }
+
     public void spawnFunkyApple() {
         Random random = new Random();
         ArrayList<Point> available = new ArrayList<>();
@@ -185,33 +200,37 @@ public class Snakemodel {
             available.remove(bodyPart);
         }
 
-        if (apple != null) available.remove(apple);
-        if (badApple != null) available.remove(badApple);
-        if (bomb != null) available.remove(bomb);
-        if (speedApple != null) available.remove(speedApple);
-        if (goldenApple != null) available.remove(goldenApple);
+        if (apple != null)
+            available.remove(apple);
+        if (badApple != null)
+            available.remove(badApple);
+        if (bomb != null)
+            available.remove(bomb);
+        if (speedApple != null)
+            available.remove(speedApple);
+        if (goldenApple != null)
+            available.remove(goldenApple);
 
-        if (available.isEmpty()) return;
+        if (available.isEmpty())
+            return;
 
         funkyApple = available.get(random.nextInt(available.size()));
     }
-
-
 
     // RETURNS THE FULL SNAKE, HEAD AND TAIL INCLUDED IN AN ARRAYLIST
     public ArrayList<Point> getSnake() {
         return this.snake.getSnake();
     }
+
     public Snake getSnakeObject() {
         return this.snake;
     }
-
 
     // GETS THE POSITION OF THE APPLE
     public Point getApple() {
         return this.apple;
     }
-    
+
     public Point getBadApple() {
         return this.badApple;
     }
@@ -220,28 +239,30 @@ public class Snakemodel {
         this.badApple = null;
     }
 
-    public Point getBomb(){
-        return this.bomb; 
+    public Point getBomb() {
+        return this.bomb;
     }
 
-    public void consumedBomb(){
+    public void consumedBomb() {
         this.bomb = null;
     }
 
-    public Point getSpeedApple(){
+    public Point getSpeedApple() {
         return speedApple;
     }
 
-    public void consumedSpeedApple(){
+    public void consumedSpeedApple() {
         speedApple = null;
     }
 
-    public Point getGoldenApple(){
+    public Point getGoldenApple() {
         return goldenApple;
     }
-    public void consumedGoldenApple(){
+
+    public void consumedGoldenApple() {
         this.goldenApple = null;
     }
+
     public ArrayList<Point> getBonusApples() {
         return bonusApples;
     }
@@ -262,6 +283,11 @@ public class Snakemodel {
     public void moveSnake() {
         this.snake.move();
     }
+
+    public void snakeCanTurn() {
+        snake.canTurn();
+    }
+
 
     public int getScore() {
         return this.score;
@@ -285,13 +311,16 @@ public class Snakemodel {
     public int getYSize() {
         return this.y_size;
     }
-    public String getDirection(){
+
+    public String getDirection() {
         return this.snake.getDirection();
     }
-    public void changeDirection(String newDirection){
+
+    public void changeDirection(String newDirection) {
         this.snake.changeDirection(newDirection);
     }
-     public ArrayList<String> getBodyDirections(){
+
+    public ArrayList<String> getBodyDirections() {
         return this.snake.getBodyDirections();
     }
 }
