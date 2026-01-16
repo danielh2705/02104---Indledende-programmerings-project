@@ -19,6 +19,8 @@ public class Snakeveiw extends Application {
     private int n;
     private int m;
     private LoseController loseController;
+    private static double TILE_SIZE = 15;
+
 
     @Override
     public void start(Stage primaryStage) {
@@ -44,10 +46,12 @@ public class Snakeveiw extends Application {
             // LOADS THE GUI FROM FXML FILE
             FXMLLoader loader = new FXMLLoader(getClass().getResource("gui.fxml"));
             Pane root = loader.load();
-
+            root.setPrefSize(20+TILE_SIZE*m+20, 50+TILE_SIZE*n+20);
             model = new Snakemodel(m, n);
             controller = (Snakecontroller) loader.getController();
             controller.setModelAndView(model, this);
+            controller.getGamePane().setPrefSize(m * TILE_SIZE, n * TILE_SIZE);
+            controller.getGamePane().setCenterShape(true);
             // SHOWS THE SCENE AND CALLS UPDATE, SUCH THAT SNAKE AND APPLE IS DRAWN
             scoreLabel = controller.getScoreLabel();
             Scene scene = new Scene(root);
@@ -82,11 +86,11 @@ public class Snakeveiw extends Application {
         Image applePng = new Image("recourses\\apple.png");
         ImageView image = new ImageView();
         image.setImage(applePng);
-        image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
-        image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
-        image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * apple.x);
+        image.setFitWidth(TILE_SIZE);
+        image.setFitHeight(TILE_SIZE);
+        image.setX(TILE_SIZE * apple.x);
         image.setPreserveRatio(false);
-        image.setY(Math.floor(controller.getGamePane().getHeight() / n) * apple.y);
+        image.setY(TILE_SIZE * apple.y);
         controller.getGamePane().getChildren().add(image);
     }
 
@@ -97,11 +101,11 @@ public class Snakeveiw extends Application {
         Image badApplePng = new Image("recourses\\poisonApple.png");
         ImageView image = new ImageView();
         image.setImage(badApplePng);
-        image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
-        image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
-        image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * model.getBadApple().x);
+        image.setFitWidth(TILE_SIZE);
+        image.setFitHeight(TILE_SIZE);
+        image.setX(TILE_SIZE * model.getBadApple().x);
         image.setPreserveRatio(false);
-        image.setY(Math.floor(controller.getGamePane().getHeight() / n) * model.getBadApple().y);
+        image.setY(TILE_SIZE * model.getBadApple().y);
         controller.getGamePane().getChildren().add(image);
     }
 
@@ -112,11 +116,11 @@ public class Snakeveiw extends Application {
         Image bombPng = new Image("recourses\\bomb.png");
         ImageView image = new ImageView();
         image.setImage(bombPng);
-        image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
-        image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
-        image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * model.getBomb().x);
+        image.setFitWidth(TILE_SIZE);
+        image.setFitHeight(TILE_SIZE);
+        image.setX(TILE_SIZE * model.getBomb().x);
         image.setPreserveRatio(false);
-        image.setY(Math.floor(controller.getGamePane().getHeight() / n) * model.getBomb().y);
+        image.setY(TILE_SIZE * model.getBomb().y);
         controller.getGamePane().getChildren().add(image);
     }
 
@@ -127,11 +131,11 @@ public class Snakeveiw extends Application {
         Image speedApplePng = new Image("recourses\\coconut.png");
         ImageView image = new ImageView();
         image.setImage(speedApplePng);
-        image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
-        image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
-        image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * model.getSpeedApple().x);
+        image.setFitWidth(TILE_SIZE);
+        image.setFitHeight(TILE_SIZE);
+        image.setX(TILE_SIZE * model.getSpeedApple().x);
         image.setPreserveRatio(false);
-        image.setY(Math.floor(controller.getGamePane().getHeight() / n) * model.getSpeedApple().y);
+        image.setY(TILE_SIZE * model.getSpeedApple().y);
         controller.getGamePane().getChildren().add(image);
     }
 
@@ -142,11 +146,11 @@ public class Snakeveiw extends Application {
         Image goldenApplePng = new Image("recourses\\star.png");
         ImageView image = new ImageView();
         image.setImage(goldenApplePng);
-        image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
-        image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
-        image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * model.getGoldenApple().x);
+        image.setFitWidth(TILE_SIZE);
+        image.setFitHeight(TILE_SIZE);
+        image.setX(TILE_SIZE * model.getGoldenApple().x);
         image.setPreserveRatio(false);
-        image.setY(Math.floor(controller.getGamePane().getHeight() / n) * model.getGoldenApple().y);
+        image.setY(TILE_SIZE * model.getGoldenApple().y);
         controller.getGamePane().getChildren().add(image);
     }
 
@@ -155,11 +159,11 @@ public class Snakeveiw extends Application {
         for (Point apple : model.getBonusApples()) {
             ImageView image = new ImageView();
             image.setImage(applePng);
-            image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
-            image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
-            image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * apple.x);
+            image.setFitWidth(TILE_SIZE);
+            image.setFitHeight(TILE_SIZE);
+            image.setX(TILE_SIZE * apple.x);
             image.setPreserveRatio(false);
-            image.setY(Math.floor(controller.getGamePane().getHeight() / n) * apple.y);
+            image.setY(TILE_SIZE * apple.y);
             controller.getGamePane().getChildren().add(image);
         }
     }
@@ -171,11 +175,11 @@ public class Snakeveiw extends Application {
         Image funkyApplePng = new Image("recourses\\brownMushroom.png");
         ImageView image = new ImageView();
         image.setImage(funkyApplePng);
-        image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
-        image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
-        image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * model.getFunkyApple().x);
+        image.setFitWidth(TILE_SIZE);
+        image.setFitHeight(TILE_SIZE);
+        image.setX(TILE_SIZE * model.getFunkyApple().x);
         image.setPreserveRatio(false);
-        image.setY(Math.floor(controller.getGamePane().getHeight() / n) * model.getFunkyApple().y);
+        image.setY(TILE_SIZE * model.getFunkyApple().y);
         controller.getGamePane().getChildren().add(image);
     }
 
@@ -188,11 +192,11 @@ public class Snakeveiw extends Application {
             if (point.equals(model.getSnake().get(0))) {
                 Image snakeHead = new Image("recourses/snakeSprite/" + model.getBodyDirections().get(0) + "-head.png");
                 ImageView image = new ImageView(snakeHead);
-                image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
-                image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
-                image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * point.x);
+                  image.setFitWidth(TILE_SIZE);
+                image.setFitHeight(TILE_SIZE);
+                image.setX((Math.floor(TILE_SIZE * point.x)));
                 image.setPreserveRatio(false);
-                image.setY(Math.floor(controller.getGamePane().getHeight() / n) * point.y);
+                image.setY(Math.floor(TILE_SIZE * point.y));
                 image.setCache(true);
                 controller.getGamePane().getChildren().add(image);
 
@@ -200,11 +204,11 @@ public class Snakeveiw extends Application {
                 Image snakeTail = new Image("recourses/snakeSprite/"
                         + model.getBodyDirections().get(model.getBodyDirections().size() - 2) + "-tail.png");
                 ImageView image = new ImageView(snakeTail);
-                image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
-                image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
-                image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * point.x);
+                  image.setFitWidth(TILE_SIZE);
+                image.setFitHeight(TILE_SIZE);
+                image.setX((Math.floor(TILE_SIZE * point.x)));
                 image.setPreserveRatio(false);
-                image.setY(Math.floor(controller.getGamePane().getHeight() / n) * point.y);
+                image.setY(Math.floor(TILE_SIZE * point.y));
                 image.setCache(true);
                 controller.getGamePane().getChildren().add(image);
             } else {
@@ -212,11 +216,11 @@ public class Snakeveiw extends Application {
                         "recourses/snakeSprite/" + model.getBodyDirections().get(model.getSnake().indexOf(point))
                                 + model.getBodyDirections().get(model.getSnake().indexOf(point) - 1) + "-body.png");
                 ImageView image = new ImageView(snakeBody);
-                image.setFitWidth(Math.floor(controller.getGamePane().getWidth() / m));
-                image.setFitHeight(Math.floor(controller.getGamePane().getHeight() / n));
-                image.setX((Math.floor(controller.getGamePane().getWidth() / m)) * point.x);
+                image.setFitWidth(TILE_SIZE);
+                image.setFitHeight(TILE_SIZE);
+                image.setX((Math.floor(TILE_SIZE * point.x)));
                 image.setPreserveRatio(false);
-                image.setY(Math.floor(controller.getGamePane().getHeight() / n) * point.y);
+                image.setY(Math.floor(TILE_SIZE * point.y));
                 image.setCache(true);
                 controller.getGamePane().getChildren().add(image);
             }
