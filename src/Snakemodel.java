@@ -22,7 +22,14 @@ public class Snakemodel {
         this.y_size = n;
         // MAKES A SNAKE THAT IS IN THE MIDDLE TWO POINTS OF THE GRID FACING LEFT
         this.snake = new Snake(new Point((int) Math.floor(x_size / 2), (int) Math.floor(y_size / 2)),
-                new Point((int) Math.floor(x_size / 2) + 1, (int) Math.floor(y_size / 2)), m, n);
+                new Point((int) Math.floor(x_size / 2) + 1, (int) Math.floor(y_size / 2)), x_size, y_size);
+        spawnApple();
+    }
+
+    public void reset() {
+        score = 0;
+        snake = new Snake(new Point((int) Math.floor(x_size / 2), (int) Math.floor(y_size / 2)),
+                new Point((int) Math.floor(x_size / 2) + 1, (int) Math.floor(y_size / 2)), x_size, y_size);
         spawnApple();
     }
 
@@ -300,6 +307,13 @@ public class Snakemodel {
 
     public void setScore(int value) {
         this.score = value;
+    }
+
+    //Changes size of the level
+    public void setGridSize(int width, int height) {
+        this.x_size = width;
+        this.y_size = height;
+        reset();
     }
 
     // RETURNS HORIZONTAL LENGTH OF GRID, SPECIFIED BY USER

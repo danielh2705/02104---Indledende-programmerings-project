@@ -82,7 +82,7 @@ public class Snake {
                     this.body.addFirst(new Point(this.head.x, this.head.y));
                     this.head.y -= 1;
                     if (this.head.y < 0) {
-                        this.head.y = this.y_size - 1;
+                        this.head.y = y_size - 1;
                     }
                     this.tail = this.body.getLast();
                     this.body.remove(this.body.size() - 1);

@@ -1,56 +1,46 @@
 package src;
 
-import java.io.IOException;
-import java.util.Scanner;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
 import javafx.scene.text.*;
 
 public class Snakeveiw extends Application {
     private Snakemodel model;
     private Snakecontroller controller;
     private Text scoreLabel;
+
     private int n;
     private int m;
-    private LoseController loseController;
-    private static double TILE_SIZE = 15;
+    public double tileSize = 15;
 
+    @FXML
+    private StackPane root;
 
     @Override
     public void start(Stage primaryStage) {
-        // SCANNER INPUT FOR SIZE, NEEDS TO BE CHANGED FOR ARGS
         try {
-            Scanner console = new Scanner(System.in);
-            while (m < 5) {
-                System.out.print("Please enter a x value bigger than 5: ");
-                m = console.nextInt();
-                if (m >= 5) {
-                    break;
-                }
-            }
-            while (n < 5) {
-                System.out.print("Please enter a y value bigger than 5: ");
-                n = console.nextInt();
-                if (n >= 5) {
-                    break;
-                }
-            }
-            console.close();
+            //Temp solution, just needed a value so the game would run, n and m value has no 
+            // effect on the game.
+            m = 20;
+            n = 20;
 
+            model = new Snakemodel(m, n);
+            
             // LOADS THE GUI FROM FXML FILE
             FXMLLoader loader = new FXMLLoader(getClass().getResource("gui.fxml"));
-            Pane root = loader.load();
-            root.setPrefSize(20+TILE_SIZE*m+20, 50+TILE_SIZE*n+20);
-            model = new Snakemodel(m, n);
+            root = loader.load();
+            root.setPrefSize(20 + tileSize * m + 20, 50 + tileSize * n + 20);
+
             controller = (Snakecontroller) loader.getController();
             controller.setModelAndView(model, this);
-            controller.getGamePane().setPrefSize(m * TILE_SIZE, n * TILE_SIZE);
+            controller.getGamePane().setPrefSize(m * tileSize, n * tileSize);
             controller.getGamePane().setCenterShape(true);
             // SHOWS THE SCENE AND CALLS UPDATE, SUCH THAT SNAKE AND APPLE IS DRAWN
             scoreLabel = controller.getScoreLabel();
@@ -58,7 +48,7 @@ public class Snakeveiw extends Application {
 
             primaryStage.setScene(scene);
             primaryStage.show();
-            controller.startGameLoop();
+            // controller.startGameLoop();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -78,6 +68,11 @@ public class Snakeveiw extends Application {
         drawFunkyApple();
     }
 
+    //Not best MVC structure, but needed for resizing the game
+    public void setTileSize(double size) {
+        this.tileSize = size;
+    }
+
     // DRAWS THE APPLE WITH CIRCLE FROM JAVAFX
     // GETS THE POSITION FROM MODEL
     // AND USES SIMPLE MATH TO PLACE IN THE MIDDLE OF A GRID SPACE
@@ -86,11 +81,11 @@ public class Snakeveiw extends Application {
         Image applePng = new Image("recourses\\apple.png");
         ImageView image = new ImageView();
         image.setImage(applePng);
-        image.setFitWidth(TILE_SIZE);
-        image.setFitHeight(TILE_SIZE);
-        image.setX(TILE_SIZE * apple.x);
+        image.setFitWidth(tileSize);
+        image.setFitHeight(tileSize);
+        image.setX(tileSize * apple.x);
         image.setPreserveRatio(false);
-        image.setY(TILE_SIZE * apple.y);
+        image.setY(tileSize * apple.y);
         controller.getGamePane().getChildren().add(image);
     }
 
@@ -101,11 +96,11 @@ public class Snakeveiw extends Application {
         Image badApplePng = new Image("recourses\\poisonApple.png");
         ImageView image = new ImageView();
         image.setImage(badApplePng);
-        image.setFitWidth(TILE_SIZE);
-        image.setFitHeight(TILE_SIZE);
-        image.setX(TILE_SIZE * model.getBadApple().x);
+        image.setFitWidth(tileSize);
+        image.setFitHeight(tileSize);
+        image.setX(tileSize * model.getBadApple().x);
         image.setPreserveRatio(false);
-        image.setY(TILE_SIZE * model.getBadApple().y);
+        image.setY(tileSize * model.getBadApple().y);
         controller.getGamePane().getChildren().add(image);
     }
 
@@ -116,11 +111,11 @@ public class Snakeveiw extends Application {
         Image bombPng = new Image("recourses\\bomb.png");
         ImageView image = new ImageView();
         image.setImage(bombPng);
-        image.setFitWidth(TILE_SIZE);
-        image.setFitHeight(TILE_SIZE);
-        image.setX(TILE_SIZE * model.getBomb().x);
+        image.setFitWidth(tileSize);
+        image.setFitHeight(tileSize);
+        image.setX(tileSize * model.getBomb().x);
         image.setPreserveRatio(false);
-        image.setY(TILE_SIZE * model.getBomb().y);
+        image.setY(tileSize * model.getBomb().y);
         controller.getGamePane().getChildren().add(image);
     }
 
@@ -131,11 +126,11 @@ public class Snakeveiw extends Application {
         Image speedApplePng = new Image("recourses\\coconut.png");
         ImageView image = new ImageView();
         image.setImage(speedApplePng);
-        image.setFitWidth(TILE_SIZE);
-        image.setFitHeight(TILE_SIZE);
-        image.setX(TILE_SIZE * model.getSpeedApple().x);
+        image.setFitWidth(tileSize);
+        image.setFitHeight(tileSize);
+        image.setX(tileSize * model.getSpeedApple().x);
         image.setPreserveRatio(false);
-        image.setY(TILE_SIZE * model.getSpeedApple().y);
+        image.setY(tileSize * model.getSpeedApple().y);
         controller.getGamePane().getChildren().add(image);
     }
 
@@ -146,11 +141,11 @@ public class Snakeveiw extends Application {
         Image goldenApplePng = new Image("recourses\\star.png");
         ImageView image = new ImageView();
         image.setImage(goldenApplePng);
-        image.setFitWidth(TILE_SIZE);
-        image.setFitHeight(TILE_SIZE);
-        image.setX(TILE_SIZE * model.getGoldenApple().x);
+        image.setFitWidth(tileSize);
+        image.setFitHeight(tileSize);
+        image.setX(tileSize * model.getGoldenApple().x);
         image.setPreserveRatio(false);
-        image.setY(TILE_SIZE * model.getGoldenApple().y);
+        image.setY(tileSize * model.getGoldenApple().y);
         controller.getGamePane().getChildren().add(image);
     }
 
@@ -159,11 +154,11 @@ public class Snakeveiw extends Application {
         for (Point apple : model.getBonusApples()) {
             ImageView image = new ImageView();
             image.setImage(applePng);
-            image.setFitWidth(TILE_SIZE);
-            image.setFitHeight(TILE_SIZE);
-            image.setX(TILE_SIZE * apple.x);
+            image.setFitWidth(tileSize);
+            image.setFitHeight(tileSize);
+            image.setX(tileSize * apple.x);
             image.setPreserveRatio(false);
-            image.setY(TILE_SIZE * apple.y);
+            image.setY(tileSize * apple.y);
             controller.getGamePane().getChildren().add(image);
         }
     }
@@ -175,11 +170,11 @@ public class Snakeveiw extends Application {
         Image funkyApplePng = new Image("recourses\\brownMushroom.png");
         ImageView image = new ImageView();
         image.setImage(funkyApplePng);
-        image.setFitWidth(TILE_SIZE);
-        image.setFitHeight(TILE_SIZE);
-        image.setX(TILE_SIZE * model.getFunkyApple().x);
+        image.setFitWidth(tileSize);
+        image.setFitHeight(tileSize);
+        image.setX(tileSize * model.getFunkyApple().x);
         image.setPreserveRatio(false);
-        image.setY(TILE_SIZE * model.getFunkyApple().y);
+        image.setY(tileSize * model.getFunkyApple().y);
         controller.getGamePane().getChildren().add(image);
     }
 
@@ -192,11 +187,11 @@ public class Snakeveiw extends Application {
             if (point.equals(model.getSnake().get(0))) {
                 Image snakeHead = new Image("recourses/snakeSprite/" + model.getBodyDirections().get(0) + "-head.png");
                 ImageView image = new ImageView(snakeHead);
-                  image.setFitWidth(TILE_SIZE);
-                image.setFitHeight(TILE_SIZE);
-                image.setX((Math.floor(TILE_SIZE * point.x)));
+                image.setFitWidth(tileSize);
+                image.setFitHeight(tileSize);
+                image.setX((Math.floor(tileSize * point.x)));
                 image.setPreserveRatio(false);
-                image.setY(Math.floor(TILE_SIZE * point.y));
+                image.setY(Math.floor(tileSize * point.y));
                 image.setCache(true);
                 controller.getGamePane().getChildren().add(image);
 
@@ -204,11 +199,11 @@ public class Snakeveiw extends Application {
                 Image snakeTail = new Image("recourses/snakeSprite/"
                         + model.getBodyDirections().get(model.getBodyDirections().size() - 2) + "-tail.png");
                 ImageView image = new ImageView(snakeTail);
-                  image.setFitWidth(TILE_SIZE);
-                image.setFitHeight(TILE_SIZE);
-                image.setX((Math.floor(TILE_SIZE * point.x)));
+                image.setFitWidth(tileSize);
+                image.setFitHeight(tileSize);
+                image.setX((Math.floor(tileSize * point.x)));
                 image.setPreserveRatio(false);
-                image.setY(Math.floor(TILE_SIZE * point.y));
+                image.setY(Math.floor(tileSize * point.y));
                 image.setCache(true);
                 controller.getGamePane().getChildren().add(image);
             } else {
@@ -216,11 +211,11 @@ public class Snakeveiw extends Application {
                         "recourses/snakeSprite/" + model.getBodyDirections().get(model.getSnake().indexOf(point))
                                 + model.getBodyDirections().get(model.getSnake().indexOf(point) - 1) + "-body.png");
                 ImageView image = new ImageView(snakeBody);
-                image.setFitWidth(TILE_SIZE);
-                image.setFitHeight(TILE_SIZE);
-                image.setX((Math.floor(TILE_SIZE * point.x)));
+                image.setFitWidth(tileSize);
+                image.setFitHeight(tileSize);
+                image.setX((Math.floor(tileSize * point.x)));
                 image.setPreserveRatio(false);
-                image.setY(Math.floor(TILE_SIZE * point.y));
+                image.setY(Math.floor(tileSize * point.y));
                 image.setCache(true);
                 controller.getGamePane().getChildren().add(image);
             }
@@ -233,26 +228,6 @@ public class Snakeveiw extends Application {
     // UPDATES SCORE LABEL ON UI
     private void updateScore() {
         scoreLabel.setText("Score: " + model.getScore());
-    }
-
-    // CREATES THE GAME OVER POPUP AND CLOSES THE GAME ITSELF
-    public void switchToLoseScreen(int score) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("losepopup.fxml"));
-        Pane root = loader.load();
-        loseController = loader.getController();
-        loseController.getHighscoreLabel().setText("Score: " + score);
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.show();
-        // CLOSES OLD GAME
-        exit(controller.getButton1());
-    }
-
-    // OUTDATED FUNCTION THAT CLOSES THE APPLICATION
-    public void exit(Button button1) {
-        Stage stage = (Stage) button1.getScene().getWindow();
-        stage.close();
     }
 
     public static void main(String[] args) {

@@ -1,8 +1,9 @@
 package src;
 
-import java.io.IOException;
 import java.util.ArrayList;
+
 import javafx.animation.*;
+import javafx.application.Platform;
 import javafx.event.*;
 import javafx.util.*;
 import javafx.fxml.FXML;
@@ -14,22 +15,39 @@ import javafx.scene.layout.Pane;
 public class Snakecontroller {
     private Snakeveiw viewer;
     private Snakemodel model;
+
     private Timeline badAppleLife;
     private Timeline badAppleRespawn;
     private Timeline bomb;
-    private Timeline bombRespawn; 
-    private Timeline timeline; 
+    private Timeline bombRespawn;
+    private Timeline timeline;
     private Timeline speedBoostTimer;
-    private Timeline speedAppleRespawn; 
-    private Timeline goldenAppleSpawner; 
-    private Timeline goldenAppleLife; 
+    private Timeline speedAppleRespawn;
+    private Timeline goldenAppleSpawner;
+    private Timeline goldenAppleLife;
     private Timeline bonusApplesLife;
-    private EventHandler<KeyEvent> eventHandler;
-    private boolean controlsReversed = false;
     private Timeline funkyAppleTimer;
     private Timeline funkyAppleRespawn;
     private Timeline funkyAppleLife;
 
+    private EventHandler<KeyEvent> eventHandler;
+
+    private boolean controlsReversed = false;
+
+    @FXML
+    private Pane startScreen;
+    @FXML
+    private Pane gameScreen;
+    @FXML
+    private Pane highscoreScreen;
+    @FXML
+    private Pane helpScreen;
+    @FXML
+    private Pane optionsScreen;
+    @FXML
+    private Pane gameOverScreen;
+    @FXML
+    private Pane selectScreen;
 
     @FXML
     private Pane losePane;
@@ -43,9 +61,9 @@ public class Snakecontroller {
     @FXML
     private Text scoreLabel;
 
-
     public void startGameLoop() {
         // THE GAME LOOP / TIMER
+        stopAllTimelines();
         startBombCycle();
         startBadAppleCycle();
         startSpeedAppleCycle();
@@ -78,7 +96,7 @@ public class Snakecontroller {
                             break;
                         }
                     }
-                    
+
                     if (model.getSpeedApple() != null && model.getSnake().get(0).equals(model.getSpeedApple())) {
                         model.consumedSpeedApple();
                         activateSpeedBoost();
@@ -114,13 +132,13 @@ public class Snakecontroller {
                 }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
-        
-
     }
+
     // MOVES THE SNAKE WITH SET DIRECTION
-    public void moveWithDirection(){
+    public void moveWithDirection() {
         model.moveSnake();
     }
+
     // CHANGES THE DIRECITON THE SNAKE IS MOVING
     @FXML
     void changeDirection(KeyEvent event) {
@@ -132,13 +150,19 @@ public class Snakecontroller {
 
         model.changeDirection(direction);
     }
+
     private String reverseDirection(String dir) {
         switch (dir) {
-            case "UP": return "DOWN";
-            case "DOWN": return "UP";
-            case "LEFT": return "RIGHT";
-            case "RIGHT": return "LEFT";
-            default: return dir;
+            case "UP":
+                return "DOWN";
+            case "DOWN":
+                return "UP";
+            case "LEFT":
+                return "RIGHT";
+            case "RIGHT":
+                return "LEFT";
+            default:
+                return dir;
         }
     }
 
@@ -158,11 +182,10 @@ public class Snakecontroller {
         model.spawnBadApple();
 
         badAppleLife = new Timeline(
-            new KeyFrame(Duration.seconds(5), e -> {
-                model.consumedBadApple();
-                scheduleBadAppleRespawn();
-            })
-        );
+                new KeyFrame(Duration.seconds(5), e -> {
+                    model.consumedBadApple();
+                    scheduleBadAppleRespawn();
+                }));
         badAppleLife.play();
     }
 
@@ -170,104 +193,140 @@ public class Snakecontroller {
         model.spawnSpeedApple();
 
         speedAppleRespawn = new Timeline(
-            new KeyFrame(Duration.seconds(11), e -> startSpeedAppleCycle())
-        );
+                new KeyFrame(Duration.seconds(11), e -> startSpeedAppleCycle()));
         speedAppleRespawn.play();
     }
 
     private void scheduleBadAppleRespawn() {
         badAppleRespawn = new Timeline(
-            new KeyFrame(Duration.seconds(10), e -> startBadAppleCycle())
-        );
+                new KeyFrame(Duration.seconds(10), e -> startBadAppleCycle()));
         badAppleRespawn.play();
     }
+
     private void startBombCycle() {
         model.spawnBomb(); // spawn immediately
 
         bomb = new Timeline(
-            new KeyFrame(Duration.seconds(10), e -> model.spawnBomb())
-        );
+                new KeyFrame(Duration.seconds(10), e -> model.spawnBomb()));
         bomb.setCycleCount(Timeline.INDEFINITE);
         bomb.play();
     }
+
     private void activateSpeedBoost() {
         timeline.setRate(2.0); // 2x speed
 
-        if (speedBoostTimer != null) speedBoostTimer.stop();
+        if (speedBoostTimer != null)
+            speedBoostTimer.stop();
 
         speedBoostTimer = new Timeline(
-            new KeyFrame(Duration.seconds(5), e -> timeline.setRate(1.0))
-        );
+                new KeyFrame(Duration.seconds(5), e -> timeline.setRate(1.0)));
         speedBoostTimer.play();
     }
-    private void activateGoldenEffect(){
+
+    private void activateGoldenEffect() {
         model.spawnBonusApples(10);
 
-        if (bonusApplesLife != null) bonusApplesLife.stop();
+        if (bonusApplesLife != null)
+            bonusApplesLife.stop();
         bonusApplesLife = new Timeline(
-            new KeyFrame(Duration.seconds(15), e -> model.clearBonusApples())
-        );
+                new KeyFrame(Duration.seconds(15), e -> model.clearBonusApples()));
         bonusApplesLife.play();
     }
+
     private void startGoldenAppleCycle() {
         spawnGoldenNow();
 
         goldenAppleSpawner = new Timeline(
-            new KeyFrame(Duration.seconds(60), e -> spawnGoldenNow())
-        );
+                new KeyFrame(Duration.seconds(60), e -> spawnGoldenNow()));
         goldenAppleSpawner.setCycleCount(Timeline.INDEFINITE);
         goldenAppleSpawner.play();
     }
+
     private void activateFunkyControls() {
         controlsReversed = true;
 
-        if (funkyAppleTimer != null) funkyAppleTimer.stop();
+        if (funkyAppleTimer != null)
+            funkyAppleTimer.stop();
 
         funkyAppleTimer = new Timeline(
-            new KeyFrame(Duration.seconds(7), e -> controlsReversed = false)
-        );
+                new KeyFrame(Duration.seconds(7), e -> controlsReversed = false));
         funkyAppleTimer.play();
     }
 
-
     public void looseGame() {
         // SWITCHES TO THE LOSE SCREEN IF GAME IS LOST
-        try {
-            viewer.switchToLoseScreen(model.getScore());
-        } catch (Exception e) {
-            System.out.println(e.getStackTrace());
-        }
+        timeline.pause();
+        gameOverScreen.setVisible(true);
     }
+
     private void spawnGoldenNow() {
         model.spawnGoldenApple();
 
-        if (goldenAppleLife != null) goldenAppleLife.stop();
+        if (goldenAppleLife != null)
+            goldenAppleLife.stop();
         goldenAppleLife = new Timeline(
-            new KeyFrame(Duration.seconds(6), e -> model.consumedGoldenApple())
-        );
+                new KeyFrame(Duration.seconds(6), e -> model.consumedGoldenApple()));
         goldenAppleLife.play();
     }
-
 
     private void startFunkyAppleCycle() {
         model.spawnFunkyApple();
 
         funkyAppleLife = new Timeline(
-            new KeyFrame(Duration.seconds(6), e -> {
-                model.consumedFunkyApple();  
-                scheduleFunkyAppleRespawn();    
-            })
-        );
+                new KeyFrame(Duration.seconds(6), e -> {
+                    model.consumedFunkyApple();
+                    scheduleFunkyAppleRespawn();
+                }));
         funkyAppleLife.play();
     }
 
     private void scheduleFunkyAppleRespawn() {
         funkyAppleRespawn = new Timeline(
-            new KeyFrame(Duration.seconds(20), e -> startFunkyAppleCycle())
-        );
+                new KeyFrame(Duration.seconds(20), e -> startFunkyAppleCycle()));
         funkyAppleRespawn.play();
     }
 
+    //Makes sure to stop all timelines that has been started
+    private void stopAllTimelines() {
+        if (timeline != null)
+            timeline.stop();
+
+        if (badAppleLife != null)
+            badAppleLife.stop();
+
+        if (badAppleRespawn != null)
+            badAppleRespawn.stop();
+
+        if (bomb != null)
+            bomb.stop();
+
+        if (bombRespawn != null)
+            bombRespawn.stop();
+
+        if (speedBoostTimer != null)
+            speedBoostTimer.stop();
+
+        if (speedAppleRespawn != null)
+            speedAppleRespawn.stop();
+
+        if (goldenAppleSpawner != null)
+            goldenAppleSpawner.stop();
+
+        if (goldenAppleLife != null)
+            goldenAppleLife.stop();
+
+        if (bonusApplesLife != null)
+            bonusApplesLife.stop();
+
+        if (funkyAppleTimer != null)
+            funkyAppleTimer.stop();
+
+        if (funkyAppleRespawn != null)
+            funkyAppleRespawn.stop();
+
+        if (funkyAppleLife != null)
+            funkyAppleLife.stop();
+    }
 
     // THE REST GIVES ACCES TO OTHER CLASSES TO THE UI ELEMENTS
     // AND OTHER SETUP
@@ -293,9 +352,100 @@ public class Snakecontroller {
         this.viewer = viewer;
     }
 
-    public Button getButton1() {
-        return button1;
+    //Setting the size of the Level
+    //titles and TileSize are kinda hard-coded to fit in perfectly, not optimal solution 
+    @FXML
+    public void setSmall() {
+        int tiles = 14;
+        viewer.setTileSize(36);
+
+        model.setGridSize(tiles, tiles);
+        gameField.setPrefSize(tiles * viewer.tileSize, tiles * viewer.tileSize);
+        showGameScreen(); 
     }
 
-    
+    @FXML
+    public void setMedium() {
+        int tiles = 28;
+        viewer.setTileSize(18);
+
+        model.setGridSize(tiles, tiles);
+        gameField.setPrefSize(tiles * viewer.tileSize, tiles * viewer.tileSize);
+        showGameScreen();
+    }
+
+    @FXML
+    public void setLarge() {
+        int tiles = 42;
+        viewer.setTileSize(12);
+
+        model.setGridSize(tiles, tiles);
+        gameField.setPrefSize(tiles * viewer.tileSize, tiles * viewer.tileSize);
+        showGameScreen();
+    }
+
+    //Makes sure that the "focus" switches from screen to screen
+    @FXML
+    public void initialize() {
+        gameScreen.setFocusTraversable(true);
+        gameScreen.setOnKeyPressed(this::changeDirection);
+        
+    }
+
+    //Resets game
+    public void gameReset() {
+        model.reset();
+        timeline.play();
+        showGameScreen();
+    }
+
+    @FXML
+    private void showGameScreen() {
+        showOnly(gameScreen);
+        startGameLoop();
+        Platform.runLater(() -> gameScreen.requestFocus());
+    }
+
+    @FXML
+    private void showSelectScreen() {
+        showOnly(selectScreen);
+    }
+
+    @FXML
+    private void showHighscoreScreen() {
+        showOnly(highscoreScreen);
+    }
+
+    @FXML
+    private void showHelpScreen() {
+        showOnly(helpScreen);
+    }
+
+    @FXML
+    private void showOptionsScreen() {
+        showOnly(optionsScreen);
+    }
+
+    @FXML
+    private void back() {
+        showOnly(startScreen);
+    }
+
+    @FXML
+    private void quit() {
+        Platform.exit();
+    }
+
+    //Not optimal but makes writing code less repetitive 
+    private void showOnly(Pane paneToShow) {
+        startScreen.setVisible(false);
+        gameScreen.setVisible(false);
+        highscoreScreen.setVisible(false);
+        helpScreen.setVisible(false);
+        optionsScreen.setVisible(false);
+        gameOverScreen.setVisible(false);
+        selectScreen.setVisible(false);
+
+        paneToShow.setVisible(true);
+    }
 }
