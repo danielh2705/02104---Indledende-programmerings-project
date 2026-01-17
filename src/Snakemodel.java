@@ -15,6 +15,7 @@ public class Snakemodel {
     private Point funkyApple;
     private int x_size;
     private int y_size;
+    private String levelSize;
 
     public Snakemodel(int m, int n) {
         this.score = 0;
@@ -336,5 +337,13 @@ public class Snakemodel {
 
     public ArrayList<String> getBodyDirections() {
         return this.snake.getBodyDirections();
+    }
+
+    public String getLevelSize() {
+        return levelSize;
+    }
+
+    public void setLevelSize(String size) {
+        levelSize = size;
     }
 }

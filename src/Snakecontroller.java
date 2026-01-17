@@ -9,7 +9,6 @@ import javafx.util.*;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
-import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
 public class Snakecontroller {
@@ -50,12 +49,6 @@ public class Snakecontroller {
     private Pane selectScreen;
 
     @FXML
-    private Pane losePane;
-
-    @FXML
-    private Button button1;
-
-    @FXML
     private Pane gameField;
 
     @FXML
@@ -64,7 +57,9 @@ public class Snakecontroller {
     public void startGameLoop() {
         // THE GAME LOOP / TIMER
         stopAllTimelines();
-        startBombCycle();
+        if (model.getLevelSize() == "medium" || model.getLevelSize() == "large") {
+            startBombCycle();
+        }
         startBadAppleCycle();
         startSpeedAppleCycle();
         startGoldenAppleCycle();
@@ -210,6 +205,7 @@ public class Snakecontroller {
                 new KeyFrame(Duration.seconds(10), e -> model.spawnBomb()));
         bomb.setCycleCount(Timeline.INDEFINITE);
         bomb.play();
+        
     }
 
     private void activateSpeedBoost() {
@@ -359,6 +355,8 @@ public class Snakecontroller {
         int tiles = 14;
         viewer.setTileSize(36);
 
+        model.setLevelSize("small");
+
         model.setGridSize(tiles, tiles);
         gameField.setPrefSize(tiles * viewer.tileSize, tiles * viewer.tileSize);
         showGameScreen(); 
@@ -369,6 +367,8 @@ public class Snakecontroller {
         int tiles = 28;
         viewer.setTileSize(18);
 
+        model.setLevelSize("medium");
+
         model.setGridSize(tiles, tiles);
         gameField.setPrefSize(tiles * viewer.tileSize, tiles * viewer.tileSize);
         showGameScreen();
@@ -378,6 +378,8 @@ public class Snakecontroller {
     public void setLarge() {
         int tiles = 42;
         viewer.setTileSize(12);
+
+        model.setLevelSize("large");
 
         model.setGridSize(tiles, tiles);
         gameField.setPrefSize(tiles * viewer.tileSize, tiles * viewer.tileSize);
