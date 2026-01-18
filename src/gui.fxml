@@ -28,7 +28,6 @@
                <Button text="Play" onAction="#showSelectScreen"/>
                <Button text="Highscore" onAction="#showHighscoreScreen"/>
                <Button text="Help" onAction="#showHelpScreen"/>
-               <Button text="Options" onAction="#showOptionsScreen"/>
                <Button text="Quit" onAction="#quit"/>
             </VBox>
          </children>
