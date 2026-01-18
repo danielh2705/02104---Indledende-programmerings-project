@@ -34,7 +34,7 @@ public final class MusicPlayer {
         // finds location/URL of file and makes it usable in MediaPlayer
         URL url = MusicPlayer.class
                 .getClassLoader()
-                .getResource("recourses\\sounds\\backgroundMusic.mp3"); // returns URL. replace blank with file name.
+                .getResource("resources\\sounds\\backgroundMusic.mp3"); // returns URL. replace blank with file name.
 
         // if url has the value of null, then the music doesn't exist in /sounds.
         // it most likely means you made a typo in getResource.
