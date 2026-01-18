@@ -1,6 +1,7 @@
 package src;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javafx.animation.*;
 import javafx.application.Platform;
@@ -10,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 public class Snakecontroller {
     private Snakeview viewer;
@@ -45,6 +47,8 @@ public class Snakecontroller {
     private Pane gameOverScreen;
     @FXML
     private Pane selectScreen;
+    @FXML
+    private VBox highscoreBox;
 
     @FXML
     private Pane gameField;
@@ -224,7 +228,7 @@ public class Snakecontroller {
                 new KeyFrame(Duration.seconds(10), e -> model.spawnBomb()));
         bomb.setCycleCount(Timeline.INDEFINITE);
         bomb.play();
-        
+
     }
 
     // written by Adel
@@ -258,6 +262,9 @@ public class Snakecontroller {
     public void looseGame() {
         // SWITCHES TO THE LOSE SCREEN IF GAME IS LOST
         timeline.pause();
+
+        HighscoreManager.addScore(model.getScore());
+
         gameOverScreen.setVisible(true);
     }
 
@@ -389,8 +396,9 @@ public class Snakecontroller {
         this.viewer = viewer;
     }
 
-    //Setting the size of the Level
-    //titles and TileSize are kinda hard-coded to fit in perfectly, not optimal solution 
+    // Setting the size of the Level
+    // titles and TileSize are kinda hard-coded to fit in perfectly, not optimal
+    // solution
     @FXML
     public void setSmall() {
         int tiles = 14;
@@ -400,7 +408,7 @@ public class Snakecontroller {
 
         model.setGridSize(tiles, tiles);
         gameField.setPrefSize(tiles * viewer.tileSize, tiles * viewer.tileSize);
-        showGameScreen(); 
+        showGameScreen();
     }
 
     @FXML
@@ -427,15 +435,35 @@ public class Snakecontroller {
         showGameScreen();
     }
 
-    //Makes sure that the "focus" switches from screen to screen
+    private void updateHighscores() {
+        highscoreBox.getChildren().clear();
+
+        List<Integer> scores = HighscoreManager.loadScores();
+
+        int rank = 1;
+        for (int score : scores) {
+            Text t = new Text(rank + ". " + score);
+
+            t.getStyleClass().add("highscore-entry");
+
+            if (rank <= 3) {
+                t.getStyleClass().add("highscore-top3");
+            }
+
+            highscoreBox.getChildren().add(t);
+            rank++;
+        }
+    }
+
+    // Makes sure that the "focus" switches from screen to screen
     @FXML
     public void initialize() {
         gameScreen.setFocusTraversable(true);
         gameScreen.setOnKeyPressed(this::changeDirection);
-        
+
     }
 
-    //Resets game
+    // Resets game
     public void gameReset() {
         model.reset();
         timeline.play();
@@ -457,6 +485,7 @@ public class Snakecontroller {
     @FXML
     private void showHighscoreScreen() {
         showOnly(highscoreScreen);
+        updateHighscores();
     }
 
     @FXML
@@ -479,7 +508,7 @@ public class Snakecontroller {
         Platform.exit();
     }
 
-    //Not optimal but makes writing code less repetitive 
+    // Not optimal but makes writing code less repetitive
     private void showOnly(Pane paneToShow) {
         startScreen.setVisible(false);
         gameScreen.setVisible(false);

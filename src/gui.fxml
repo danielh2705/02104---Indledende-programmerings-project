@@ -54,6 +54,7 @@
          <children>
             <VBox spacing="15" alignment="CENTER" StackPane.alignment="CENTER">
               <Label text="Highscore"/>
+              <VBox fx:id="highscoreBox" spacing="15" alignment="CENTER" StackPane.alignment="CENTER"/>
               <Button text="Back" onAction="#back"/>
             </VBox>
          </children>
