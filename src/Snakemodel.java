@@ -29,6 +29,7 @@ public class Snakemodel {
         spawnApple();
     }
 
+    //Written by Adrian
     public void reset() {
         score = 0;
         snake = new Snake(new Point((int) Math.floor(x_size / 2), (int) Math.floor(y_size / 2)),
@@ -68,7 +69,7 @@ public class Snakemodel {
         spawnApple();
     }
 
-    // Written by Adel 
+    // Written by Adel
     // Builds a list of all grid positions.
     // Removes snake body positions.
     // Chooses a random remaining position.
@@ -101,6 +102,7 @@ public class Snakemodel {
                 availableSpawnPoints.add(new Point(i, j));
             }
         }
+
         for (Point bodyPart : snake.getSnake()) {
             availableSpawnPoints.remove(bodyPart);
         }
@@ -110,10 +112,10 @@ public class Snakemodel {
             availableSpawnPoints.remove(apple);
         if (poisonApple != null)
             availableSpawnPoints.remove(poisonApple);
-        // don't spawn on the same spot 
+        // don't spawn on the same spot
         if (bomb != null)
             availableSpawnPoints.remove(bomb); // don't respawn in the same spot
-        if (availableSpawnPoints.isEmpty()) 
+        if (availableSpawnPoints.isEmpty())
             return;
 
         this.bomb = availableSpawnPoints.get(
@@ -139,7 +141,7 @@ public class Snakemodel {
         if (poisonApple != null)
             availableSpawnPoints.remove(poisonApple);
         if (bomb != null)
-            availableSpawnPoints.remove(bomb); 
+            availableSpawnPoints.remove(bomb);
         if (availableSpawnPoints.isEmpty())
             return;
 
@@ -241,6 +243,12 @@ public class Snakemodel {
         mushroom = available.get(random.nextInt(available.size()));
     }
 
+    public boolean isLateGame() {
+        int boardSize = x_size * y_size;
+        int snakeLength = snake.getSnake().size();
+        return snakeLength >= boardSize * 0.75;
+    }
+
     // RETURNS THE FULL SNAKE, HEAD AND TAIL INCLUDED IN AN ARRAYLIST
     public ArrayList<Point> getSnake() {
         return this.snake.getSnake();
@@ -305,7 +313,6 @@ public class Snakemodel {
         mushroom = null;
     }
 
-
     public void moveSnake() {
         this.snake.move();
     }
@@ -327,7 +334,7 @@ public class Snakemodel {
         this.score = value;
     }
 
-    //Changes size of the level
+    // Changes size of the level
     public void setGridSize(int width, int height) {
         this.x_size = width;
         this.y_size = height;

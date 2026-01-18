@@ -95,29 +95,29 @@ public class Snakecontroller {
                             break;
                         }
                     }
-                    //coconut consumption -> temporary speed boost
+                    // coconut consumption -> temporary speed boost
                     if (model.getCoconut() != null && model.getSnake().get(0).equals(model.getCoconut())) {
                         model.consumedCoconut();
                         activateSpeedBoost();
                     }
-                    //star consumption → spawns bonus apples temporarily
+                    // star consumption → spawns bonus apples temporarily
                     if (model.getStar() != null && model.getSnake().get(0).equals(model.getStar())) {
                         SfxPlayer.audioPlayer("STARCONSUME", 1.0);
                         model.consumedStar();
                         activateStarEffect();
                     }
-                    //mushroom consumption → reversed controls temporarily
+                    // mushroom consumption → reversed controls temporarily
                     if (model.getMushroom() != null && model.getSnake().get(0).equals(model.getMushroom())) {
                         SfxPlayer.audioPlayer("MUSHROOMCONSUME", 1.0);
                         model.consumedMushroom();
                         activateMushroomControls();
                     }
-                    //poison apple consumption → score penalty + snake shrink
+                    // poison apple consumption → score penalty + snake shrink
                     if (model.getPoisonApple() != null && model.getSnake().get(0).equals(model.getPoisonApple())) {
 
                         // calculate new score first
                         int newScore = model.getScore() - 5;
-                        
+
                         // if score would drop below 2 → die
                         if (newScore < 2) {
                             SfxPlayer.audioPlayer("POISONSHROOMCONSUME", 1.0);
@@ -131,9 +131,42 @@ public class Snakecontroller {
                         model.getSnakeObject().shrink(5);
                         model.consumedPoisonApple();
                     }
-                    viewer.update();
 
+                    if (model.isLateGame() && !lateGameActivated) {
+                        lateGameActivated = true;
+
+                        // stop special spawn-cycles (men ikke selve game-loopet)
+                        if (poisonAppleLife != null)
+                            poisonAppleLife.stop();
+                        if (poisonAppleRespawn != null)
+                            poisonAppleRespawn.stop();
+                        if (bomb != null)
+                            bomb.stop();
+                        if (coconutRespawn != null)
+                            coconutRespawn.stop();
+                        if (starSpawner != null)
+                            starSpawner.stop();
+                        if (starLife != null)
+                            starLife.stop();
+                        if (bonusApplesLife != null)
+                            bonusApplesLife.stop();
+                        if (mushroomRespawn != null)
+                            mushroomRespawn.stop();
+                        if (mushroomLife != null)
+                            mushroomLife.stop();
+
+                        // fjern items der allerede ligger
+                        model.consumedPoisonApple();
+                        model.consumedBomb();
+                        model.consumedCoconut();
+                        model.consumedStar();
+                        model.clearBonusApples();
+                        model.consumedMushroom();
+                    }
+
+                    viewer.update();
                 }));
+
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
@@ -144,7 +177,7 @@ public class Snakecontroller {
     }
 
     // CHANGES THE DIRECITON THE SNAKE IS MOVING
-    //written by Daniel
+    // written by Daniel
     @FXML
     void changeDirection(KeyEvent event) {
         String direction = event.getCode().toString();
@@ -201,7 +234,7 @@ public class Snakecontroller {
     }
 
     // written by Adel
-    //Input: None 
+    // Input: None
     // output: The snake moves at double the speed for a limited duration
     // and reset back to normal after a fixed delay.
     private void startCoconutCycle() {
@@ -211,6 +244,7 @@ public class Snakecontroller {
                 new KeyFrame(Duration.seconds(11), e -> startCoconutCycle()));
         coconutRespawn.play();
     }
+
     // written by Adel
     private void schedulePoisonAppleRespawn() {
         poisonAppleRespawn = new Timeline(
@@ -219,7 +253,7 @@ public class Snakecontroller {
     }
 
     // written by Adel
-    //a bomb is spawned 
+    // a bomb is spawned
     // a repeating Timeline respawns the bomb every 10 sec.
     private void startBombCycle() {
         model.spawnBomb(); // spawn immediately
@@ -232,7 +266,7 @@ public class Snakecontroller {
     }
 
     // written by Adel
-    //The coconut effect 
+    // The coconut effect
     private void activateSpeedBoost() {
         timeline.setRate(2.0); // 2x speed
 
@@ -256,9 +290,7 @@ public class Snakecontroller {
         bonusApplesLife.play();
     }
 
-
-  
-
+    //Written by Daniel, Adrian og Adel
     public void looseGame() {
         // SWITCHES TO THE LOSE SCREEN IF GAME IS LOST
         timeline.pause();
@@ -268,10 +300,8 @@ public class Snakecontroller {
         gameOverScreen.setVisible(true);
     }
 
-
-
- 
-    //Makes sure to stop all timelines that has been started
+    //Written by Adrian
+    // Makes sure to stop all timelines that has been started
     private void stopAllTimelines() {
         if (timeline != null)
             timeline.stop();
@@ -284,9 +314,6 @@ public class Snakecontroller {
 
         if (bomb != null)
             bomb.stop();
-
-        // if (bombRespawn != null)
-        //     bombRespawn.stop();
 
         if (speedBoostTimer != null)
             speedBoostTimer.stop();
@@ -313,9 +340,8 @@ public class Snakecontroller {
             mushroomLife.stop();
     }
 
-
     // written by Adel
-    //star spawns now and then again every 60 seconds
+    // star spawns now and then again every 60 seconds
     private void startStarCycle() {
         spawnStarNow();
 
@@ -326,7 +352,7 @@ public class Snakecontroller {
     }
 
     // written by Adel
-    //Activates reversed controls temporarily (mushroom effect).
+    // Activates reversed controls temporarily (mushroom effect).
     private void activateMushroomControls() {
         controlsReversed = true;
 
@@ -338,7 +364,6 @@ public class Snakecontroller {
         mushroomTimer.play();
     }
 
-    // written by Daniel
 
     // written by Adel
     // star appears, then disappears after 6 seconds if not collected
@@ -396,6 +421,7 @@ public class Snakecontroller {
         this.viewer = viewer;
     }
 
+    // Written by Adrian
     // Setting the size of the Level
     // titles and TileSize are kinda hard-coded to fit in perfectly, not optimal
     // solution
@@ -411,6 +437,7 @@ public class Snakecontroller {
         showGameScreen();
     }
 
+    // Written by Adrian
     @FXML
     public void setMedium() {
         int tiles = 28;
@@ -423,6 +450,7 @@ public class Snakecontroller {
         showGameScreen();
     }
 
+    // Written by Adrian
     @FXML
     public void setLarge() {
         int tiles = 42;
@@ -435,6 +463,7 @@ public class Snakecontroller {
         showGameScreen();
     }
 
+    // Written by Adrian
     private void updateHighscores() {
         highscoreBox.getChildren().clear();
 
@@ -455,6 +484,7 @@ public class Snakecontroller {
         }
     }
 
+    // Written by Adrian
     // Makes sure that the "focus" switches from screen to screen
     @FXML
     public void initialize() {
@@ -463,6 +493,7 @@ public class Snakecontroller {
 
     }
 
+    // Written by Adrian
     // Resets game
     public void gameReset() {
         model.reset();
@@ -470,6 +501,7 @@ public class Snakecontroller {
         showGameScreen();
     }
 
+    // Written by Adrian
     @FXML
     private void showGameScreen() {
         showOnly(gameScreen);
@@ -477,37 +509,44 @@ public class Snakecontroller {
         Platform.runLater(() -> gameScreen.requestFocus());
     }
 
+    // Written by Adrian
     @FXML
     private void showSelectScreen() {
         showOnly(selectScreen);
     }
 
+    // Written by Adrian
     @FXML
     private void showHighscoreScreen() {
         showOnly(highscoreScreen);
         updateHighscores();
     }
 
+    // Written by Adrian
     @FXML
     private void showHelpScreen() {
         showOnly(helpScreen);
     }
 
+    // Written by Adrian
     @FXML
     private void showOptionsScreen() {
         showOnly(optionsScreen);
     }
 
+    // Written by Adrian
     @FXML
     private void back() {
         showOnly(startScreen);
     }
 
+    // Written by Adrian
     @FXML
     private void quit() {
         Platform.exit();
     }
 
+    //Written by Adrian
     // Not optimal but makes writing code less repetitive
     private void showOnly(Pane paneToShow) {
         startScreen.setVisible(false);
@@ -517,7 +556,6 @@ public class Snakecontroller {
         optionsScreen.setVisible(false);
         gameOverScreen.setVisible(false);
         selectScreen.setVisible(false);
-
         paneToShow.setVisible(true);
     }
 }

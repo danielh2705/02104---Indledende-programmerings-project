@@ -3,6 +3,7 @@ package src;
 import java.io.*;
 import java.util.*;
 
+//Written by Adrian
 public class HighscoreManager {
     private static final String FILE = "highscores.txt";
     private static final int MAX_SCORES = 10;

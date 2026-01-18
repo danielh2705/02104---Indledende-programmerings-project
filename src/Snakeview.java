@@ -24,7 +24,7 @@ public class Snakeview extends Application {
     private StackPane root;
 
     // This is where the whole game Starts.
-    // Written by Daniel
+    // Written by Daniel and Adrian
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -238,9 +238,6 @@ public class Snakeview extends Application {
                 image.setCache(true);
                 controller.getGamePane().getChildren().add(image);
             }
-
-            // ADDS CURVES TO THE SEGMENTS
-
         }
     }
     // Written by Daniel
