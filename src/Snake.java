@@ -39,6 +39,7 @@ public class Snake {
         return direction;
     }
 
+    // written by Daniel
     // RETURNS THE ENTIRE SNAKE IN AN ARRAYLIST<POINT>. INCLUDING THE HEAD AND TAIL
     public ArrayList<Point> getSnake() {
         ArrayList<Point> returnSnake = new ArrayList<Point>(this.body);
@@ -47,6 +48,7 @@ public class Snake {
         return returnSnake;
     }
 
+    // written by Daniel
     // SETS CURRENT DIRECTION
     public void setDirection(String direction) {
         // THIS MAKES SURE TWO DIRECTION CHANGES DOES NOT COME IN BEFORE IT HAS MOVED
@@ -60,14 +62,15 @@ public class Snake {
         }
     }
 
+    // written by Daniel
     // INCREASES THE SNAKES LENGTH BY 1
     public void grow() {
         updateBodyDirections(this.previousTailDirection, true);
         this.body.addLast(this.tail);
         this.tail = this.lastpositionPoint;
-        System.out.println(this.body.toString());
     }
 
+    // written by Daniel
     // TAKES "LEFT" "RIGHT" "UP" "DOWN" AS INPUTS
     public void move() {
         updateBodyDirections(this.direction, false);
@@ -135,6 +138,7 @@ public class Snake {
 
     }
 
+    // written by Daniel
     // CHANGES DIRECTION OF SNAKE IF NOT 180 DEGREE TURN
     public void changeDirection(String newDirection) {
         switch (newDirection) {
@@ -168,6 +172,7 @@ public class Snake {
         }
     }
 
+    // written by Daniel
     private void updateBodyDirections(String direction, boolean growing) {
         ArrayList<String> newBodyDirections = new ArrayList<String>(this.bodyDirections);
         if (growing != true) {
@@ -181,10 +186,14 @@ public class Snake {
         }
     }
 
+    // written by Adel
     public void shrink(int amount) {
         for (int i = 0; i < amount && body.size() > 1; i++) {
-            body.remove(body.size() - 1);
+            this.tail = body.get(body.size() - 1);
+            this.bodyDirections.remove(body.size()-1);
+            this.body.remove(body.size() - 1);
         }
+        
     }
 
     public ArrayList<String> getBodyDirections() {

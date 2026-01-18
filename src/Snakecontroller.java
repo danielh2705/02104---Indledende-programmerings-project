@@ -12,26 +12,24 @@ import javafx.scene.text.Text;
 import javafx.scene.layout.Pane;
 
 public class Snakecontroller {
-    private Snakeveiw viewer;
+    private Snakeview viewer;
     private Snakemodel model;
-
-    private Timeline badAppleLife;
-    private Timeline badAppleRespawn;
+    private Timeline poisonAppleLife;
+    private Timeline poisonAppleRespawn;
     private Timeline bomb;
-    private Timeline bombRespawn;
     private Timeline timeline;
     private Timeline speedBoostTimer;
-    private Timeline speedAppleRespawn;
-    private Timeline goldenAppleSpawner;
-    private Timeline goldenAppleLife;
+    private Timeline coconutRespawn;
+    private Timeline starSpawner;
+    private Timeline starLife;
     private Timeline bonusApplesLife;
-    private Timeline funkyAppleTimer;
-    private Timeline funkyAppleRespawn;
-    private Timeline funkyAppleLife;
-
     private EventHandler<KeyEvent> eventHandler;
-
     private boolean controlsReversed = false;
+    private Timeline mushroomTimer;
+    private Timeline mushroomRespawn;
+    private Timeline mushroomLife;
+
+    private boolean lateGameActivated = false;
 
     @FXML
     private Pane startScreen;
@@ -60,16 +58,17 @@ public class Snakecontroller {
         if (model.getLevelSize() == "medium" || model.getLevelSize() == "large") {
             startBombCycle();
         }
-        startBadAppleCycle();
-        startSpeedAppleCycle();
-        startGoldenAppleCycle();
-        startFunkyAppleCycle();
+        startPoisonAppleCycle();
+        startCoconutCycle();
+        startStarCycle();
+        startMushroomCycle();
 
         timeline = new Timeline(
                 new KeyFrame(Duration.millis(150), e -> {
                     model.moveSnake();
                     model.snakeCanTurn();
                     if (model.getBomb() != null && model.getSnake().get(0).equals(model.getBomb())) {
+                        SfxPlayer.audioPlayer("EXPLOSION", 1.0);
                         looseGame();
                         return;
                     }
@@ -85,42 +84,48 @@ public class Snakecontroller {
                     // BONUS APPLES (FROM GOLDENAPPLE)
                     for (int i = 0; i < model.getBonusApples().size(); i++) {
                         if (model.getSnake().get(0).equals(model.getBonusApples().get(i))) {
+                            SfxPlayer.audioPlayer("APPLECONSUME", 1.0);
                             model.getSnakeObject().grow();
                             model.increaseScore(1);
                             model.getBonusApples().remove(i);
                             break;
                         }
                     }
-
-                    if (model.getSpeedApple() != null && model.getSnake().get(0).equals(model.getSpeedApple())) {
-                        model.consumedSpeedApple();
+                    //coconut consumption -> temporary speed boost
+                    if (model.getCoconut() != null && model.getSnake().get(0).equals(model.getCoconut())) {
+                        model.consumedCoconut();
                         activateSpeedBoost();
                     }
-                    if (model.getGoldenApple() != null && model.getSnake().get(0).equals(model.getGoldenApple())) {
-                        model.consumedGoldenApple();
-                        activateGoldenEffect();
+                    //star consumption → spawns bonus apples temporarily
+                    if (model.getStar() != null && model.getSnake().get(0).equals(model.getStar())) {
+                        SfxPlayer.audioPlayer("STARCONSUME", 1.0);
+                        model.consumedStar();
+                        activateStarEffect();
                     }
-                    // FUNKY APPLE
-                    if (model.getFunkyApple() != null && model.getSnake().get(0).equals(model.getFunkyApple())) {
-                        model.consumedFunkyApple();
-                        activateFunkyControls();
+                    //mushroom consumption → reversed controls temporarily
+                    if (model.getMushroom() != null && model.getSnake().get(0).equals(model.getMushroom())) {
+                        SfxPlayer.audioPlayer("MUSHROOMCONSUME", 1.0);
+                        model.consumedMushroom();
+                        activateMushroomControls();
                     }
-
-                    if (model.getBadApple() != null && model.getSnake().get(0).equals(model.getBadApple())) {
+                    //poison apple consumption → score penalty + snake shrink
+                    if (model.getPoisonApple() != null && model.getSnake().get(0).equals(model.getPoisonApple())) {
 
                         // calculate new score first
                         int newScore = model.getScore() - 5;
-
+                        
                         // if score would drop below 2 → die
                         if (newScore < 2) {
+                            SfxPlayer.audioPlayer("POISONSHROOMCONSUME", 1.0);
                             looseGame();
                             return;
                         }
 
                         // apply penalty
+                        SfxPlayer.audioPlayer("POISONSHROOMCONSUME", 1.0);
                         model.setScore(newScore);
                         model.getSnakeObject().shrink(5);
-                        model.consumedBadApple();
+                        model.consumedPoisonApple();
                     }
                     viewer.update();
 
@@ -135,6 +140,7 @@ public class Snakecontroller {
     }
 
     // CHANGES THE DIRECITON THE SNAKE IS MOVING
+    //written by Daniel
     @FXML
     void changeDirection(KeyEvent event) {
         String direction = event.getCode().toString();
@@ -146,6 +152,7 @@ public class Snakecontroller {
         model.changeDirection(direction);
     }
 
+    // written by Adel
     private String reverseDirection(String dir) {
         switch (dir) {
             case "UP":
@@ -161,6 +168,7 @@ public class Snakecontroller {
         }
     }
 
+    // written by Daniel
     public boolean checkLost() {
         ArrayList<Point> headlessSnake = new ArrayList<Point>(model.getSnake());
         headlessSnake.removeFirst();
@@ -173,31 +181,42 @@ public class Snakecontroller {
         return false;
     }
 
-    private void startBadAppleCycle() {
-        model.spawnBadApple();
+    // written by Adel
+    // Spawns a poison apple and starts its lifetime timer.
+    // Input: none & output: a poison apple appears on the game field
+    // If it is not consumed, it is removed and a respawn
+    private void startPoisonAppleCycle() {
+        model.spawnPoisonApple();
 
-        badAppleLife = new Timeline(
+        poisonAppleLife = new Timeline(
                 new KeyFrame(Duration.seconds(5), e -> {
-                    model.consumedBadApple();
-                    scheduleBadAppleRespawn();
+                    model.consumedPoisonApple();
+                    schedulePoisonAppleRespawn();
                 }));
-        badAppleLife.play();
+        poisonAppleLife.play();
     }
 
-    private void startSpeedAppleCycle() {
-        model.spawnSpeedApple();
+    // written by Adel
+    //Input: None 
+    // output: The snake moves at double the speed for a limited duration
+    // and reset back to normal after a fixed delay.
+    private void startCoconutCycle() {
+        model.spawnCoconut();
 
-        speedAppleRespawn = new Timeline(
-                new KeyFrame(Duration.seconds(11), e -> startSpeedAppleCycle()));
-        speedAppleRespawn.play();
+        coconutRespawn = new Timeline(
+                new KeyFrame(Duration.seconds(11), e -> startCoconutCycle()));
+        coconutRespawn.play();
+    }
+    // written by Adel
+    private void schedulePoisonAppleRespawn() {
+        poisonAppleRespawn = new Timeline(
+                new KeyFrame(Duration.seconds(10), e -> startPoisonAppleCycle()));
+        poisonAppleRespawn.play();
     }
 
-    private void scheduleBadAppleRespawn() {
-        badAppleRespawn = new Timeline(
-                new KeyFrame(Duration.seconds(10), e -> startBadAppleCycle()));
-        badAppleRespawn.play();
-    }
-
+    // written by Adel
+    //a bomb is spawned 
+    // a repeating Timeline respawns the bomb every 10 sec.
     private void startBombCycle() {
         model.spawnBomb(); // spawn immediately
 
@@ -208,6 +227,8 @@ public class Snakecontroller {
         
     }
 
+    // written by Adel
+    //The coconut effect 
     private void activateSpeedBoost() {
         timeline.setRate(2.0); // 2x speed
 
@@ -219,7 +240,9 @@ public class Snakecontroller {
         speedBoostTimer.play();
     }
 
-    private void activateGoldenEffect() {
+    // written by Adel
+    // spawn 10 red apples
+    private void activateStarEffect() {
         model.spawnBonusApples(10);
 
         if (bonusApplesLife != null)
@@ -229,25 +252,8 @@ public class Snakecontroller {
         bonusApplesLife.play();
     }
 
-    private void startGoldenAppleCycle() {
-        spawnGoldenNow();
 
-        goldenAppleSpawner = new Timeline(
-                new KeyFrame(Duration.seconds(60), e -> spawnGoldenNow()));
-        goldenAppleSpawner.setCycleCount(Timeline.INDEFINITE);
-        goldenAppleSpawner.play();
-    }
-
-    private void activateFunkyControls() {
-        controlsReversed = true;
-
-        if (funkyAppleTimer != null)
-            funkyAppleTimer.stop();
-
-        funkyAppleTimer = new Timeline(
-                new KeyFrame(Duration.seconds(7), e -> controlsReversed = false));
-        funkyAppleTimer.play();
-    }
+  
 
     public void looseGame() {
         // SWITCHES TO THE LOSE SCREEN IF GAME IS LOST
@@ -255,73 +261,108 @@ public class Snakecontroller {
         gameOverScreen.setVisible(true);
     }
 
-    private void spawnGoldenNow() {
-        model.spawnGoldenApple();
 
-        if (goldenAppleLife != null)
-            goldenAppleLife.stop();
-        goldenAppleLife = new Timeline(
-                new KeyFrame(Duration.seconds(6), e -> model.consumedGoldenApple()));
-        goldenAppleLife.play();
-    }
 
-    private void startFunkyAppleCycle() {
-        model.spawnFunkyApple();
-
-        funkyAppleLife = new Timeline(
-                new KeyFrame(Duration.seconds(6), e -> {
-                    model.consumedFunkyApple();
-                    scheduleFunkyAppleRespawn();
-                }));
-        funkyAppleLife.play();
-    }
-
-    private void scheduleFunkyAppleRespawn() {
-        funkyAppleRespawn = new Timeline(
-                new KeyFrame(Duration.seconds(20), e -> startFunkyAppleCycle()));
-        funkyAppleRespawn.play();
-    }
-
+ 
     //Makes sure to stop all timelines that has been started
     private void stopAllTimelines() {
         if (timeline != null)
             timeline.stop();
 
-        if (badAppleLife != null)
-            badAppleLife.stop();
+        if (poisonAppleLife != null)
+            poisonAppleLife.stop();
 
-        if (badAppleRespawn != null)
-            badAppleRespawn.stop();
+        if (poisonAppleRespawn != null)
+            poisonAppleRespawn.stop();
 
         if (bomb != null)
             bomb.stop();
 
-        if (bombRespawn != null)
-            bombRespawn.stop();
+        // if (bombRespawn != null)
+        //     bombRespawn.stop();
 
         if (speedBoostTimer != null)
             speedBoostTimer.stop();
 
-        if (speedAppleRespawn != null)
-            speedAppleRespawn.stop();
+        if (coconutRespawn != null)
+            coconutRespawn.stop();
 
-        if (goldenAppleSpawner != null)
-            goldenAppleSpawner.stop();
+        if (starSpawner != null)
+            starSpawner.stop();
 
-        if (goldenAppleLife != null)
-            goldenAppleLife.stop();
+        if (starLife != null)
+            starLife.stop();
 
         if (bonusApplesLife != null)
             bonusApplesLife.stop();
 
-        if (funkyAppleTimer != null)
-            funkyAppleTimer.stop();
+        if (mushroomTimer != null)
+            mushroomTimer.stop();
 
-        if (funkyAppleRespawn != null)
-            funkyAppleRespawn.stop();
+        if (mushroomRespawn != null)
+            mushroomRespawn.stop();
 
-        if (funkyAppleLife != null)
-            funkyAppleLife.stop();
+        if (mushroomLife != null)
+            mushroomLife.stop();
+    }
+
+
+    // written by Adel
+    //star spawns now and then again every 60 seconds
+    private void startStarCycle() {
+        spawnStarNow();
+
+        starSpawner = new Timeline(
+                new KeyFrame(Duration.seconds(60), e -> spawnStarNow()));
+        starSpawner.setCycleCount(Timeline.INDEFINITE);
+        starSpawner.play();
+    }
+
+    // written by Adel
+    //Activates reversed controls temporarily (mushroom effect).
+    private void activateMushroomControls() {
+        controlsReversed = true;
+
+        if (mushroomTimer != null)
+            mushroomTimer.stop();
+
+        mushroomTimer = new Timeline(
+                new KeyFrame(Duration.seconds(7), e -> controlsReversed = false));
+        mushroomTimer.play();
+    }
+
+    // written by Daniel
+
+    // written by Adel
+    // star appears, then disappears after 6 seconds if not collected
+    private void spawnStarNow() {
+        model.spawnStar();
+
+        if (starLife != null)
+            starLife.stop();
+        starLife = new Timeline(
+                new KeyFrame(Duration.seconds(6), e -> model.consumedStar()));
+        starLife.play();
+    }
+
+    // written by Adel
+    // player controls are inverted for 7 seconds
+    private void startMushroomCycle() {
+        model.spawnMushroom();
+
+        mushroomLife = new Timeline(
+                new KeyFrame(Duration.seconds(6), e -> {
+                    model.consumedMushroom();
+                    scheduleMushroomRespawn();
+                }));
+        mushroomLife.play();
+    }
+
+    // written by Adel
+    private void scheduleMushroomRespawn() {
+        mushroomRespawn = new Timeline(
+                new KeyFrame(Duration.seconds(20), e -> startMushroomCycle()));
+        mushroomRespawn.play();
     }
 
     // THE REST GIVES ACCES TO OTHER CLASSES TO THE UI ELEMENTS
@@ -343,7 +384,7 @@ public class Snakecontroller {
         this.eventHandler = eventHandler;
     }
 
-    public void setModelAndView(Snakemodel model, Snakeveiw viewer) {
+    public void setModelAndView(Snakemodel model, Snakeview viewer) {
         this.model = model;
         this.viewer = viewer;
     }
