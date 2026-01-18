@@ -7,12 +7,12 @@ public class Snakemodel {
     private int score;
     private Snake snake;
     private Point apple;
-    private Point badApple;
+    private Point poisonApple;
     private Point bomb;
-    private Point speedApple;
-    private Point goldenApple;
+    private Point coconut;
+    private Point star;
     private ArrayList<Point> bonusApples = new ArrayList<>();
-    private Point funkyApple;
+    private Point mushroom;
     private int x_size;
     private int y_size;
 
@@ -60,7 +60,7 @@ public class Snakemodel {
     }
 
     // Written by Adel
-    public void spawnBadApple() {
+    public void spawnPoisonApple() {
         Random random = new Random();
 
         ArrayList<Point> availableSpawnPoints = new ArrayList<Point>();
@@ -74,7 +74,7 @@ public class Snakemodel {
             availableSpawnPoints.remove(bodyPart);
         }
 
-        this.badApple = availableSpawnPoints.get(
+        this.poisonApple = availableSpawnPoints.get(
                 random.nextInt(0, availableSpawnPoints.size() - 1));
     }
 
@@ -92,11 +92,11 @@ public class Snakemodel {
             availableSpawnPoints.remove(bodyPart);
         }
 
-        // don't spawn on apple/bad apple
+        // don't spawn on apple/poison apple
         if (apple != null)
             availableSpawnPoints.remove(apple);
-        if (badApple != null)
-            availableSpawnPoints.remove(badApple);
+        if (poisonApple != null)
+            availableSpawnPoints.remove(poisonApple);
         if (bomb != null)
             availableSpawnPoints.remove(bomb); // don't respawn in the same spot
 
@@ -105,7 +105,7 @@ public class Snakemodel {
     }
 
     // Written by Adel
-    public void spawnSpeedApple() {
+    public void spawnCoconut() {
         Random random = new Random();
         ArrayList<Point> availableSpawnPoints = new ArrayList<Point>();
         for (int i = 0; i < x_size; i++) {
@@ -117,21 +117,21 @@ public class Snakemodel {
             availableSpawnPoints.remove(bodyPart);
         }
 
-        // don't spawn on apple/bad apple
+        // don't spawn on apple/poison apple
         if (apple != null)
             availableSpawnPoints.remove(apple);
-        if (badApple != null)
-            availableSpawnPoints.remove(badApple);
+        if (poisonApple != null)
+            availableSpawnPoints.remove(poisonApple);
         if (bomb != null)
             availableSpawnPoints.remove(bomb); // don't respawn in the same spot
         if (availableSpawnPoints.isEmpty())
             return;
 
-        speedApple = availableSpawnPoints.get(random.nextInt(availableSpawnPoints.size()));
+        coconut = availableSpawnPoints.get(random.nextInt(availableSpawnPoints.size()));
     }
 
     // Written by Adel
-    public void spawnGoldenApple() {
+    public void spawnStar() {
         Random random = new Random();
         ArrayList<Point> availableSpawnPoints = new ArrayList<Point>();
         for (int i = 0; i < x_size; i++) {
@@ -143,22 +143,22 @@ public class Snakemodel {
             availableSpawnPoints.remove(bodyPart);
         }
 
-        // don't spawn on apple/bad apple
+        // don't spawn on apple/poison apple
         if (apple != null)
             availableSpawnPoints.remove(apple);
-        if (badApple != null)
-            availableSpawnPoints.remove(badApple);
+        if (poisonApple != null)
+            availableSpawnPoints.remove(poisonApple);
         if (bomb != null)
             availableSpawnPoints.remove(bomb); // don't respawn in the same spot
-        if (speedApple != null)
-            availableSpawnPoints.remove(speedApple);
+        if (coconut != null)
+            availableSpawnPoints.remove(coconut);
         for (Point p : bonusApples)
             availableSpawnPoints.remove(p);
 
         if (availableSpawnPoints.isEmpty())
             return;
 
-        goldenApple = availableSpawnPoints.get(random.nextInt(availableSpawnPoints.size()));
+        star = availableSpawnPoints.get(random.nextInt(availableSpawnPoints.size()));
     }
 
     // Written by Adel
@@ -179,14 +179,14 @@ public class Snakemodel {
 
         if (apple != null)
             available.remove(apple);
-        if (badApple != null)
-            available.remove(badApple);
+        if (poisonApple != null)
+            available.remove(poisonApple);
         if (bomb != null)
             available.remove(bomb);
-        if (speedApple != null)
-            available.remove(speedApple);
-        if (goldenApple != null)
-            available.remove(goldenApple);
+        if (coconut != null)
+            available.remove(coconut);
+        if (star != null)
+            available.remove(star);
 
         for (int i = 0; i < count && !available.isEmpty(); i++) {
             Point p = available.remove(random.nextInt(available.size()));
@@ -195,7 +195,7 @@ public class Snakemodel {
     }
 
     // Written by Adel
-    public void spawnFunkyApple() {
+    public void spawnMushroom() {
         Random random = new Random();
         ArrayList<Point> available = new ArrayList<>();
 
@@ -211,19 +211,19 @@ public class Snakemodel {
 
         if (apple != null)
             available.remove(apple);
-        if (badApple != null)
-            available.remove(badApple);
+        if (poisonApple != null)
+            available.remove(poisonApple);
         if (bomb != null)
             available.remove(bomb);
-        if (speedApple != null)
-            available.remove(speedApple);
-        if (goldenApple != null)
-            available.remove(goldenApple);
+        if (coconut != null)
+            available.remove(coconut);
+        if (star != null)
+            available.remove(star);
 
         if (available.isEmpty())
             return;
 
-        funkyApple = available.get(random.nextInt(available.size()));
+        mushroom = available.get(random.nextInt(available.size()));
     }
 
     // RETURNS THE FULL SNAKE, HEAD AND TAIL INCLUDED IN AN ARRAYLIST
@@ -240,12 +240,12 @@ public class Snakemodel {
         return this.apple;
     }
 
-    public Point getBadApple() {
-        return this.badApple;
+    public Point getPoisonApple() {
+        return this.poisonApple;
     }
 
-    public void consumedBadApple() {
-        this.badApple = null;
+    public void consumedPoisonApple() {
+        this.poisonApple = null;
     }
 
     public Point getBomb() {
@@ -256,20 +256,20 @@ public class Snakemodel {
         this.bomb = null;
     }
 
-    public Point getSpeedApple() {
-        return speedApple;
+    public Point getCoconut() {
+        return coconut;
     }
 
-    public void consumedSpeedApple() {
-        speedApple = null;
+    public void consumedCoconut() {
+        coconut = null;
     }
 
-    public Point getGoldenApple() {
-        return goldenApple;
+    public Point getStar() {
+        return star;
     }
 
-    public void consumedGoldenApple() {
-        this.goldenApple = null;
+    public void consumedStar() {
+        this.star = null;
     }
 
     public ArrayList<Point> getBonusApples() {
@@ -280,12 +280,12 @@ public class Snakemodel {
         bonusApples.clear();
     }
 
-    public Point getFunkyApple() {
-        return funkyApple;
+    public Point getMushroom() {
+        return mushroom;
     }
 
-    public void consumedFunkyApple() {
-        funkyApple = null;
+    public void consumedMushroom() {
+        mushroom = null;
     }
 
     // Accepts "Up", "Down", "Left", "Right"

@@ -72,12 +72,12 @@ public class Snakeveiw extends Application {
         updateScore();
         drawSnake();
         drawApple();
-        drawBadApple();
+        drawPoisonApple();
         drawBomb();
-        drawSpeedApple();
-        drawGoldenApple();
+        drawCoconut();
+        drawStar();
         drawBonusApples();
-        drawFunkyApple();
+        drawMushroom();
     }
 
     // DRAWS THE APPLE WITH CIRCLE FROM JAVAFX
@@ -100,18 +100,18 @@ public class Snakeveiw extends Application {
 
     // Written by Daniel & Adel
     // Draws the poisoned apple on the screen
-    private void drawBadApple() {
-        if (model.getBadApple() == null)
+    private void drawPoisonApple() {
+        if (model.getPoisonApple() == null)
             return;
 
-        Image badApplePng = new Image("recourses\\poisonApple.png");
+        Image poisonApplePng = new Image("recourses\\poisonApple.png");
         ImageView image = new ImageView();
-        image.setImage(badApplePng);
+        image.setImage(poisonApplePng);
         image.setFitWidth(TILE_SIZE);
         image.setFitHeight(TILE_SIZE);
-        image.setX(TILE_SIZE * model.getBadApple().x);
+        image.setX(TILE_SIZE * model.getPoisonApple().x);
         image.setPreserveRatio(false);
-        image.setY(TILE_SIZE * model.getBadApple().y);
+        image.setY(TILE_SIZE * model.getPoisonApple().y);
         controller.getGamePane().getChildren().add(image);
     }
 
@@ -134,35 +134,35 @@ public class Snakeveiw extends Application {
 
     // Written by Daniel & Adel
     // Draws the coconut on the screen
-    private void drawSpeedApple() {
-        if (model.getSpeedApple() == null)
+    private void drawCoconut() {
+        if (model.getCoconut() == null)
             return;
 
-        Image speedApplePng = new Image("recourses\\coconut.png");
+        Image coconutPng = new Image("recourses\\coconut.png");
         ImageView image = new ImageView();
-        image.setImage(speedApplePng);
+        image.setImage(coconutPng);
         image.setFitWidth(TILE_SIZE);
         image.setFitHeight(TILE_SIZE);
-        image.setX(TILE_SIZE * model.getSpeedApple().x);
+        image.setX(TILE_SIZE * model.getCoconut().x);
         image.setPreserveRatio(false);
-        image.setY(TILE_SIZE * model.getSpeedApple().y);
+        image.setY(TILE_SIZE * model.getCoconut().y);
         controller.getGamePane().getChildren().add(image);
     }
 
     // Written by Daniel & Adel
     // Draws the Star on the screen
-    private void drawGoldenApple() {
-        if (model.getGoldenApple() == null)
+    private void drawStar() {
+        if (model.getStar() == null)
             return;
 
-        Image goldenApplePng = new Image("recourses\\star.png");
+        Image starPng = new Image("recourses\\star.png");
         ImageView image = new ImageView();
-        image.setImage(goldenApplePng);
+        image.setImage(starPng);
         image.setFitWidth(TILE_SIZE);
         image.setFitHeight(TILE_SIZE);
-        image.setX(TILE_SIZE * model.getGoldenApple().x);
+        image.setX(TILE_SIZE * model.getStar().x);
         image.setPreserveRatio(false);
-        image.setY(TILE_SIZE * model.getGoldenApple().y);
+        image.setY(TILE_SIZE * model.getStar().y);
         controller.getGamePane().getChildren().add(image);
     }
 
@@ -184,18 +184,18 @@ public class Snakeveiw extends Application {
 
     // Written by Daniel & Adel
     // Draws the Mushroom on the screen
-    private void drawFunkyApple() {
-        if (model.getFunkyApple() == null)
+    private void drawMushroom() {
+        if (model.getMushroom() == null)
             return;
 
-        Image funkyApplePng = new Image("recourses\\brownMushroom.png");
+        Image mushroomPng = new Image("recourses\\brownMushroom.png");
         ImageView image = new ImageView();
-        image.setImage(funkyApplePng);
+        image.setImage(mushroomPng);
         image.setFitWidth(TILE_SIZE);
         image.setFitHeight(TILE_SIZE);
-        image.setX(TILE_SIZE * model.getFunkyApple().x);
+        image.setX(TILE_SIZE * model.getMushroom().x);
         image.setPreserveRatio(false);
-        image.setY(TILE_SIZE * model.getFunkyApple().y);
+        image.setY(TILE_SIZE * model.getMushroom().y);
         controller.getGamePane().getChildren().add(image);
     }
 
@@ -246,7 +246,7 @@ public class Snakeveiw extends Application {
 
         }
     }
-    // Written by Daniel 
+    // Written by Daniel
 
     // UPDATES SCORE LABEL ON UI
     private void updateScore() {

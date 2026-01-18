@@ -1,6 +1,5 @@
 package src;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import javafx.animation.*;
 import javafx.event.*;
@@ -14,21 +13,20 @@ import javafx.scene.layout.Pane;
 public class Snakecontroller {
     private Snakeveiw viewer;
     private Snakemodel model;
-    private Timeline badAppleLife;
-    private Timeline badAppleRespawn;
+    private Timeline poisonAppleLife;
+    private Timeline poisonAppleRespawn;
     private Timeline bomb;
-    private Timeline bombRespawn;
     private Timeline timeline;
     private Timeline speedBoostTimer;
-    private Timeline speedAppleRespawn;
-    private Timeline goldenAppleSpawner;
-    private Timeline goldenAppleLife;
+    private Timeline coconutRespawn;
+    private Timeline starSpawner;
+    private Timeline starLife;
     private Timeline bonusApplesLife;
     private EventHandler<KeyEvent> eventHandler;
     private boolean controlsReversed = false;
-    private Timeline funkyAppleTimer;
-    private Timeline funkyAppleRespawn;
-    private Timeline funkyAppleLife;
+    private Timeline mushroomTimer;
+    private Timeline mushroomRespawn;
+    private Timeline mushroomLife;
 
     @FXML
     private Pane losePane;
@@ -46,10 +44,10 @@ public class Snakecontroller {
     public void startGameLoop() {
         // THE GAME LOOP / TIMER
         startBombCycle();
-        startBadAppleCycle();
-        startSpeedAppleCycle();
-        startGoldenAppleCycle();
-        startFunkyAppleCycle();
+        startPoisonAppleCycle();
+        startCoconutCycle();
+        startStarCycle();
+        startMusroomCycle();
 
         timeline = new Timeline(
                 new KeyFrame(Duration.millis(150), e -> {
@@ -78,21 +76,21 @@ public class Snakecontroller {
                         }
                     }
 
-                    if (model.getSpeedApple() != null && model.getSnake().get(0).equals(model.getSpeedApple())) {
-                        model.consumedSpeedApple();
+                    if (model.getCoconut() != null && model.getSnake().get(0).equals(model.getCoconut())) {
+                        model.consumedCoconut();
                         activateSpeedBoost();
                     }
-                    if (model.getGoldenApple() != null && model.getSnake().get(0).equals(model.getGoldenApple())) {
-                        model.consumedGoldenApple();
-                        activateGoldenEffect();
+                    if (model.getStar() != null && model.getSnake().get(0).equals(model.getStar())) {
+                        model.consumedStar();
+                        activateStarEffect();
                     }
                     // FUNKY APPLE
-                    if (model.getFunkyApple() != null && model.getSnake().get(0).equals(model.getFunkyApple())) {
-                        model.consumedFunkyApple();
-                        activateFunkyControls();
+                    if (model.getMushroom() != null && model.getSnake().get(0).equals(model.getMushroom())) {
+                        model.consumedMushroom();
+                        activateMushroomControls();
                     }
 
-                    if (model.getBadApple() != null && model.getSnake().get(0).equals(model.getBadApple())) {
+                    if (model.getPoisonApple() != null && model.getSnake().get(0).equals(model.getPoisonApple())) {
 
                         // calculate new score first
                         int newScore = model.getScore() - 5;
@@ -106,7 +104,7 @@ public class Snakecontroller {
                         // apply penalty
                         model.setScore(newScore);
                         model.getSnakeObject().shrink(5);
-                        model.consumedBadApple();
+                        model.consumedPoisonApple();
                     }
                     viewer.update();
 
@@ -165,31 +163,31 @@ public class Snakecontroller {
     }
 
     // written by Adel
-    private void startBadAppleCycle() {
-        model.spawnBadApple();
+    private void startPoisonAppleCycle() {
+        model.spawnPoisonApple();
 
-        badAppleLife = new Timeline(
+        poisonAppleLife = new Timeline(
                 new KeyFrame(Duration.seconds(5), e -> {
-                    model.consumedBadApple();
-                    scheduleBadAppleRespawn();
+                    model.consumedPoisonApple();
+                    schedulePoisonAppleRespawn();
                 }));
-        badAppleLife.play();
+        poisonAppleLife.play();
     }
 
     // written by Adel
-    private void startSpeedAppleCycle() {
-        model.spawnSpeedApple();
+    private void startCoconutCycle() {
+        model.spawnCoconut();
 
-        speedAppleRespawn = new Timeline(
-                new KeyFrame(Duration.seconds(11), e -> startSpeedAppleCycle()));
-        speedAppleRespawn.play();
+        coconutRespawn = new Timeline(
+                new KeyFrame(Duration.seconds(11), e -> startCoconutCycle()));
+        coconutRespawn.play();
     }
 
     // written by Adel
-    private void scheduleBadAppleRespawn() {
-        badAppleRespawn = new Timeline(
-                new KeyFrame(Duration.seconds(10), e -> startBadAppleCycle()));
-        badAppleRespawn.play();
+    private void schedulePoisonAppleRespawn() {
+        poisonAppleRespawn = new Timeline(
+                new KeyFrame(Duration.seconds(10), e -> startPoisonAppleCycle()));
+        poisonAppleRespawn.play();
     }
 
     // written by Adel
@@ -215,7 +213,7 @@ public class Snakecontroller {
     }
 
     // written by Adel
-    private void activateGoldenEffect() {
+    private void activateStarEffect() {
         model.spawnBonusApples(10);
 
         if (bonusApplesLife != null)
@@ -226,25 +224,25 @@ public class Snakecontroller {
     }
 
     // written by Adel
-    private void startGoldenAppleCycle() {
-        spawnGoldenNow();
+    private void startStarCycle() {
+        spawnStarNow();
 
-        goldenAppleSpawner = new Timeline(
-                new KeyFrame(Duration.seconds(60), e -> spawnGoldenNow()));
-        goldenAppleSpawner.setCycleCount(Timeline.INDEFINITE);
-        goldenAppleSpawner.play();
+        starSpawner = new Timeline(
+                new KeyFrame(Duration.seconds(60), e -> spawnStarNow()));
+        starSpawner.setCycleCount(Timeline.INDEFINITE);
+        starSpawner.play();
     }
 
     // written by Adel
-    private void activateFunkyControls() {
+    private void activateMushroomControls() {
         controlsReversed = true;
 
-        if (funkyAppleTimer != null)
-            funkyAppleTimer.stop();
+        if (mushroomTimer != null)
+            mushroomTimer.stop();
 
-        funkyAppleTimer = new Timeline(
+        mushroomTimer = new Timeline(
                 new KeyFrame(Duration.seconds(7), e -> controlsReversed = false));
-        funkyAppleTimer.play();
+        mushroomTimer.play();
     }
 
     // written by Daniel
@@ -258,33 +256,33 @@ public class Snakecontroller {
     }
 
     // written by Adel
-    private void spawnGoldenNow() {
-        model.spawnGoldenApple();
+    private void spawnStarNow() {
+        model.spawnStar();
 
-        if (goldenAppleLife != null)
-            goldenAppleLife.stop();
-        goldenAppleLife = new Timeline(
-                new KeyFrame(Duration.seconds(6), e -> model.consumedGoldenApple()));
-        goldenAppleLife.play();
+        if (starLife != null)
+            starLife.stop();
+        starLife = new Timeline(
+                new KeyFrame(Duration.seconds(6), e -> model.consumedStar()));
+        starLife.play();
     }
 
     // written by Adel
-    private void startFunkyAppleCycle() {
-        model.spawnFunkyApple();
+    private void startMusroomCycle() {
+        model.spawnMushroom();
 
-        funkyAppleLife = new Timeline(
+        mushroomLife = new Timeline(
                 new KeyFrame(Duration.seconds(6), e -> {
-                    model.consumedFunkyApple();
-                    scheduleFunkyAppleRespawn();
+                    model.consumedMushroom();
+                    scheduleMusroomRespawn();
                 }));
-        funkyAppleLife.play();
+        mushroomLife.play();
     }
 
     // written by Adel
-    private void scheduleFunkyAppleRespawn() {
-        funkyAppleRespawn = new Timeline(
-                new KeyFrame(Duration.seconds(20), e -> startFunkyAppleCycle()));
-        funkyAppleRespawn.play();
+    private void scheduleMusroomRespawn() {
+        mushroomRespawn = new Timeline(
+                new KeyFrame(Duration.seconds(20), e -> startMusroomCycle()));
+        mushroomRespawn.play();
     }
 
     // THE REST GIVES ACCES TO OTHER CLASSES TO THE UI ELEMENTS
