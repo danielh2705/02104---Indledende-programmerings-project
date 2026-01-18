@@ -12,7 +12,7 @@
 <?import javafx.scene.image.Image?>
 
 
-
+<!-- Written by Adrian -->
 <StackPane prefWidth="540.0" prefHeight="620.0"
            xmlns="http://javafx.com/javafx/22"
            xmlns:fx="http://javafx.com/fxml/1"
@@ -28,7 +28,6 @@
                <Button text="Play" onAction="#showSelectScreen"/>
                <Button text="Highscore" onAction="#showHighscoreScreen"/>
                <Button text="Help" onAction="#showHelpScreen"/>
-               <Button text="Options" onAction="#showOptionsScreen"/>
                <Button text="Quit" onAction="#quit"/>
             </VBox>
          </children>
@@ -139,15 +138,6 @@
          </children>
       </StackPane>
 
-      <!-- OPTIONS SCREEN -->
-      <StackPane fx:id="optionsScreen" visible="false" style="-fx-background-color: #3c7334;">
-         <children>
-            <VBox spacing="15" alignment="CENTER" StackPane.alignment="CENTER">
-               <Label text="Options"/>
-               <Button text="Back" onAction="#back"/>
-            </VBox>
-         </children>
-      </StackPane>
 
       <!-- GAMEOVER SCREEN -->
       <StackPane fx:id="gameOverScreen" visible="false" style="-fx-background-color: rgba(0,0,0,0.5)">

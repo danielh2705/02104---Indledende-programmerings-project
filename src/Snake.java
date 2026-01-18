@@ -198,6 +198,7 @@ public class Snake {
         return this.bodyDirections;
     }
 
+    //Written by Adrian
     public void canTurn() {
         canTurn = true;
     }
