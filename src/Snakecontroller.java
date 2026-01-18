@@ -42,8 +42,6 @@ public class Snakecontroller {
     @FXML
     private Pane helpScreen;
     @FXML
-    private Pane optionsScreen;
-    @FXML
     private Pane gameOverScreen;
     @FXML
     private Pane selectScreen;
@@ -517,11 +515,6 @@ public class Snakecontroller {
     }
 
     @FXML
-    private void showOptionsScreen() {
-        showOnly(optionsScreen);
-    }
-
-    @FXML
     private void back() {
         showOnly(startScreen);
     }
@@ -537,7 +530,6 @@ public class Snakecontroller {
         gameScreen.setVisible(false);
         highscoreScreen.setVisible(false);
         helpScreen.setVisible(false);
-        optionsScreen.setVisible(false);
         gameOverScreen.setVisible(false);
         selectScreen.setVisible(false);
 
