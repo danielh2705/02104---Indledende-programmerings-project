@@ -28,6 +28,8 @@ public class Snakecontroller {
     private Timeline mushroomRespawn;
     private Timeline mushroomLife;
 
+    private boolean lateGameActivated = false;
+
     @FXML
     private Pane losePane;
 
@@ -47,7 +49,7 @@ public class Snakecontroller {
         startPoisonAppleCycle();
         startCoconutCycle();
         startStarCycle();
-        startMusroomCycle();
+        startMushroomCycle();
 
         timeline = new Timeline(
                 new KeyFrame(Duration.millis(150), e -> {
@@ -77,27 +79,28 @@ public class Snakecontroller {
                             break;
                         }
                     }
-
+                    //coconut consumption -> temporary speed boost
                     if (model.getCoconut() != null && model.getSnake().get(0).equals(model.getCoconut())) {
                         model.consumedCoconut();
                         activateSpeedBoost();
                     }
+                    //star consumption → spawns bonus apples temporarily
                     if (model.getStar() != null && model.getSnake().get(0).equals(model.getStar())) {
                         SfxPlayer.audioPlayer("STARCONSUME", 1.0);
                         model.consumedStar();
                         activateStarEffect();
                     }
-                    // FUNKY APPLE
+                    //mushroom consumption → reversed controls temporarily
                     if (model.getMushroom() != null && model.getSnake().get(0).equals(model.getMushroom())) {
                         model.consumedMushroom();
                         activateMushroomControls();
                     }
-
+                    //poison apple consumption → score penalty + snake shrink
                     if (model.getPoisonApple() != null && model.getSnake().get(0).equals(model.getPoisonApple())) {
 
                         // calculate new score first
                         int newScore = model.getScore() - 5;
-
+                        
                         // if score would drop below 2 → die
                         if (newScore < 2) {
                             SfxPlayer.audioPlayer("POISONSHROOMCONSUME", 1.0);
@@ -125,7 +128,7 @@ public class Snakecontroller {
         model.moveSnake();
     }
 
-    // written by Daniel
+    // written by Daniel and Adel
     // CHANGES THE DIRECITON THE SNAKE IS MOVING
     @FXML
     void changeDirection(KeyEvent event) {
@@ -168,6 +171,9 @@ public class Snakecontroller {
     }
 
     // written by Adel
+    // Spawns a poison apple and starts its lifetime timer.
+    // Input: none & output: a poison apple appears on the game field
+    // If it is not consumed, it is removed and a respawn
     private void startPoisonAppleCycle() {
         model.spawnPoisonApple();
 
@@ -180,6 +186,9 @@ public class Snakecontroller {
     }
 
     // written by Adel
+    //Input: None 
+    // output: The snake moves at double the speed for a limited duration
+    // and reset back to normal after a fixed delay.
     private void startCoconutCycle() {
         model.spawnCoconut();
 
@@ -187,7 +196,6 @@ public class Snakecontroller {
                 new KeyFrame(Duration.seconds(11), e -> startCoconutCycle()));
         coconutRespawn.play();
     }
-
     // written by Adel
     private void schedulePoisonAppleRespawn() {
         poisonAppleRespawn = new Timeline(
@@ -196,6 +204,8 @@ public class Snakecontroller {
     }
 
     // written by Adel
+    //a bomb is spawned 
+    // a repeating Timeline respawns the bomb every 10 sec.
     private void startBombCycle() {
         model.spawnBomb(); // spawn immediately
 
@@ -206,6 +216,7 @@ public class Snakecontroller {
     }
 
     // written by Adel
+    //The coconut effect 
     private void activateSpeedBoost() {
         timeline.setRate(2.0); // 2x speed
 
@@ -218,6 +229,7 @@ public class Snakecontroller {
     }
 
     // written by Adel
+    // spawn 10 red apples
     private void activateStarEffect() {
         model.spawnBonusApples(10);
 
@@ -229,6 +241,7 @@ public class Snakecontroller {
     }
 
     // written by Adel
+    //star spawns now and then again every 60 seconds
     private void startStarCycle() {
         spawnStarNow();
 
@@ -239,6 +252,7 @@ public class Snakecontroller {
     }
 
     // written by Adel
+    //Activates reversed controls temporarily (mushroom effect).
     private void activateMushroomControls() {
         controlsReversed = true;
 
@@ -262,6 +276,7 @@ public class Snakecontroller {
     }
 
     // written by Adel
+    // star appears, then disappears after 6 seconds if not collected
     private void spawnStarNow() {
         model.spawnStar();
 
@@ -273,21 +288,22 @@ public class Snakecontroller {
     }
 
     // written by Adel
-    private void startMusroomCycle() {
+    // player controls are inverted for 7 seconds
+    private void startMushroomCycle() {
         model.spawnMushroom();
 
         mushroomLife = new Timeline(
                 new KeyFrame(Duration.seconds(6), e -> {
                     model.consumedMushroom();
-                    scheduleMusroomRespawn();
+                    scheduleMushroomRespawn();
                 }));
         mushroomLife.play();
     }
 
     // written by Adel
-    private void scheduleMusroomRespawn() {
+    private void scheduleMushroomRespawn() {
         mushroomRespawn = new Timeline(
-                new KeyFrame(Duration.seconds(20), e -> startMusroomCycle()));
+                new KeyFrame(Duration.seconds(20), e -> startMushroomCycle()));
         mushroomRespawn.play();
     }
 
