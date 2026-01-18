@@ -15,6 +15,7 @@ public class Snakemodel {
     private Point mushroom;
     private int x_size;
     private int y_size;
+    private final Random random = new Random();
 
     // Written by Daniel
     public Snakemodel(int m, int n) {
@@ -29,7 +30,6 @@ public class Snakemodel {
 
     // Written by Daniel
     public void spawnApple() {
-        Random random = new Random();
         // GETS EVERY POSSIBLE POINT IN THE GRID
         ArrayList<Point> availableSpawnPoints = new ArrayList<Point>();
         for (int i = 0; i < x_size; i++) {
@@ -48,7 +48,7 @@ public class Snakemodel {
         }
         availableSpawnPoints.removeAll(unAvailableSpawnPoints);
         // SPAWNS APPLE ON A RANDOM AVAILABLE SPACE
-        this.apple = availableSpawnPoints.get(random.nextInt(0, availableSpawnPoints.size() - 1));
+        this.apple = availableSpawnPoints.get(random.nextInt(availableSpawnPoints.size()));
     }
 
     // Written by Daniel
@@ -59,9 +59,11 @@ public class Snakemodel {
         spawnApple();
     }
 
-    // Written by Adel
+    // Written by Adel 
+    // Builds a list of all grid positions.
+    // Removes snake body positions.
+    // Chooses a random remaining position.
     public void spawnPoisonApple() {
-        Random random = new Random();
 
         ArrayList<Point> availableSpawnPoints = new ArrayList<Point>();
         for (int i = 0; i < x_size; i++) {
@@ -74,13 +76,15 @@ public class Snakemodel {
             availableSpawnPoints.remove(bodyPart);
         }
 
+        if (availableSpawnPoints.isEmpty())
+            return;
         this.poisonApple = availableSpawnPoints.get(
-                random.nextInt(0, availableSpawnPoints.size() - 1));
+                random.nextInt(availableSpawnPoints.size()));
     }
 
     // Written by Adel
+    // Spawns a bomb in a random free grid cell.
     public void spawnBomb() {
-        Random random = new Random();
 
         ArrayList<Point> availableSpawnPoints = new ArrayList<Point>();
         for (int i = 0; i < x_size; i++) {
@@ -97,16 +101,19 @@ public class Snakemodel {
             availableSpawnPoints.remove(apple);
         if (poisonApple != null)
             availableSpawnPoints.remove(poisonApple);
+        // don't spawn on the same spot 
         if (bomb != null)
             availableSpawnPoints.remove(bomb); // don't respawn in the same spot
+        if (availableSpawnPoints.isEmpty()) 
+            return;
 
         this.bomb = availableSpawnPoints.get(
-                random.nextInt(0, availableSpawnPoints.size() - 1));
+                random.nextInt(availableSpawnPoints.size()));
     }
 
     // Written by Adel
+    // Spawns a coconut in a random free grid cell.
     public void spawnCoconut() {
-        Random random = new Random();
         ArrayList<Point> availableSpawnPoints = new ArrayList<Point>();
         for (int i = 0; i < x_size; i++) {
             for (int j = 0; j < y_size; j++) {
@@ -117,13 +124,13 @@ public class Snakemodel {
             availableSpawnPoints.remove(bodyPart);
         }
 
-        // don't spawn on apple/poison apple
+        // don't spawn on a other objects or same spot
         if (apple != null)
             availableSpawnPoints.remove(apple);
         if (poisonApple != null)
             availableSpawnPoints.remove(poisonApple);
         if (bomb != null)
-            availableSpawnPoints.remove(bomb); // don't respawn in the same spot
+            availableSpawnPoints.remove(bomb); 
         if (availableSpawnPoints.isEmpty())
             return;
 
@@ -131,8 +138,8 @@ public class Snakemodel {
     }
 
     // Written by Adel
+    // Spawns a star in a random free grid cell.
     public void spawnStar() {
-        Random random = new Random();
         ArrayList<Point> availableSpawnPoints = new ArrayList<Point>();
         for (int i = 0; i < x_size; i++) {
             for (int j = 0; j < y_size; j++) {
@@ -143,13 +150,13 @@ public class Snakemodel {
             availableSpawnPoints.remove(bodyPart);
         }
 
-        // don't spawn on apple/poison apple
+        // don't spawn on a other objects or same spot
         if (apple != null)
             availableSpawnPoints.remove(apple);
         if (poisonApple != null)
             availableSpawnPoints.remove(poisonApple);
         if (bomb != null)
-            availableSpawnPoints.remove(bomb); // don't respawn in the same spot
+            availableSpawnPoints.remove(bomb);
         if (coconut != null)
             availableSpawnPoints.remove(coconut);
         for (Point p : bonusApples)
@@ -163,7 +170,6 @@ public class Snakemodel {
 
     // Written by Adel
     public void spawnBonusApples(int count) {
-        Random random = new Random();
         bonusApples.clear();
 
         ArrayList<Point> available = new ArrayList<Point>();
@@ -195,8 +201,8 @@ public class Snakemodel {
     }
 
     // Written by Adel
+    // Spawns a mushroom in a random free grid cell.
     public void spawnMushroom() {
-        Random random = new Random();
         ArrayList<Point> available = new ArrayList<>();
 
         for (int i = 0; i < x_size; i++) {
