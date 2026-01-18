@@ -262,7 +262,7 @@ public class Snakecontroller {
     public void looseGame() {
         // SWITCHES TO THE LOSE SCREEN IF GAME IS LOST
         timeline.pause();
-
+        SfxPlayer.audioPlayer("GAMEOVER", 1.0);
         HighscoreManager.addScore(model.getScore());
 
         gameOverScreen.setVisible(true);
