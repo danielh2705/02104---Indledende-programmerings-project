@@ -1,5 +1,3 @@
-package src;
-
 import javafx.scene.media.AudioClip;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,12 +38,11 @@ public final class SfxPlayer {
         URL url = SfxPlayer.class
                 .getClassLoader()
                 .getResource(filename);
-
         // if url has the value of null, then the sound doesn't exist in /sounds.
         // it most likely means you made a typo during call.
         if (url == null) {
             throw new IllegalArgumentException(
-                "sfx sound not found in \\sounds: " + filename
+                "sfx sound not found in /sounds: " + filename
             );
         }
 

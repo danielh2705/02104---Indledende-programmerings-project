@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+
+
+<StackPane prefWidth="540.0" prefHeight="620.0"
+           xmlns="http://javafx.com/javafx/22"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="Snakecontroller"
+           stylesheets="@/style.css">
+   <children>
+
+      <!-- START SCREEN -->
+      <StackPane fx:id="startScreen" style="-fx-background-color: #3c7334;">
+         <children>
+            <VBox spacing="15" alignment="CENTER" StackPane.alignment="CENTER">
+               <Label text="Snake"/>
+               <Button text="Play" onAction="#showSelectScreen"/>
+               <Button text="Highscore" onAction="#showHighscoreScreen"/>
+               <Button text="Help" onAction="#showHelpScreen"/>
+               <Button text="Options" onAction="#showOptionsScreen"/>
+               <Button text="Quit" onAction="#quit"/>
+            </VBox>
+         </children>
+      </StackPane>
+
+      <!-- GAME SCREEN -->
+      <StackPane fx:id="gameScreen" visible="false" style="-fx-background-color: #3c7334;">
+         <children>
+            <Pane fx:id="gameField" prefWidth="500" prefHeight="500" 
+                  maxWidth="500" maxHeight="500"
+                  minWidth="500" minHeight="500"
+                  style="-fx-background-color: #55c244;" />
+
+            <Text fx:id="scoreLabel" 
+                  text="Score: 0" 
+                  StackPane.alignment="TOP_CENTER" />
+
+          </children>
+      </StackPane>
+
+      <!-- HIGHSCORE SCREEN -->
+      <StackPane fx:id="highscoreScreen" visible="false" style="-fx-background-color: #3c7334;">
+         <children>
+            <VBox spacing="15" alignment="CENTER" StackPane.alignment="CENTER">
+              <Label text="Highscore"/>
+              <VBox fx:id="highscoreBox" spacing="15" alignment="CENTER" StackPane.alignment="CENTER"/>
+              <Button text="Back" onAction="#back"/>
+            </VBox>
+         </children>
+      </StackPane>  
+
+      <!-- HELP SCREEN -->
+      <StackPane fx:id="helpScreen" visible="false" style="-fx-background-color: #3c7334;">
+         <children>
+            <VBox spacing="15" alignment="CENTER" StackPane.alignment="CENTER">
+               <HBox spacing="20" alignment="CENTER">
+                  <ImageView fitWidth="50" fitHeight="50" preserveRatio="true">
+                     <image>
+                        <Image url="@/apple.png"/>
+                     </image>
+                  </ImageView>
+
+                  <Label text="Makes snart grow"/>
+               </HBox>
+               
+               <HBox spacing="20" alignment="CENTER">
+                  <ImageView fitWidth="50" fitHeight="50" preserveRatio="true">
+                     <image>
+                        <Image url="@/poisonApple.png"/>
+                     </image>
+                  </ImageView>
+
+                  <Label text="Makes snake shrink"/>
+               </HBox>
+
+               <HBox spacing="20" alignment="CENTER">
+                  <ImageView fitWidth="50" fitHeight="50" preserveRatio="true">
+                     <image>
+                        <Image url="@/coconut.png"/>
+                     </image>
+                  </ImageView>
+
+                  <Label text="Increase speed momentarily"/>
+               </HBox>
+
+               <HBox spacing="20" alignment="CENTER">
+                  <ImageView fitWidth="50" fitHeight="50" preserveRatio="true">
+                     <image>
+                        <Image url="@/brownMushroom.png"/>
+                     </image>
+                  </ImageView>
+
+                  <Label text="Controlls become reversed"/>
+               </HBox>
+
+               <HBox spacing="20" alignment="CENTER">
+                  <ImageView fitWidth="50" fitHeight="50" preserveRatio="true">
+                     <image>
+                        <Image url="@/star.png"/>
+                     </image>
+                  </ImageView>
+
+                  <Label text="Creates multipule"/>
+
+                  <ImageView fitWidth="40" fitHeight="40" preserveRatio="true">
+                     <image>
+                        <Image url="@/apple.png"/>
+                     </image>
+                  </ImageView>
+
+                  <Label text="for a limited duration"/>
+               </HBox>
+
+               <HBox spacing="20" alignment="CENTER">
+                  <ImageView fitWidth="50" fitHeight="50" preserveRatio="true">
+                     <image>
+                        <Image url="@/bomb.png"/>
+                     </image>
+                  </ImageView>
+
+                  <Label text="Contact results in death!(Game Over)"/>
+               </HBox>
+               
+               
+
+               <Button text="Back" onAction="#back"/>
+            </VBox>
+         </children>
+      </StackPane>
+
+      <!-- OPTIONS SCREEN -->
+      <StackPane fx:id="optionsScreen" visible="false" style="-fx-background-color: #3c7334;">
+         <children>
+            <VBox spacing="15" alignment="CENTER" StackPane.alignment="CENTER">
+               <Label text="Options"/>
+               <Button text="Back" onAction="#back"/>
+            </VBox>
+         </children>
+      </StackPane>
+
+      <!-- GAMEOVER SCREEN -->
+      <StackPane fx:id="gameOverScreen" visible="false" style="-fx-background-color: rgba(0,0,0,0.5)">
+         <children>
+            <VBox spacing="15" alignment="CENTER" StackPane.alignment="CENTER">
+               <Label text="Game Over"/>
+               <Button text="Try again" onAction="#gameReset"/>
+               <Button text="Main Menu" onAction="#back"/>
+               <Button text="Quit" onAction="#quit"/>
+            </VBox>
+         </children>
+      </StackPane>
+
+      <!-- STAGESELECT SCREEN -->
+      <StackPane fx:id="selectScreen" visible="false" style="-fx-background-color: #3c7334;">
+         <children>
+            <VBox spacing="15" alignment="CENTER" StackPane.alignment="CENTER">
+               <Label text="Select Level Size"/>
+               <Button text="Small" onAction="#setSmall"/>
+               <Button text="Medium" onAction="#setMedium"/>
+               <Button text="Large" onAction="#setLarge"/>
+            </VBox>
+         </children>
+      </StackPane>
+   </children>
+</StackPane>
