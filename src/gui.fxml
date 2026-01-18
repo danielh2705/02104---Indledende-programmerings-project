@@ -138,15 +138,6 @@
          </children>
       </StackPane>
 
-      <!-- OPTIONS SCREEN -->
-      <StackPane fx:id="optionsScreen" visible="false" style="-fx-background-color: #3c7334;">
-         <children>
-            <VBox spacing="15" alignment="CENTER" StackPane.alignment="CENTER">
-               <Label text="Options"/>
-               <Button text="Back" onAction="#back"/>
-            </VBox>
-         </children>
-      </StackPane>
 
       <!-- GAMEOVER SCREEN -->
       <StackPane fx:id="gameOverScreen" visible="false" style="-fx-background-color: rgba(0,0,0,0.5)">
