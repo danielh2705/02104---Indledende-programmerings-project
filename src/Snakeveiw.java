@@ -246,7 +246,7 @@ public class Snakeveiw extends Application {
 
         }
     }
-    // Written by Daniel
+    // Written by Daniel 
 
     // UPDATES SCORE LABEL ON UI
     private void updateScore() {
