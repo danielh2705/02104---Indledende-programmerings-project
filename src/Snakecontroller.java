@@ -17,19 +17,18 @@ public class Snakecontroller {
     private Timeline badAppleLife;
     private Timeline badAppleRespawn;
     private Timeline bomb;
-    private Timeline bombRespawn; 
-    private Timeline timeline; 
+    private Timeline bombRespawn;
+    private Timeline timeline;
     private Timeline speedBoostTimer;
-    private Timeline speedAppleRespawn; 
-    private Timeline goldenAppleSpawner; 
-    private Timeline goldenAppleLife; 
+    private Timeline speedAppleRespawn;
+    private Timeline goldenAppleSpawner;
+    private Timeline goldenAppleLife;
     private Timeline bonusApplesLife;
     private EventHandler<KeyEvent> eventHandler;
     private boolean controlsReversed = false;
     private Timeline funkyAppleTimer;
     private Timeline funkyAppleRespawn;
     private Timeline funkyAppleLife;
-
 
     @FXML
     private Pane losePane;
@@ -43,7 +42,7 @@ public class Snakecontroller {
     @FXML
     private Text scoreLabel;
 
-
+    // written by Daniel & Adel & Adrian
     public void startGameLoop() {
         // THE GAME LOOP / TIMER
         startBombCycle();
@@ -78,7 +77,7 @@ public class Snakecontroller {
                             break;
                         }
                     }
-                    
+
                     if (model.getSpeedApple() != null && model.getSnake().get(0).equals(model.getSpeedApple())) {
                         model.consumedSpeedApple();
                         activateSpeedBoost();
@@ -114,13 +113,16 @@ public class Snakecontroller {
                 }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
-        
 
     }
+
+    // written by Daniel
     // MOVES THE SNAKE WITH SET DIRECTION
-    public void moveWithDirection(){
+    public void moveWithDirection() {
         model.moveSnake();
     }
+
+    // written by Daniel
     // CHANGES THE DIRECITON THE SNAKE IS MOVING
     @FXML
     void changeDirection(KeyEvent event) {
@@ -132,16 +134,24 @@ public class Snakecontroller {
 
         model.changeDirection(direction);
     }
+
+    // written by Adel
     private String reverseDirection(String dir) {
         switch (dir) {
-            case "UP": return "DOWN";
-            case "DOWN": return "UP";
-            case "LEFT": return "RIGHT";
-            case "RIGHT": return "LEFT";
-            default: return dir;
+            case "UP":
+                return "DOWN";
+            case "DOWN":
+                return "UP";
+            case "LEFT":
+                return "RIGHT";
+            case "RIGHT":
+                return "LEFT";
+            default:
+                return dir;
         }
     }
 
+    // written by Daniel
     public boolean checkLost() {
         ArrayList<Point> headlessSnake = new ArrayList<Point>(model.getSnake());
         headlessSnake.removeFirst();
@@ -154,82 +164,90 @@ public class Snakecontroller {
         return false;
     }
 
+    // written by Adel
     private void startBadAppleCycle() {
         model.spawnBadApple();
 
         badAppleLife = new Timeline(
-            new KeyFrame(Duration.seconds(5), e -> {
-                model.consumedBadApple();
-                scheduleBadAppleRespawn();
-            })
-        );
+                new KeyFrame(Duration.seconds(5), e -> {
+                    model.consumedBadApple();
+                    scheduleBadAppleRespawn();
+                }));
         badAppleLife.play();
     }
 
+    // written by Adel
     private void startSpeedAppleCycle() {
         model.spawnSpeedApple();
 
         speedAppleRespawn = new Timeline(
-            new KeyFrame(Duration.seconds(11), e -> startSpeedAppleCycle())
-        );
+                new KeyFrame(Duration.seconds(11), e -> startSpeedAppleCycle()));
         speedAppleRespawn.play();
     }
 
+    // written by Adel
     private void scheduleBadAppleRespawn() {
         badAppleRespawn = new Timeline(
-            new KeyFrame(Duration.seconds(10), e -> startBadAppleCycle())
-        );
+                new KeyFrame(Duration.seconds(10), e -> startBadAppleCycle()));
         badAppleRespawn.play();
     }
+
+    // written by Adel
     private void startBombCycle() {
         model.spawnBomb(); // spawn immediately
 
         bomb = new Timeline(
-            new KeyFrame(Duration.seconds(10), e -> model.spawnBomb())
-        );
+                new KeyFrame(Duration.seconds(10), e -> model.spawnBomb()));
         bomb.setCycleCount(Timeline.INDEFINITE);
         bomb.play();
     }
+
+    // written by Adel
     private void activateSpeedBoost() {
         timeline.setRate(2.0); // 2x speed
 
-        if (speedBoostTimer != null) speedBoostTimer.stop();
+        if (speedBoostTimer != null)
+            speedBoostTimer.stop();
 
         speedBoostTimer = new Timeline(
-            new KeyFrame(Duration.seconds(5), e -> timeline.setRate(1.0))
-        );
+                new KeyFrame(Duration.seconds(5), e -> timeline.setRate(1.0)));
         speedBoostTimer.play();
     }
-    private void activateGoldenEffect(){
+
+    // written by Adel
+    private void activateGoldenEffect() {
         model.spawnBonusApples(10);
 
-        if (bonusApplesLife != null) bonusApplesLife.stop();
+        if (bonusApplesLife != null)
+            bonusApplesLife.stop();
         bonusApplesLife = new Timeline(
-            new KeyFrame(Duration.seconds(15), e -> model.clearBonusApples())
-        );
+                new KeyFrame(Duration.seconds(15), e -> model.clearBonusApples()));
         bonusApplesLife.play();
     }
+
+    // written by Adel
     private void startGoldenAppleCycle() {
         spawnGoldenNow();
 
         goldenAppleSpawner = new Timeline(
-            new KeyFrame(Duration.seconds(60), e -> spawnGoldenNow())
-        );
+                new KeyFrame(Duration.seconds(60), e -> spawnGoldenNow()));
         goldenAppleSpawner.setCycleCount(Timeline.INDEFINITE);
         goldenAppleSpawner.play();
     }
+
+    // written by Adel
     private void activateFunkyControls() {
         controlsReversed = true;
 
-        if (funkyAppleTimer != null) funkyAppleTimer.stop();
+        if (funkyAppleTimer != null)
+            funkyAppleTimer.stop();
 
         funkyAppleTimer = new Timeline(
-            new KeyFrame(Duration.seconds(7), e -> controlsReversed = false)
-        );
+                new KeyFrame(Duration.seconds(7), e -> controlsReversed = false));
         funkyAppleTimer.play();
     }
 
-
+    // written by Daniel
     public void looseGame() {
         // SWITCHES TO THE LOSE SCREEN IF GAME IS LOST
         try {
@@ -238,36 +256,36 @@ public class Snakecontroller {
             System.out.println(e.getStackTrace());
         }
     }
+
+    // written by Adel
     private void spawnGoldenNow() {
         model.spawnGoldenApple();
 
-        if (goldenAppleLife != null) goldenAppleLife.stop();
+        if (goldenAppleLife != null)
+            goldenAppleLife.stop();
         goldenAppleLife = new Timeline(
-            new KeyFrame(Duration.seconds(6), e -> model.consumedGoldenApple())
-        );
+                new KeyFrame(Duration.seconds(6), e -> model.consumedGoldenApple()));
         goldenAppleLife.play();
     }
 
-
+    // written by Adel
     private void startFunkyAppleCycle() {
         model.spawnFunkyApple();
 
         funkyAppleLife = new Timeline(
-            new KeyFrame(Duration.seconds(6), e -> {
-                model.consumedFunkyApple();  
-                scheduleFunkyAppleRespawn();    
-            })
-        );
+                new KeyFrame(Duration.seconds(6), e -> {
+                    model.consumedFunkyApple();
+                    scheduleFunkyAppleRespawn();
+                }));
         funkyAppleLife.play();
     }
 
+    // written by Adel
     private void scheduleFunkyAppleRespawn() {
         funkyAppleRespawn = new Timeline(
-            new KeyFrame(Duration.seconds(20), e -> startFunkyAppleCycle())
-        );
+                new KeyFrame(Duration.seconds(20), e -> startFunkyAppleCycle()));
         funkyAppleRespawn.play();
     }
-
 
     // THE REST GIVES ACCES TO OTHER CLASSES TO THE UI ELEMENTS
     // AND OTHER SETUP
@@ -297,5 +315,4 @@ public class Snakecontroller {
         return button1;
     }
 
-    
 }

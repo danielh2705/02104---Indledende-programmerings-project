@@ -16,6 +16,7 @@ public class Snakemodel {
     private int x_size;
     private int y_size;
 
+    // Written by Daniel
     public Snakemodel(int m, int n) {
         this.score = 0;
         this.x_size = m;
@@ -26,6 +27,7 @@ public class Snakemodel {
         spawnApple();
     }
 
+    // Written by Daniel
     public void spawnApple() {
         Random random = new Random();
         // GETS EVERY POSSIBLE POINT IN THE GRID
@@ -49,6 +51,7 @@ public class Snakemodel {
         this.apple = availableSpawnPoints.get(random.nextInt(0, availableSpawnPoints.size() - 1));
     }
 
+    // Written by Daniel
     // CALLED IF THE APPLE IS EATEN
     public void consumedApple() {
         this.snake.grow();
@@ -56,6 +59,7 @@ public class Snakemodel {
         spawnApple();
     }
 
+    // Written by Adel
     public void spawnBadApple() {
         Random random = new Random();
 
@@ -74,6 +78,7 @@ public class Snakemodel {
                 random.nextInt(0, availableSpawnPoints.size() - 1));
     }
 
+    // Written by Adel
     public void spawnBomb() {
         Random random = new Random();
 
@@ -99,6 +104,7 @@ public class Snakemodel {
                 random.nextInt(0, availableSpawnPoints.size() - 1));
     }
 
+    // Written by Adel
     public void spawnSpeedApple() {
         Random random = new Random();
         ArrayList<Point> availableSpawnPoints = new ArrayList<Point>();
@@ -124,6 +130,7 @@ public class Snakemodel {
         speedApple = availableSpawnPoints.get(random.nextInt(availableSpawnPoints.size()));
     }
 
+    // Written by Adel
     public void spawnGoldenApple() {
         Random random = new Random();
         ArrayList<Point> availableSpawnPoints = new ArrayList<Point>();
@@ -154,6 +161,7 @@ public class Snakemodel {
         goldenApple = availableSpawnPoints.get(random.nextInt(availableSpawnPoints.size()));
     }
 
+    // Written by Adel
     public void spawnBonusApples(int count) {
         Random random = new Random();
         bonusApples.clear();
@@ -186,6 +194,7 @@ public class Snakemodel {
         }
     }
 
+    // Written by Adel
     public void spawnFunkyApple() {
         Random random = new Random();
         ArrayList<Point> available = new ArrayList<>();
@@ -287,7 +296,6 @@ public class Snakemodel {
     public void snakeCanTurn() {
         snake.canTurn();
     }
-
 
     public int getScore() {
         return this.score;
