@@ -131,6 +131,30 @@ public class Snakecontroller {
                         model.getSnakeObject().shrink(5);
                         model.consumedPoisonApple();
                     }
+
+                    if (model.isLateGame() && !lateGameActivated) {
+                        lateGameActivated = true;
+
+                        // stop special spawn-cycles (men ikke selve game-loopet)
+                        if (poisonAppleLife != null) poisonAppleLife.stop();
+                        if (poisonAppleRespawn != null) poisonAppleRespawn.stop();
+                        if (bomb != null) bomb.stop();
+                        if (coconutRespawn != null) coconutRespawn.stop();
+                        if (starSpawner != null) starSpawner.stop();
+                        if (starLife != null) starLife.stop();
+                        if (bonusApplesLife != null) bonusApplesLife.stop();
+                        if (mushroomRespawn != null) mushroomRespawn.stop();
+                        if (mushroomLife != null) mushroomLife.stop();
+
+                        // fjern items der allerede ligger
+                        model.consumedPoisonApple();
+                        model.consumedBomb();
+                        model.consumedCoconut();
+                        model.consumedStar();
+                        model.clearBonusApples();
+                        model.consumedMushroom();
+                    }
+
                     viewer.update();
 
                 }));
@@ -268,9 +292,7 @@ public class Snakecontroller {
         gameOverScreen.setVisible(true);
     }
 
-
-
- 
+    //Written by Adrian
     //Makes sure to stop all timelines that has been started
     private void stopAllTimelines() {
         if (timeline != null)
@@ -396,6 +418,7 @@ public class Snakecontroller {
         this.viewer = viewer;
     }
 
+    //Everything below this line: Written by Adrian 
     // Setting the size of the Level
     // titles and TileSize are kinda hard-coded to fit in perfectly, not optimal
     // solution

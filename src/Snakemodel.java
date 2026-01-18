@@ -29,6 +29,7 @@ public class Snakemodel {
         spawnApple();
     }
 
+    //Written by Adrian
     public void reset() {
         score = 0;
         snake = new Snake(new Point((int) Math.floor(x_size / 2), (int) Math.floor(y_size / 2)),
@@ -244,6 +245,12 @@ public class Snakemodel {
     // RETURNS THE FULL SNAKE, HEAD AND TAIL INCLUDED IN AN ARRAYLIST
     public ArrayList<Point> getSnake() {
         return this.snake.getSnake();
+    }
+
+    public boolean isLateGame() {
+        int boardSize = x_size * y_size;
+        int snakeLength = snake.getSnake().size();
+        return snakeLength >= boardSize * 0.75;
     }
 
     public Snake getSnakeObject() {
