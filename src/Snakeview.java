@@ -34,7 +34,8 @@ public class Snakeview extends Application {
             n = 20;
 
             model = new Snakemodel(m, n);
-            
+            MusicPlayer.start();
+            SfxPlayer.allLoader();
             // LOADS THE GUI FROM FXML FILE
             FXMLLoader loader = new FXMLLoader(getClass().getResource("gui.fxml"));
             root = loader.load();
