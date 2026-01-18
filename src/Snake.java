@@ -68,7 +68,6 @@ public class Snake {
         updateBodyDirections(this.previousTailDirection, true);
         this.body.addLast(this.tail);
         this.tail = this.lastpositionPoint;
-        System.out.println(this.body.toString());
     }
 
     // written by Daniel
