@@ -94,7 +94,7 @@ public class Snakecontroller {
 
                         // calculate new score first
                         int newScore = model.getScore() - 5;
-
+                        
                         // if score would drop below 2 → die
                         if (newScore < 2) {
                             looseGame();

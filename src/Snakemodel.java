@@ -12,6 +12,7 @@ public class Snakemodel {
     private Point coconut;
     private Point star;
     private ArrayList<Point> bonusApples = new ArrayList<>();
+    private final Random random = new Random();
     private Point mushroom;
     private int x_size;
     private int y_size;
@@ -29,7 +30,6 @@ public class Snakemodel {
 
     // Written by Daniel
     public void spawnApple() {
-        Random random = new Random();
         // GETS EVERY POSSIBLE POINT IN THE GRID
         ArrayList<Point> availableSpawnPoints = new ArrayList<Point>();
         for (int i = 0; i < x_size; i++) {
@@ -61,7 +61,6 @@ public class Snakemodel {
 
     // Written by Adel
     public void spawnPoisonApple() {
-        Random random = new Random();
 
         ArrayList<Point> availableSpawnPoints = new ArrayList<Point>();
         for (int i = 0; i < x_size; i++) {
@@ -80,7 +79,6 @@ public class Snakemodel {
 
     // Written by Adel
     public void spawnBomb() {
-        Random random = new Random();
 
         ArrayList<Point> availableSpawnPoints = new ArrayList<Point>();
         for (int i = 0; i < x_size; i++) {
@@ -106,7 +104,6 @@ public class Snakemodel {
 
     // Written by Adel
     public void spawnCoconut() {
-        Random random = new Random();
         ArrayList<Point> availableSpawnPoints = new ArrayList<Point>();
         for (int i = 0; i < x_size; i++) {
             for (int j = 0; j < y_size; j++) {
@@ -132,7 +129,6 @@ public class Snakemodel {
 
     // Written by Adel
     public void spawnStar() {
-        Random random = new Random();
         ArrayList<Point> availableSpawnPoints = new ArrayList<Point>();
         for (int i = 0; i < x_size; i++) {
             for (int j = 0; j < y_size; j++) {
@@ -163,7 +159,6 @@ public class Snakemodel {
 
     // Written by Adel
     public void spawnBonusApples(int count) {
-        Random random = new Random();
         bonusApples.clear();
 
         ArrayList<Point> available = new ArrayList<Point>();
@@ -196,7 +191,6 @@ public class Snakemodel {
 
     // Written by Adel
     public void spawnMushroom() {
-        Random random = new Random();
         ArrayList<Point> available = new ArrayList<>();
 
         for (int i = 0; i < x_size; i++) {
@@ -288,7 +282,7 @@ public class Snakemodel {
         mushroom = null;
     }
 
-    // Accepts "Up", "Down", "Left", "Right"
+
     public void moveSnake() {
         this.snake.move();
     }
