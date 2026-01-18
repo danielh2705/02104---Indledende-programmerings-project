@@ -19,7 +19,7 @@ Following methods can all be used to play/configure audio:
     audioPlayer() allows for audio playback + volume changing:
         SfxPlayer.audioPlayer("[name]", [double]);
 
-    play() allows calling for audio playback
+    play() allows for audio playback
         SfxPlayer.play("[name]");
 
     setVolume() allows for volume changing
@@ -85,4 +85,5 @@ public final class SfxPlayer {
             SfxPlayer.load(s.name(), s.path());
         }
     }
+
 }
