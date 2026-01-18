@@ -8,6 +8,7 @@ public enum SfxReg {
 
     APPLECONSUME("recourses\\sounds\\appleConsume.wav"), // sourced from mixkit.co
     STARCONSUME("recourses\\sounds\\starConsume.wav"), // sourced from Elden Ring
+    MUSHROOMCONSUME("recourses\\sounds\\mushroomConsume.wav"), // sourced from Super Mario Bros.
     COCONUTCONSUME("recourses\\sounds\\coconutConsume.wav"), // sourced from Roblox
     POISONSHROOMCONSUME("recourses\\sounds\\poisonShroomConsume.wav"), // sourced from Minecraft
     EXPLOSION("recourses\\sounds\\explosion.wav"), // sourced from Roblox

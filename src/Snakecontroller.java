@@ -92,6 +92,7 @@ public class Snakecontroller {
                     }
                     //mushroom consumption → reversed controls temporarily
                     if (model.getMushroom() != null && model.getSnake().get(0).equals(model.getMushroom())) {
+                        SfxPlayer.audioPlayer("MUSHROOMCONSUME", 1.0);
                         model.consumedMushroom();
                         activateMushroomControls();
                     }
