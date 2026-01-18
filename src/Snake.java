@@ -189,8 +189,11 @@ public class Snake {
     // written by Adel
     public void shrink(int amount) {
         for (int i = 0; i < amount && body.size() > 1; i++) {
-            body.remove(body.size() - 1);
+            this.tail = body.get(body.size() - 1);
+            this.bodyDirections.remove(body.size()-1);
+            this.body.remove(body.size() - 1);
         }
+        
     }
 
     public ArrayList<String> getBodyDirections() {
