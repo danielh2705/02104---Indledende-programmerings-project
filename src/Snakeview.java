@@ -12,7 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.text.*;
 
-public class Snakeveiw extends Application {
+public class Snakeview extends Application {
     private Snakemodel model;
     private Snakecontroller controller;
     private Text scoreLabel;
@@ -43,6 +43,9 @@ public class Snakeveiw extends Application {
                 }
             }
             console.close();
+
+            MusicPlayer.start();
+            SfxPlayer.allLoader();
 
             // LOADS THE GUI FROM FXML FILE
             FXMLLoader loader = new FXMLLoader(getClass().getResource("gui.fxml"));

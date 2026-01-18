@@ -11,7 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
 public class Snakecontroller {
-    private Snakeveiw viewer;
+    private Snakeview viewer;
     private Snakemodel model;
     private Timeline poisonAppleLife;
     private Timeline poisonAppleRespawn;
@@ -40,7 +40,7 @@ public class Snakecontroller {
     @FXML
     private Text scoreLabel;
 
-    // written by Daniel & Adel & Adrian
+    // written by Daniel & Adel & Adrian & Aran
     public void startGameLoop() {
         // THE GAME LOOP / TIMER
         startBombCycle();
@@ -54,6 +54,7 @@ public class Snakecontroller {
                     model.moveSnake();
                     model.snakeCanTurn();
                     if (model.getBomb() != null && model.getSnake().get(0).equals(model.getBomb())) {
+                        SfxPlayer.audioPlayer("EXPLOSION", 1.0);
                         looseGame();
                         return;
                     }
@@ -69,6 +70,7 @@ public class Snakecontroller {
                     // BONUS APPLES (FROM GOLDENAPPLE)
                     for (int i = 0; i < model.getBonusApples().size(); i++) {
                         if (model.getSnake().get(0).equals(model.getBonusApples().get(i))) {
+                            SfxPlayer.audioPlayer("APPLECONSUME", 1.0);
                             model.getSnakeObject().grow();
                             model.increaseScore(1);
                             model.getBonusApples().remove(i);
@@ -81,6 +83,7 @@ public class Snakecontroller {
                         activateSpeedBoost();
                     }
                     if (model.getStar() != null && model.getSnake().get(0).equals(model.getStar())) {
+                        SfxPlayer.audioPlayer("STARCONSUME", 1.0);
                         model.consumedStar();
                         activateStarEffect();
                     }
@@ -97,11 +100,13 @@ public class Snakecontroller {
 
                         // if score would drop below 2 → die
                         if (newScore < 2) {
+                            SfxPlayer.audioPlayer("POISONSHROOMCONSUME", 1.0);
                             looseGame();
                             return;
                         }
 
                         // apply penalty
+                        SfxPlayer.audioPlayer("POISONSHROOMCONSUME", 1.0);
                         model.setScore(newScore);
                         model.getSnakeObject().shrink(5);
                         model.consumedPoisonApple();
@@ -248,6 +253,7 @@ public class Snakecontroller {
     // written by Daniel
     public void looseGame() {
         // SWITCHES TO THE LOSE SCREEN IF GAME IS LOST
+        SfxPlayer.audioPlayer("GAMEOVER", 1.0);
         try {
             viewer.switchToLoseScreen(model.getScore());
         } catch (Exception e) {
@@ -304,7 +310,7 @@ public class Snakecontroller {
         this.eventHandler = eventHandler;
     }
 
-    public void setModelAndView(Snakemodel model, Snakeveiw viewer) {
+    public void setModelAndView(Snakemodel model, Snakeview viewer) {
         this.model = model;
         this.viewer = viewer;
     }

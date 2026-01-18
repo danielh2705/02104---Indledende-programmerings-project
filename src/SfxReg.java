@@ -1,10 +1,17 @@
 package src;
 
+// SfxReg.java written by Aran
+
 public enum SfxReg {
     // Between these brackets, write sound files as follows:
-    // EXAMPLE("sounds/anyname.wav")
+    // EXAMPLE("recourses\\sounds\\anyname.wav")
 
-    TEST("sounds/thisdoesntexist.wav");
+    APPLECONSUME("recourses\\sounds\\appleConsume.wav"), // sourced from mixkit.co
+    STARCONSUME("recourses\\sounds\\starConsume.wav"), // sourced from Elden Ring
+    COCONUTCONSUME("recourses\\sounds\\coconutConsume.wav"), // sourced from Roblox
+    POISONSHROOMCONSUME("recourses\\sounds\\poisonShroomConsume.wav"), // sourced from Minecraft
+    EXPLOSION("recourses\\sounds\\explosion.wav"), // sourced from Roblox
+    GAMEOVER("recourses\\sounds\\gameOver.wav"); // sourced from Super Mario World
 
     private final String path;
 

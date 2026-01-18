@@ -51,9 +51,10 @@ public class Snakemodel {
         this.apple = availableSpawnPoints.get(random.nextInt(0, availableSpawnPoints.size() - 1));
     }
 
-    // Written by Daniel
+    // Written by Daniel and Aran
     // CALLED IF THE APPLE IS EATEN
     public void consumedApple() {
+        SfxPlayer.audioPlayer("APPLECONSUME", 1.0);
         this.snake.grow();
         increaseScore(1);
         spawnApple();
@@ -235,6 +236,7 @@ public class Snakemodel {
         return this.snake;
     }
 
+    // Written by Aran & Daniel & Adel & Adrian
     // GETS THE POSITION OF THE APPLE
     public Point getApple() {
         return this.apple;
@@ -261,6 +263,7 @@ public class Snakemodel {
     }
 
     public void consumedCoconut() {
+        SfxPlayer.audioPlayer("COCONUTCONSUME", 1.0);
         coconut = null;
     }
 

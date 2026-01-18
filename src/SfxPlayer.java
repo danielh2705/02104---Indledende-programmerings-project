@@ -5,12 +5,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.net.URL;
 
+// SfxPlayer.java written by Aran
+
 /* INSTRUCTIONS/IMPORTANT
 
 The AudioClip class is NOT capable of using all audio files. We'll stick to WAV for practicalities sake.
 This means we have to convert files to WAV files. This is easily done online.
 
-Use this to load audio. allLoader() uses load() across all files in /sounds.
+Use this to load audio:
+allLoader() uses load() across all files in /sounds.
 This means you can continously add new files to SfxReg without changing anything elsewhere.
     SfxPlayer.allLoader();
 
@@ -19,10 +22,10 @@ Following methods can all be used to play/configure audio:
     audioPlayer() allows for audio playback + volume changing:
         SfxPlayer.audioPlayer("[name]", [double]);
 
-    play() allows for audio playback
+    play() allows for audio playback alone
         SfxPlayer.play("[name]");
 
-    setVolume() allows for volume changing
+    setVolume() allows for volume changing alone
         SfxPlayer.setVolume("[name]", [double]);
 */
 
@@ -32,8 +35,8 @@ public final class SfxPlayer {
     private static final Map<String, AudioClip> clips = new HashMap<>();
     private SfxPlayer() {}
 
+    // finds location/URL of file and makes it usable in AudioClip
     public static void load(String name, String filename) {
-        // finds location/URL of file and makes it usable in AudioClip
         URL url = SfxPlayer.class
                 .getClassLoader()
                 .getResource(filename);
@@ -42,7 +45,7 @@ public final class SfxPlayer {
         // it most likely means you made a typo during call.
         if (url == null) {
             throw new IllegalArgumentException(
-                "sfx sound not found in /sounds: " + filename
+                "sfx sound not found in \\sounds: " + filename
             );
         }
 
