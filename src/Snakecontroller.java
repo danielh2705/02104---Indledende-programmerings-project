@@ -49,7 +49,7 @@ public class Snakecontroller {
         startPoisonAppleCycle();
         startCoconutCycle();
         startStarCycle();
-        startMusroomCycle();
+        startMushroomCycle();
 
         timeline = new Timeline(
                 new KeyFrame(Duration.millis(150), e -> {
@@ -274,21 +274,21 @@ public class Snakecontroller {
 
     // written by Adel
     // player controls are inverted for 7 seconds
-    private void startMusroomCycle() {
+    private void startMushroomCycle() {
         model.spawnMushroom();
 
         mushroomLife = new Timeline(
                 new KeyFrame(Duration.seconds(6), e -> {
                     model.consumedMushroom();
-                    scheduleMusroomRespawn();
+                    scheduleMushroomRespawn();
                 }));
         mushroomLife.play();
     }
 
     // written by Adel
-    private void scheduleMusroomRespawn() {
+    private void scheduleMushroomRespawn() {
         mushroomRespawn = new Timeline(
-                new KeyFrame(Duration.seconds(20), e -> startMusroomCycle()));
+                new KeyFrame(Duration.seconds(20), e -> startMushroomCycle()));
         mushroomRespawn.play();
     }
 

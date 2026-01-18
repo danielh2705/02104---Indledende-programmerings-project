@@ -16,7 +16,6 @@ public class Snakemodel {
     private Point mushroom;
     private int x_size;
     private int y_size;
-    private final Random random = new Random();
 
     // Written by Daniel
     public Snakemodel(int m, int n) {
